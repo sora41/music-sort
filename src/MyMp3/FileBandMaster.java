@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class FileBandMaster {
 
@@ -81,12 +82,51 @@ public abstract class FileBandMaster {
 		return nomFichiers;
 	}
 
-	protected void DeleteFile(String nameFile) {
+	// ok
+	public void deleteFile(String nameFile) {
+		System.out.println("deleteFile");
 		File deleteFile = new File(nameFile);
+		if (deleteFile.exists()) {
+			System.out.println("fichier " + nameFile + " existe");
 
-		if (deleteFile.exists())
-			if (deleteFile.isFile())
-				deleteFile.delete();
+			deleteFile.delete();
+
+		} else {
+			System.out.println("fichier a supermier existe pas " + nameFile);
+		}
+	}
+
+	// a testet
+	public void deleteFileOndirectory(String dirName) {
+		System.out.println("deleteFileOndirectory");
+		ArrayList<String> fileList = getListeFiles(dirName);
+		System.out.println("taille liste " + fileList.size());
+		File fileItem;
+		String nameItem;
+
+		for (int i = 0; i < fileList.size(); i++) {
+			nameItem = dirName + File.separator + fileList.get(i);
+			fileItem = new File(nameItem);
+			if (fileItem.isDirectory()) {
+				System.out.println(nameItem + " is a dir");
+				if (fileItem.list().length > 0) {
+					deleteFileOndirectory(nameItem);
+				} else {
+					deleteFile(nameItem);
+				}
+			} else {
+				System.out.println(nameItem);
+				deleteFile(nameItem);
+			}
+
+		}
+	}
+
+	public void resetDirectories() {
+		System.out.println("resetDirectories");
+		deleteFileOndirectory(this.dirIn.getPath());
+		deleteFileOndirectory(this.dirOut.getPath());
+		deleteFileOndirectory(this.dirSorted.getPath());
 	}
 
 	public void moveFile(String OrginaleName, String FinalName) throws IOException {
