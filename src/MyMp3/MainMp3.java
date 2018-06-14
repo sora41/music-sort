@@ -3,6 +3,8 @@ package MyMp3;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.ButtonGroup;
+
 public class MainMp3 {
 	/*
 	 * test unitaire stp voir
@@ -70,11 +72,23 @@ public class MainMp3 {
 				}
 	}
 
+	public static void resetDirectori() {
+		String dirIn = "Music\\inMusic";
+		String dirOut = "Music\\outMusic";
+		String dirSorted = "Music\\sortedMusic";
+		System.out.println("resetDirectori");
+		MusicFileBandMaster bigBrother = new MusicFileBandMaster(dirIn, dirOut, dirSorted);
+		//bigBrother.deleteFile("text.txt");
+		bigBrother.resetDirectories();
+	}
+
 	public static void main(String[] args) {
 
-		MainRunSort();
+		//MainRunSort();
 		// TestloadMp3Manuel();
 		// testFileMethodeList();
+		System.out.println("test clear repertoire");
+		resetDirectori();
 	}
 
 }
