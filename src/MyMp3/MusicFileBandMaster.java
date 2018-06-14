@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
@@ -36,18 +37,37 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 	public ArrayList<String> getListeFiles(String dirName) {
 		ArrayList<String> listeFichiers = super.getListeFiles(dirName);
+		int fileNumber = listeFichiers.size();
 		String fileNameItem = "";
-
-		for (int i = 0; i < listeFichiers.size() - 1; i++) {
+		//int countRemove = 0;
+		//int[] removeIndexs = new int[fileNumber];
+		System.out.println(fileNumber);
+		for (int i = 0; i < fileNumber; i++) {
+			System.out.println(i);
 			fileNameItem = listeFichiers.get(i);
+			System.out.println(fileNameItem);
 			// TODO 2.0 a complete par la liste de extention
 			// remonter cette notion de filtre sur un enumere que l'on poura
 			// complete
 			// lie aux fichier musique
-			if (!fileNameItem.endsWith(".mp3"))
-				listeFichiers.remove(i);
 
+			// !\ attention bug on ne suprime pas des elemends
+			// une liste que l'on est en trains de parcourir
+			/*if (!fileNameItem.endsWith(".mp3")) {
+				removeIndexs[countRemove] = i;
+				countRemove++;
+				// listeFichiers.remove(i);
+				/// removeIndexs
+			}*/
 		}
+		/*
+		 * // supression
+		 */
+		/*System.out.println("count remove"+countRemove);
+		for (int i = 0; i < countRemove ; i++) {
+			listeFichiers.remove(removeIndexs[i]);
+		}*/
+
 		return listeFichiers;
 	}
 
@@ -112,36 +132,28 @@ public class MusicFileBandMaster extends FileBandMaster {
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 
 		// DoloadMyMpId3(fileName);
-		try {
-			MP3File mp3file = new MP3File(fileName);
+		MP3File mp3file = new MP3File(fileName);
+		if (mp3file.hasID3v1Tag()) {
 
-			if (mp3file.hasID3v1Tag()) {
+			sortedByAutor(mp3file);
+			// TODO 1.6 test album
+			// test si le repertoire de l'artiste existe deja
+			// si oui on l utilise sinon on le cree
 
-				sortedByAutor(mp3file);
-				// TODO 1.6 test album
-				// test si le repertoire de l'artiste existe deja
-				// si oui on l utilise sinon on le cree
+			// TODO 6.0 Mode de Tri
+			// par artiste// album
+			// genre // artiste// album
+			// ect
 
-				// TODO 6.0 Mode de Tri
-				// par artiste// album
-				// genre // artiste// album
-				// ect
+			// TODO 1.5 premier essay tri Artiste// album
 
-				// TODO 1.5 premier essay tri Artiste// album
+			// TODO 1.1 REfactorer class trop de methode exite deja dans File
 
-				// TODO 1.1 REfactorer class trop de methode exite deja dans
-				// File
-
-			} else {
-				System.out.println("file: " + mp3file.getFilenameTag().composeFilename() + " ID3 not suported ");
-				TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
-				throw e;
-			}
-		} catch (Exception e ) {
-			System.out.println(e.getClass());
-			e.printStackTrace();
+		} else {
+			System.out.println("file: " + mp3file.getFilenameTag().composeFilename() + " ID3 not suported ");
+			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
+			throw e;
 		}
-
 	}
 
 	private void runSortMusicFile() {
@@ -173,7 +185,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 					fileNameitem = listeFichiersIn.get(i);
 					pahtFileItem = dirIn + File.separator + fileNameitem;
 					try {
-						System.out.println("read:" + fileNameitem);
+						// System.out.println("read:" + fileNameitem);
 						loadMp3Id3(pahtFileItem);
 					} catch (IOException | TagException | UnsupportedOperationException e) {
 						// System.out.println(e.getMessage());
