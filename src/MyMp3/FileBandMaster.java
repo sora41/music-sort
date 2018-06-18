@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
-
 public abstract class FileBandMaster {
 
 	protected File dirIn;
@@ -102,23 +101,19 @@ public abstract class FileBandMaster {
 		ArrayList<String> fileList = getListeFiles(dirName);
 		System.out.println("taille liste " + fileList.size());
 		File fileItem;
-		String nameItem;
+		String pahtItem;
 
 		for (int i = 0; i < fileList.size(); i++) {
-			nameItem = dirName + File.separator + fileList.get(i);
-			fileItem = new File(nameItem);
+			pahtItem = dirName + File.separator + fileList.get(i);
+			fileItem = new File(pahtItem);
 			if (fileItem.isDirectory()) {
-				System.out.println(nameItem + " is a dir");
 				if (fileItem.list().length > 0) {
-					deleteFileOndirectory(nameItem);
-				} else {
-					deleteFile(nameItem);
+					deleteFileOndirectory(pahtItem);
 				}
-			} else {
-				System.out.println(nameItem);
-				deleteFile(nameItem);
 			}
-
+			if (pahtItem.contains(".gitkeep") == false) {
+				deleteFile(pahtItem);
+			}
 		}
 	}
 
