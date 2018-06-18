@@ -96,7 +96,6 @@ public class MainMp3 {
 		// testFileMethodeList();
 		System.out.println("test clear repertoire");
 		// TODO 0.2 cree une fonctione init qui initalise les repertoire a partir du fichier back
-		// TODO 0.1 finir la fonction resetDirectory
 		//resetDirectory();
 	}
 
