@@ -6,13 +6,16 @@ import java.util.ArrayList;
 import javax.swing.ButtonGroup;
 
 public class MainMp3 {
+
 	/*
 	 * test unitaire stp voir
 	 * http://www.junit.fr/2011/11/20/tutoriel-eclipse-junit-mon-premier-test-
 	 * automatique/ https://www.jmdoudoux.fr/java/dejae/chap011.htm
 	 * 
 	 */
-
+	
+	// TODO 0.3 declarer des constante pour les repertoire 
+	
 	public static void TestloadMp3Manuel() {
 		String dirIn = "Music\\inMusic";
 		String dirOut = "Music\\outMusic";
@@ -72,23 +75,29 @@ public class MainMp3 {
 				}
 	}
 
-	public static void resetDirectori() {
+	public static void initDirectory() {
+
+	}
+
+	public static void resetDirectory() {
 		String dirIn = "Music\\inMusic";
 		String dirOut = "Music\\outMusic";
 		String dirSorted = "Music\\sortedMusic";
 		System.out.println("resetDirectori");
 		MusicFileBandMaster bigBrother = new MusicFileBandMaster(dirIn, dirOut, dirSorted);
-		//bigBrother.deleteFile("text.txt");
+		// bigBrother.deleteFile("text.txt");
 		bigBrother.resetDirectories();
 	}
 
 	public static void main(String[] args) {
 
-		//MainRunSort();
+		// MainRunSort();
 		// TestloadMp3Manuel();
 		// testFileMethodeList();
 		System.out.println("test clear repertoire");
-		resetDirectori();
+		// TODO 0.2 cree une fonctione init qui initalise les repertoire a partir du fichier back
+		// TODO 0.1 finir la fonction resetDirectory
+		//resetDirectory();
 	}
 
 }
