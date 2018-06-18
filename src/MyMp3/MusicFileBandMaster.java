@@ -31,10 +31,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 	@Override
 	protected boolean validateDirectory(File dir) {
-		// TODO Auto-generated method stub
 		return super.validateDirectory(dir);
 	}
-
+	// TODO 0.5 netoyage du code ci-dessou 
 	public ArrayList<String> getListeFiles(String dirName) {
 		ArrayList<String> listeFichiers = super.getListeFiles(dirName);
 		int fileNumber = listeFichiers.size();

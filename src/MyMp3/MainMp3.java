@@ -74,7 +74,7 @@ public class MainMp3 {
 					System.out.println(tab[i]);
 				}
 	}
-
+	// TODO 0.2 cree une fonctione init qui initalise les repertoire a partir du fichier back
 	public static void initDirectory() {
 
 	}
@@ -95,7 +95,6 @@ public class MainMp3 {
 		// TestloadMp3Manuel();
 		// testFileMethodeList();
 		System.out.println("test clear repertoire");
-		// TODO 0.2 cree une fonctione init qui initalise les repertoire a partir du fichier back
 		//resetDirectory();
 	}
 
