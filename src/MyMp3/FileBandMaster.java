@@ -82,10 +82,10 @@ public abstract class FileBandMaster {
 	}
 
 	public void deleteFile(String nameFile) {
-		System.out.println("deleteFile");
+		// System.out.println("deleteFile");
 		File deleteFile = new File(nameFile);
 		if (deleteFile.exists()) {
-			System.out.println("fichier " + nameFile + " existe");
+			// System.out.println("fichier " + nameFile + " existe");
 			deleteFile.delete();
 
 		} else {
@@ -94,9 +94,9 @@ public abstract class FileBandMaster {
 	}
 
 	public void deleteFileOndirectory(String dirName) {
-		System.out.println("deleteFileOndirectory");
+		// System.out.println("deleteFileOndirectory");
 		ArrayList<String> fileList = getListeFiles(dirName);
-		//System.out.println("taille liste " + fileList.size());
+		// System.out.println("taille liste " + fileList.size());
 		File fileItem;
 		String pahtItem;
 
@@ -126,25 +126,27 @@ public abstract class FileBandMaster {
 		ArrayList<String> listeFichiersBack;
 		String fileNameitem = "";
 		String pahtFileItem = "";
-		
-		if (validateDirectory(back) == true){
+
+		if (validateDirectory(back) == true) {
 			listeFichiersBack = getListeFiles(back.getPath());
 			if (listeFichiersBack.size() > 0) {
 				for (int i = 0; i < listeFichiersBack.size(); i++) {
 					fileNameitem = listeFichiersBack.get(i);
 					pahtFileItem = backDir + File.separator + fileNameitem;
-					
-					try {
-						copyFile(pahtFileItem, dirIn.getPath() + File.separator+ fileNameitem  );
-					} catch (IOException e) {
-						System.err.println("imposible de deplacer le Fichier " + fileNameitem);
-						System.err.println("du repertoir:" + dirIn + " vers le repertoire " + dirOut);
+					if (pahtFileItem.contains(".gitkeep") == false) {
+
+						try {
+							copyFile(pahtFileItem, dirIn.getPath() + File.separator + fileNameitem);
+						} catch (IOException e) {
+							System.err.println("imposible de deplacer le Fichier " + fileNameitem);
+							System.err.println("du repertoir:" + dirIn + " vers le repertoire " + dirOut);
+						}
 					}
-			
+
+				}
 			}
 		}
 	}
-		}
 
 	public void moveFile(String OrginaleName, String FinalName) throws IOException {
 		File f = new File(OrginaleName);

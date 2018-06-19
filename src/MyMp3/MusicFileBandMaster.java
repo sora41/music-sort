@@ -176,11 +176,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 			// attention a trouver la source de cette corruption
 
 			listeFichiersIn = getListeFiles(dirIn.getPath());
-			System.out.println("Load dir" + dirIn);
+			//System.out.println("Load dir" + dirIn);
 			// tester si on a des fichier dans le repertoire in
 			if (listeFichiersIn.size() > 0) {
 				// afficherFileListe(listeFichiersIn);
-				System.out.println("contains " + listeFichiersIn.size() + " files");
+				//System.out.println("contains " + listeFichiersIn.size() + " files");
 				for (int i = 0; i < listeFichiersIn.size(); i++) {
 					fileNameitem = listeFichiersIn.get(i);
 					pahtFileItem = dirIn + File.separator + fileNameitem;
@@ -191,8 +191,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 						// System.out.println(e.getMessage());
 						// e.printStackTrace();
 						try {
-							System.out.println("move: " + pahtFileItem + " to dir" + dirOut);
-							System.out.println(e.getClass() + e.getMessage());
+							//System.out.println("move: " + pahtFileItem + " to dir" + dirOut);
+							//System.out.println(e.getClass() + e.getMessage());
 							moveFile(pahtFileItem, dirOut + File.separator + fileNameitem);
 						} catch (IOException e2) {
 							System.err.println("imposible de deplacer le Fichier " + fileNameitem);
