@@ -79,7 +79,7 @@ public class MainMp3 {
 		String dirOut = "Music\\outMusic";
 		String dirSorted = "Music\\sortedMusic";
 		String dirBack = "Music\\back";
-		System.out.println("initDirectori");
+		//System.out.println("initDirectori");
 		MusicFileBandMaster bigBrother = new MusicFileBandMaster(dirIn, dirOut, dirSorted);
 		bigBrother.initDirectorieIn(dirBack);
 	}
@@ -95,12 +95,16 @@ public class MainMp3 {
 
 	public static void main(String[] args) {
 
-		// MainRunSort();
+		System.out.println("lancement reset");
+		resetDirectory();
+		System.out.println("lancement initalisation");
+		initDirectory();
+		System.out.println("lancement tri");
+		MainRunSort();
+		
 		// TestloadMp3Manuel();
 		// testFileMethodeList();
-		System.out.println("test clear repertoire");
-		resetDirectory();
-		initDirectory();
+	
 	}
 
 }
