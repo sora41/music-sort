@@ -76,7 +76,13 @@ public class MainMp3 {
 	}
 	// TODO 0.2 cree une fonctione init qui initalise les repertoire a partir du fichier back
 	public static void initDirectory() {
-
+		String dirIn = "Music\\inMusic";
+		String dirOut = "Music\\outMusic";
+		String dirSorted = "Music\\sortedMusic";
+		String dirBack = "Music\\back";
+		System.out.println("resetDirectori");
+		MusicFileBandMaster bigBrother = new MusicFileBandMaster(dirIn, dirOut, dirSorted);
+		
 	}
 
 	public static void resetDirectory() {
@@ -85,7 +91,6 @@ public class MainMp3 {
 		String dirSorted = "Music\\sortedMusic";
 		System.out.println("resetDirectori");
 		MusicFileBandMaster bigBrother = new MusicFileBandMaster(dirIn, dirOut, dirSorted);
-		// bigBrother.deleteFile("text.txt");
 		bigBrother.resetDirectories();
 	}
 
@@ -96,6 +101,7 @@ public class MainMp3 {
 		// testFileMethodeList();
 		System.out.println("test clear repertoire");
 		//resetDirectory();
+		initDirectory();
 	}
 
 }

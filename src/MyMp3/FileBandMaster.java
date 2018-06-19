@@ -81,7 +81,7 @@ public abstract class FileBandMaster {
 		return nomFichiers;
 	}
 
-	// ok
+	
 	public void deleteFile(String nameFile) {
 		System.out.println("deleteFile");
 		File deleteFile = new File(nameFile);
@@ -95,7 +95,6 @@ public abstract class FileBandMaster {
 		}
 	}
 
-	// a testet
 	public void deleteFileOndirectory(String dirName) {
 		System.out.println("deleteFileOndirectory");
 		ArrayList<String> fileList = getListeFiles(dirName);
@@ -122,6 +121,10 @@ public abstract class FileBandMaster {
 		deleteFileOndirectory(this.dirIn.getPath());
 		deleteFileOndirectory(this.dirOut.getPath());
 		deleteFileOndirectory(this.dirSorted.getPath());
+	}
+
+	public void initDirectorieIn(String backDir) {
+		
 	}
 
 	public void moveFile(String OrginaleName, String FinalName) throws IOException {
