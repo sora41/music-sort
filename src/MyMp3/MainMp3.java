@@ -74,15 +74,14 @@ public class MainMp3 {
 					System.out.println(tab[i]);
 				}
 	}
-	// TODO 0.2 cree une fonctione init qui initalise les repertoire a partir du fichier back
 	public static void initDirectory() {
 		String dirIn = "Music\\inMusic";
 		String dirOut = "Music\\outMusic";
 		String dirSorted = "Music\\sortedMusic";
 		String dirBack = "Music\\back";
-		System.out.println("resetDirectori");
+		System.out.println("initDirectori");
 		MusicFileBandMaster bigBrother = new MusicFileBandMaster(dirIn, dirOut, dirSorted);
-		
+		bigBrother.initDirectorieIn(dirBack);
 	}
 
 	public static void resetDirectory() {
@@ -100,7 +99,7 @@ public class MainMp3 {
 		// TestloadMp3Manuel();
 		// testFileMethodeList();
 		System.out.println("test clear repertoire");
-		//resetDirectory();
+		resetDirectory();
 		initDirectory();
 	}
 
