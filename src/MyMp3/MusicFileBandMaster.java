@@ -32,41 +32,43 @@ public class MusicFileBandMaster extends FileBandMaster {
 	@Override
 	protected boolean validateDirectory(File dir) {
 		return super.validateDirectory(dir);
-	}
-	
-	// TODO 0.5 netoyage du code ci-dessou 
+	}/*
 	public ArrayList<String> getListeFiles(String dirName) {
 		ArrayList<String> listeFichiers = super.getListeFiles(dirName);
-		int fileNumber = listeFichiers.size();
 		String fileNameItem = "";
-		//int countRemove = 0;
-		//int[] removeIndexs = new int[fileNumber];
-		System.out.println(fileNumber);
-		for (int i = 0; i < fileNumber; i++) {
-			System.out.println(i);
+
+		for (int i = 0; i < listeFichiers.size() - 1; i++) {
 			fileNameItem = listeFichiers.get(i);
-			System.out.println(fileNameItem);
 			// TODO 2.0 a complete par la liste de extention
 			// remonter cette notion de filtre sur un enumere que l'on poura
 			// complete
 			// lie aux fichier musique
+			if (!fileNameItem.endsWith(".mp3"))
+				listeFichiers.remove(i);
 
-			// !\ attention bug on ne suprime pas des elemends
-			// une liste que l'on est en trains de parcourir
-			/*if (!fileNameItem.endsWith(".mp3")) {
-				removeIndexs[countRemove] = i;
-				countRemove++;
-				// listeFichiers.remove(i);
-				/// removeIndexs
-			}*/
 		}
-		/*
-		 * // supression
-		 */
-		/*System.out.println("count remove"+countRemove);
-		for (int i = 0; i < countRemove ; i++) {
-			listeFichiers.remove(removeIndexs[i]);
-		}*/
+		return listeFichiers;
+	}*/
+
+	// TODO 0.5 netoyage du code ci-dessou 
+	/**
+	 * fonction qui recupere la liste des fichier a traite 
+	 * recupere tout la liste contenu dans le repertoire et suprime de la liste tout
+	 * ce qui ne finis pas .mp3 (dans un premier temps )
+	 */
+	public ArrayList<String> getListeFiles(String dirName) {
+		//System.out.println("getlistefiles music band");
+		ArrayList<String> listeFichiers = super.getListeFiles(dirName);
+		int fileNumber = listeFichiers.size();
+		String fileNameItem = "";
+		//System.out.println(fileNumber);
+		for (int i = fileNumber - 1  ; i >= 0; i--) {
+			//System.out.println(i);
+			fileNameItem = listeFichiers.get(i);
+			//System.out.println(fileNameItem);
+			if (!fileNameItem.endsWith(".mp3"))
+				listeFichiers.remove(i);
+		}
 
 		return listeFichiers;
 	}
