@@ -7,6 +7,7 @@ import javax.swing.ButtonGroup;
 
 public class MainMp3 {
 
+	// TODO 1.4 mettre en place un des test Unitaire 
 	/*
 	 * test unitaire stp voir
 	 * http://www.junit.fr/2011/11/20/tutoriel-eclipse-junit-mon-premier-test-
