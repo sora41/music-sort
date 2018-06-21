@@ -22,43 +22,20 @@ public class MusicFileBandMaster extends FileBandMaster {
 		super(dirIn, dirOut, dirSorted);
 	}
 
-	public ArrayList<String> getListFiles_one(String dirName) {
-		ArrayList<String> listFiles = super.getListeFiles(dirName);
-		String fileNameItem = "";
-
-		return listFiles;
-	}
-
 	@Override
 	protected boolean validateDirectory(File dir) {
 		return super.validateDirectory(dir);
-	}/*
-	public ArrayList<String> getListeFiles(String dirName) {
-		ArrayList<String> listeFichiers = super.getListeFiles(dirName);
-		String fileNameItem = "";
-
-		for (int i = 0; i < listeFichiers.size() - 1; i++) {
-			fileNameItem = listeFichiers.get(i);
-			// TODO 2.0 a complete par la liste de extention
-			// remonter cette notion de filtre sur un enumere que l'on poura
-			// complete
-			// lie aux fichier musique
-			if (!fileNameItem.endsWith(".mp3"))
-				listeFichiers.remove(i);
-
-		}
-		return listeFichiers;
-	}*/
-
-	// TODO 0.5 netoyage du code ci-dessou 
+	}
+	
 	/**
 	 * fonction qui recupere la liste des fichier a traite 
 	 * recupere tout la liste contenu dans le repertoire et suprime de la liste tout
 	 * ce qui ne finis pas .mp3 (dans un premier temps )
 	 */
-	public ArrayList<String> getListeFiles(String dirName) {
+
+	public ArrayList<String> getListeFilesMp3(String dirName) {
 		//System.out.println("getlistefiles music band");
-		ArrayList<String> listeFichiers = super.getListeFiles(dirName);
+		ArrayList<String> listeFichiers = super.listeFilesOnDirectory(dirName);
 		int fileNumber = listeFichiers.size();
 		String fileNameItem = "";
 		//System.out.println(fileNumber);
@@ -177,7 +154,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			// /!\ probleme venais du jeux de fichier corronpu
 			// attention a trouver la source de cette corruption
 
-			listeFichiersIn = getListeFiles(dirIn.getPath());
+			listeFichiersIn = getListeFilesMp3(dirIn.getPath());
 			//System.out.println("Load dir" + dirIn);
 			// tester si on a des fichier dans le repertoire in
 			if (listeFichiersIn.size() > 0) {

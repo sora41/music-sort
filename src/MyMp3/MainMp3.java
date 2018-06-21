@@ -8,6 +8,9 @@ import javax.swing.ButtonGroup;
 public class MainMp3 {
 
 	// TODO 1.4 mettre en place un des test Unitaire 
+	// TODO 1.0 netoyer les fonction initile dans la classe main  
+	// TODO 1.1 .1 effet de born reset ne marche plus a cause de la modification de la fonction 
+	// getlites sur le bandMaster
 	/*
 	 * test unitaire stp voir
 	 * http://www.junit.fr/2011/11/20/tutoriel-eclipse-junit-mon-premier-test-
@@ -25,7 +28,7 @@ public class MainMp3 {
 		TestMp3 tMp3 = new TestMp3();
 		MusicFileBandMaster bigBrother = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 
-		ArrayList<String> listeFichiers = bigBrother.getListeFiles(DIRECTORY_IN);
+		ArrayList<String> listeFichiers = bigBrother.getListeFilesMp3(DIRECTORY_IN);
 
 		System.out.println("----------------------------------------");
 		System.out.println("n0 " + listeFichiers.get(0));
@@ -50,10 +53,7 @@ public class MainMp3 {
 		bigBrother.runSortFile();
 	}
 
-	public static void TestFileMethodeListFiltre() {
-
-	}
-
+/*
 	public static void testFileMethodeList() {
 
 		File f = new File(DIRECTORY_IN);
@@ -69,7 +69,7 @@ public class MainMp3 {
 				for (int i = 0; i < tab.length; i++) {
 					System.out.println(tab[i]);
 				}
-	}
+	}*/
 
 	public static void initDirectory() {
 		// System.out.println("initDirectori");
@@ -78,8 +78,8 @@ public class MainMp3 {
 	}
 
 	public static void resetDirectory() {
-			//System.out.println("resetDirectori");
-		MusicFileBandMaster bigBrother = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
+		//System.out.println("resetDirectori");
+		FileBandMaster bigBrother = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 		bigBrother.resetDirectories();
 	}
 
