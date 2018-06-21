@@ -69,6 +69,8 @@ public abstract class FileBandMaster {
 	}
 
 	public ArrayList<String> getListeFiles(String dirName) {
+		//System.out.println("getlistefiles File band");
+		//System.out.println("get liste files");
 		ArrayList<String> nomFichiers = new ArrayList<>();
 		File repertoire = new File(dirName);
 		try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath())) {
@@ -94,7 +96,7 @@ public abstract class FileBandMaster {
 	}
 
 	public void deleteFileOndirectory(String dirName) {
-		// System.out.println("deleteFileOndirectory");
+		//System.out.println("deleteFileOndirectory");
 		ArrayList<String> fileList = getListeFiles(dirName);
 		// System.out.println("taille liste " + fileList.size());
 		File fileItem;
@@ -115,7 +117,7 @@ public abstract class FileBandMaster {
 	}
 
 	public void resetDirectories() {
-		System.out.println("resetDirectories");
+		//System.out.println("resetDirectories");
 		deleteFileOndirectory(this.dirIn.getPath());
 		deleteFileOndirectory(this.dirOut.getPath());
 		deleteFileOndirectory(this.dirSorted.getPath());

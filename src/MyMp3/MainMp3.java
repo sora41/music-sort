@@ -78,7 +78,7 @@ public class MainMp3 {
 	}
 
 	public static void resetDirectory() {
-		System.out.println("resetDirectori");
+			//System.out.println("resetDirectori");
 		MusicFileBandMaster bigBrother = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 		bigBrother.resetDirectories();
 	}
@@ -88,9 +88,9 @@ public class MainMp3 {
 		System.out.println("lancement reset");
 		resetDirectory();
 		System.out.println("lancement initalisation");
-		//initDirectory();
+		initDirectory();
 		System.out.println("lancement tri");
-		//MainRunSort();
+		MainRunSort();
 
 		// TestloadMp3Manuel();
 		// testFileMethodeList();
