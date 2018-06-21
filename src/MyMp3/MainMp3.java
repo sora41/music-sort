@@ -13,44 +13,39 @@ public class MainMp3 {
 	 * automatique/ https://www.jmdoudoux.fr/java/dejae/chap011.htm
 	 * 
 	 */
-	
-	// TODO 0.3 declarer des constante pour les repertoire 
-	
+
+	private static final String DIRECTORY_IN = "Music\\inMusic";
+	private static final String DIRECTORY_OUT = "Music\\outMusic";
+	private static final String DIRECTORY_SORT = "Music\\sortedMusic";
+	private static final String DIRECTORY_BACK = "Music\\back";
+
 	public static void TestloadMp3Manuel() {
-		String dirIn = "Music\\inMusic";
-		String dirOut = "Music\\outMusic";
-		String dirSorted = "Music\\sortedMusic";
 
 		TestMp3 tMp3 = new TestMp3();
-		MusicFileBandMaster bigBrother = new MusicFileBandMaster(dirIn, dirOut, dirSorted);
+		MusicFileBandMaster bigBrother = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 
-		ArrayList<String> listeFichiers = bigBrother.getListeFiles(dirIn);
+		ArrayList<String> listeFichiers = bigBrother.getListeFiles(DIRECTORY_IN);
 
 		System.out.println("----------------------------------------");
 		System.out.println("n0 " + listeFichiers.get(0));
-		tMp3.loadMp3Mannuel(dirIn + File.separator + listeFichiers.get(0));
+		tMp3.loadMp3Mannuel(DIRECTORY_IN + File.separator + listeFichiers.get(0));
 		System.out.println("----------------------------------------");
 		System.out.println("n1 " + listeFichiers.get(1));
-		tMp3.loadMp3Mannuel(dirIn + File.separator + listeFichiers.get(1));
+		tMp3.loadMp3Mannuel(DIRECTORY_IN + File.separator + listeFichiers.get(1));
 		System.out.println("----------------------------------------");
 		System.out.println("n2 " + listeFichiers.get(2));
-		tMp3.loadMp3Mannuel(dirIn + File.separator + listeFichiers.get(2));
+		tMp3.loadMp3Mannuel(DIRECTORY_IN + File.separator + listeFichiers.get(2));
 		System.out.println("----------------------------------------");
 		System.out.println("n7 " + listeFichiers.get(7));
-		tMp3.loadMp3Mannuel(dirIn + File.separator + listeFichiers.get(7));
+		tMp3.loadMp3Mannuel(DIRECTORY_IN + File.separator + listeFichiers.get(7));
 		System.out.println("----------------------------------------");
 		System.out.println("n8 " + listeFichiers.get(8));
-		tMp3.loadMp3Mannuel(dirIn + File.separator + listeFichiers.get(8));
+		tMp3.loadMp3Mannuel(DIRECTORY_IN + File.separator + listeFichiers.get(8));
 
 	}
 
 	public static void MainRunSort() {
-		String dirIn = "Music\\inMusic";
-		String dirOut = "Music\\outMusic";
-		String dirSorted = "Music\\sortedMusic";
-
-		MusicFileBandMaster bigBrother = new MusicFileBandMaster(dirIn, dirOut, dirSorted);
-
+		MusicFileBandMaster bigBrother = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 		bigBrother.runSortFile();
 	}
 
@@ -59,8 +54,8 @@ public class MainMp3 {
 	}
 
 	public static void testFileMethodeList() {
-		String dirIn = "Music\\inMusic";
-		File f = new File(dirIn);
+
+		File f = new File(DIRECTORY_IN);
 		String[] tabName = f.list();
 		System.out.println("testFileMetodeList");
 		afficheTab(tabName);
@@ -74,22 +69,16 @@ public class MainMp3 {
 					System.out.println(tab[i]);
 				}
 	}
+
 	public static void initDirectory() {
-		String dirIn = "Music\\inMusic";
-		String dirOut = "Music\\outMusic";
-		String dirSorted = "Music\\sortedMusic";
-		String dirBack = "Music\\back";
-		//System.out.println("initDirectori");
-		MusicFileBandMaster bigBrother = new MusicFileBandMaster(dirIn, dirOut, dirSorted);
-		bigBrother.initDirectorieIn(dirBack);
+		// System.out.println("initDirectori");
+		MusicFileBandMaster bigBrother = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
+		bigBrother.initDirectorieIn(DIRECTORY_BACK);
 	}
 
 	public static void resetDirectory() {
-		String dirIn = "Music\\inMusic";
-		String dirOut = "Music\\outMusic";
-		String dirSorted = "Music\\sortedMusic";
 		System.out.println("resetDirectori");
-		MusicFileBandMaster bigBrother = new MusicFileBandMaster(dirIn, dirOut, dirSorted);
+		MusicFileBandMaster bigBrother = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 		bigBrother.resetDirectories();
 	}
 
@@ -98,13 +87,13 @@ public class MainMp3 {
 		System.out.println("lancement reset");
 		resetDirectory();
 		System.out.println("lancement initalisation");
-		initDirectory();
+		//initDirectory();
 		System.out.println("lancement tri");
-		MainRunSort();
-		
+		//MainRunSort();
+
 		// TestloadMp3Manuel();
 		// testFileMethodeList();
-	
+
 	}
 
 }
