@@ -139,6 +139,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		ArrayList<String> listeFichiersIn;
 		String fileNameitem = "";
 		String pahtFileItem = "";
+		int tabSize  =0;
 		/*
 		 * https://www.jmdoudoux.fr/java/dej/chap-nio2.htm
 		 * https://docs.oracle.com/javase/7/docs/api/index.html?java/io/File.
@@ -149,22 +150,18 @@ public class MusicFileBandMaster extends FileBandMaster {
 		// sinon les cree
 		if (validateDirectorys()) {
 
-			// probleme rencomptrer sur lecture de
-			// ficher mdr 3 sur la lecture de la taille de certain fichier
-			// /!\ probleme venais du jeux de fichier corronpu
-			// attention a trouver la source de cette corruption
-
 			listeFichiersIn = getListeFilesMp3(dirIn.getPath());
 			//System.out.println("Load dir" + dirIn);
 			// tester si on a des fichier dans le repertoire in
-			if (listeFichiersIn.size() > 0) {
+			tabSize = listeFichiersIn.size();
+			if (tabSize> 0) {
 				// afficherFileListe(listeFichiersIn);
-				//System.out.println("contains " + listeFichiersIn.size() + " files");
-				for (int i = 0; i < listeFichiersIn.size(); i++) {
+				System.out.println("contains " + tabSize + " files");
+				for (int i = 0; i < tabSize; i++) {
 					fileNameitem = listeFichiersIn.get(i);
 					pahtFileItem = dirIn + File.separator + fileNameitem;
 					try {
-						// System.out.println("read:" + fileNameitem);
+						System.out.println("sort" + i +" :: " + (tabSize - 1) );
 						loadMp3Id3(pahtFileItem);
 					} catch (IOException | TagException | UnsupportedOperationException e) {
 						// System.out.println(e.getMessage());
