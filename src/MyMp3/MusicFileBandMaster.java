@@ -64,7 +64,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String songAuthor = song.getID3v1Tag().getArtist();
 		String fileName = song.getFilenameTag().composeFilename();
 		String pathFile = song.getMp3file().getPath();
-		String pathSorted = dirSorted.getPath();
+		//String pathSorted = dirSorted.getPath();
 		String sortedTarget = "";
 		String pathAutorDir = "";
 		// System.out.println("Artiste: "+songAuthor);
@@ -110,6 +110,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private void sortedByAuthorAndAlbum(MP3File song) throws IOException, TagNotFoundException {
 
 		File autorDir = null;
+		File albumDir = null;
 		String songAuthor = song.getID3v1Tag().getArtist();
 		String songAlbum = song.getID3v1Tag().getAlbum();
 		String fileName = song.getFilenameTag().composeFilename();
@@ -120,17 +121,33 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String pathAlbumDir = "";
 
 		if ((songAuthor != "") && (!songAuthor.isEmpty())) {
-			autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
-			if (!validateDirectory(autorDir)) {
-				if (!autorDir.mkdir()) {
-					IOException e = new IOException("echec creation repertoire " + autorDir.getPath());
-					throw e;
+			if ((songAuthor != "") && (!songAuthor.isEmpty())) {
+
+				autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
+				if (!validateDirectory(autorDir)) {
+					if (!autorDir.mkdir()) {
+						IOException e = new IOException("echec creation repertoire " + autorDir.getPath());
+						throw e;
+					}
 				}
+				pathAutorDir = autorDir.getPath();
+				
+				albumDir = new File(dirSorted.getPath() + File.separator+ pathAutorDir+ File.separator + songAlbum);
+				if (!validateDirectory(albumDir)) {
+					if (!albumDir.mkdir()) {
+						IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
+						throw e;
+					}
+
+				}
+				pathAlbumDir = albumDir.getPath();
+				sortedTarget = pathAlbumDir+ File.separator + fileName;
+
+				 moveFile(pathFile, sortedTarget);
+			} else {
+				TagNotFoundException e = new TagNotFoundException("no album");
+				throw e;
 			}
-			pathAutorDir = autorDir.getPath();
-			sortedTarget = pathAutorDir + File.separator + fileName;
-			
-			//moveFile(pathFile, sortedTarget);
 		} else {
 
 			TagNotFoundException e = new TagNotFoundException("no artiste");
@@ -140,26 +157,26 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 	private void sortedByAlbum(MP3File song) throws IOException, TagNotFoundException {
 
-		File autorDir = null;
+		File albumDir = null;
 		String songAlbum = song.getID3v1Tag().getAlbum();
 		String fileName = song.getFilenameTag().composeFilename();
 		String pathFile = song.getMp3file().getPath();
-		String pathSorted = dirSorted.getPath();
+		//String pathSorted = dirSorted.getPath();
 		String sortedTarget = "";
-		String pathAlbumrDir = "";
+		String pathAlbumDir = "";
 
 		if ((songAlbum != "") && (!songAlbum.isEmpty())) {
 
-			autorDir = new File(dirSorted.getPath() + File.separator + songAlbum);
-			if (!validateDirectory(autorDir)) {
-				if (!autorDir.mkdir()) {
-					IOException e = new IOException("echec creation repertoire " + autorDir.getPath());
+			albumDir = new File(dirSorted.getPath() + File.separator + songAlbum);
+			if (!validateDirectory(albumDir)) {
+				if (!albumDir.mkdir()) {
+					IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
 					throw e;
 				}
 
 			}
-			pathAlbumrDir = autorDir.getPath();
-			sortedTarget = pathAlbumrDir + File.separator + fileName;
+			pathAlbumDir = albumDir.getPath();
+			sortedTarget = pathAlbumDir + File.separator + fileName;
 			moveFile(pathFile, sortedTarget);
 
 		} else {
@@ -179,7 +196,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 			// sortedByAutor(mp3file);
 
 			// test tri album
-			sortedByAlbum(mp3file);
+			//sortedByAlbum(mp3file);
+			// tri artiste album 
+			sortedByAuthorAndAlbum(mp3file);
 			// TODO 1.6 test album
 			// test si le repertoire de l'artiste existe deja
 			// si oui on l utilise sinon on le cree
