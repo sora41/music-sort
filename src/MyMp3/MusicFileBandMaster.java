@@ -210,7 +210,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 			// genre // artiste// album
 			// ect
 
-			// TODO 1.5 premier essay tri Artiste// album
 
 			// TODO 1.1 REfactorer class trop de methode exite deja dans File
 
