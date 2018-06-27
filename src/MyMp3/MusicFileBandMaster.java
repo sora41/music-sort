@@ -115,14 +115,14 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String songAlbum = song.getID3v1Tag().getAlbum();
 		String fileName = song.getFilenameTag().composeFilename();
 		String pathFile = song.getMp3file().getPath();
-		String pathSorted = dirSorted.getPath();
+		//String pathSorted = dirSorted.getPath();
 		String sortedTarget = "";
 		String pathAutorDir = "";
 		String pathAlbumDir = "";
 
 		if ((songAuthor != "") && (!songAuthor.isEmpty())) {
-			if ((songAuthor != "") && (!songAuthor.isEmpty())) {
-
+			if ((songAlbum != "") && (!songAlbum.isEmpty())) {
+				System.out.println(songAlbum+"-"+songAuthor );
 				autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
 				if (!validateDirectory(autorDir)) {
 					if (!autorDir.mkdir()) {
@@ -130,9 +130,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 						throw e;
 					}
 				}
-				pathAutorDir = autorDir.getPath();
 				
-				albumDir = new File(dirSorted.getPath() + File.separator+ pathAutorDir+ File.separator + songAlbum);
+				pathAutorDir = autorDir.getPath();
+				//System.out.println("path autore dir = "+pathAutorDir);
+				albumDir = new File(dirSorted.getPath() + File.separator+ songAuthor+ File.separator + songAlbum);
+				//System.out.println("path album dir = "+albumDir);
 				if (!validateDirectory(albumDir)) {
 					if (!albumDir.mkdir()) {
 						IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
@@ -248,8 +250,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 						System.out.println("sort" + i + " :: " + (tabSize - 1));
 						loadMp3Id3(pahtFileItem);
 					} catch (IOException | TagException | UnsupportedOperationException e) {
-						// System.out.println(e.getMessage());
-						// e.printStackTrace();
+						 System.out.println(e.getMessage());
+						 //e.printStackTrace();
 						try {
 							// System.out.println("move: " + pahtFileItem + " to
 							// dir" + dirOut);
