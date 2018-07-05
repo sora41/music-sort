@@ -1,4 +1,4 @@
-package MyMp3;
+package bandMaster;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -268,7 +268,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 	}
 
 	public void runSortFile() {
-
 		runSortMusicFile();
 	}
 }
