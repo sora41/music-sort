@@ -4,6 +4,8 @@ public class MusicDto {
 
 	private String fileName;
 
+	private String songName;
+
 	private String author;
 
 	private String album;
@@ -40,6 +42,14 @@ public class MusicDto {
 
 	public void setPathFile(String pathFile) {
 		this.pathFile = pathFile;
+	}
+
+	public String getSongName() {
+		return songName;
+	}
+
+	public void setSongName(String songName) {
+		this.songName = songName;
 	}
 
 }
