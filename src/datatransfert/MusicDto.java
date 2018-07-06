@@ -1,15 +1,34 @@
 package datatransfert;
-
+/**
+ * class compilant les informations d'un fichier de musique 
+ * @author sora_41
+ *
+ */
 public class MusicDto {
 
+	/**
+	 * nom du fichier
+	 */
 	private String fileName;
 
+	/**
+	 * titre de la chanson
+	 */
 	private String songName;
 
+	/**
+	 * nom de l'auteur
+	 */
 	private String author;
 
+	/**
+	 * nom de l'album
+	 */
 	private String album;
 
+	/**
+	 * chemin du fichier
+	 */
 	private String pathFile;
 
 	public String getFileName() {
