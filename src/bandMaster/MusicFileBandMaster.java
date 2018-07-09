@@ -50,9 +50,40 @@ public class MusicFileBandMaster extends FileBandMaster {
 		return listeFichiers;
 	}
 
-	private void DoloadMyMpId3(String fileName) {
+	private void doLoadMyMpId3(String fileName) {
 		TestMp3 mp3 = new TestMp3();
 		mp3.loadMp3Mannuel(fileName);
+	}
+
+	private void doLoadLibId3(String fileName) throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
+		
+		MP3File mp3file = new MP3File(fileName);
+		if (mp3file.hasID3v1Tag()) {
+
+			// test tri par author
+			// sortedByAutor(mp3file);
+
+			// test tri album
+			//sortedByAlbum(mp3file);
+			// tri artiste album 
+			sortedByAuthorAndAlbum(mp3file);
+			// TODO 1.6 test album
+			// test si le repertoire de l'artiste existe deja
+			// si oui on l utilise sinon on le cree
+
+			// TODO 6.0 Mode de Tri
+			// par artiste// album
+			// genre // artiste// album
+			// ect
+
+
+			// TODO 1.1 REfactorer class trop de methode exite deja dans File
+
+		} else {
+			System.out.println("file: " + mp3file.getFilenameTag().composeFilename() + " ID3 not suported ");
+			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
+			throw e;
+		}
 	}
 
 	private void sortedByAutor(MP3File song) throws IOException, TagNotFoundException {
@@ -64,7 +95,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String songAuthor = song.getID3v1Tag().getArtist();
 		String fileName = song.getFilenameTag().composeFilename();
 		String pathFile = song.getMp3file().getPath();
-		//String pathSorted = dirSorted.getPath();
+		// String pathSorted = dirSorted.getPath();
 		String sortedTarget = "";
 		String pathAutorDir = "";
 		// System.out.println("Artiste: "+songAuthor);
@@ -115,14 +146,14 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String songAlbum = song.getID3v1Tag().getAlbum();
 		String fileName = song.getFilenameTag().composeFilename();
 		String pathFile = song.getMp3file().getPath();
-		//String pathSorted = dirSorted.getPath();
+		// String pathSorted = dirSorted.getPath();
 		String sortedTarget = "";
 		String pathAutorDir = "";
 		String pathAlbumDir = "";
 
 		if ((songAuthor != "") && (!songAuthor.isEmpty())) {
 			if ((songAlbum != "") && (!songAlbum.isEmpty())) {
-				System.out.println(songAlbum+"-"+songAuthor );
+				System.out.println(songAlbum + "-" + songAuthor);
 				autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
 				if (!validateDirectory(autorDir)) {
 					if (!autorDir.mkdir()) {
@@ -130,11 +161,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 						throw e;
 					}
 				}
-				
+
 				pathAutorDir = autorDir.getPath();
-				//System.out.println("path autore dir = "+pathAutorDir);
-				albumDir = new File(dirSorted.getPath() + File.separator+ songAuthor+ File.separator + songAlbum);
-				//System.out.println("path album dir = "+albumDir);
+				// System.out.println("path autore dir = "+pathAutorDir);
+				albumDir = new File(dirSorted.getPath() + File.separator + songAuthor + File.separator + songAlbum);
+				// System.out.println("path album dir = "+albumDir);
 				if (!validateDirectory(albumDir)) {
 					if (!albumDir.mkdir()) {
 						IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
@@ -143,9 +174,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 				}
 				pathAlbumDir = albumDir.getPath();
-				sortedTarget = pathAlbumDir+ File.separator + fileName;
+				sortedTarget = pathAlbumDir + File.separator + fileName;
 
-				 moveFile(pathFile, sortedTarget);
+				moveFile(pathFile, sortedTarget);
 			} else {
 				TagNotFoundException e = new TagNotFoundException("no album");
 				throw e;
@@ -163,7 +194,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String songAlbum = song.getID3v1Tag().getAlbum();
 		String fileName = song.getFilenameTag().composeFilename();
 		String pathFile = song.getMp3file().getPath();
-		//String pathSorted = dirSorted.getPath();
+		// String pathSorted = dirSorted.getPath();
 		String sortedTarget = "";
 		String pathAlbumDir = "";
 
@@ -190,34 +221,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private void loadMp3Id3(String fileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 
-		// DoloadMyMpId3(fileName);
-		MP3File mp3file = new MP3File(fileName);
-		if (mp3file.hasID3v1Tag()) {
-
-			// test tri par author
-			// sortedByAutor(mp3file);
-
-			// test tri album
-			//sortedByAlbum(mp3file);
-			// tri artiste album 
-			sortedByAuthorAndAlbum(mp3file);
-			// TODO 1.6 test album
-			// test si le repertoire de l'artiste existe deja
-			// si oui on l utilise sinon on le cree
-
-			// TODO 6.0 Mode de Tri
-			// par artiste// album
-			// genre // artiste// album
-			// ect
-
-
-			// TODO 1.1 REfactorer class trop de methode exite deja dans File
-
-		} else {
-			System.out.println("file: " + mp3file.getFilenameTag().composeFilename() + " ID3 not suported ");
-			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
-			throw e;
-		}
+		// doLoadMyMpId3(fileName);
+		doLoadLibId3(fileName);
 	}
 
 	private void runSortMusicFile() {
@@ -247,10 +252,13 @@ public class MusicFileBandMaster extends FileBandMaster {
 					pahtFileItem = dirIn + File.separator + fileNameitem;
 					try {
 						System.out.println("sort" + i + " :: " + (tabSize - 1));
+						// li faut separer l extraction d'information du
+						// traitement
+
 						loadMp3Id3(pahtFileItem);
 					} catch (IOException | TagException | UnsupportedOperationException e) {
-						 System.out.println(e.getMessage());
-						 //e.printStackTrace();
+						System.out.println(e.getMessage());
+						// e.printStackTrace();
 						try {
 							// System.out.println("move: " + pahtFileItem + " to
 							// dir" + dirOut);
