@@ -1,9 +1,7 @@
-package bandMaster;
+package main;
 
-import java.io.File;
-import java.util.ArrayList;
-
-import javax.swing.ButtonGroup;
+import bandMaster.FileBandMaster;
+import bandMaster.MusicFileBandMaster;
 
 public class MainMp3 {
 	
