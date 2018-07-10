@@ -9,6 +9,8 @@ import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
 
+import datatransfert.MusicDto;
+
 public class MusicFileBandMaster extends FileBandMaster {
 
 	// TODO 1.2 AJouter GEstion des log
@@ -79,6 +81,26 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 			// TODO 1.1 REfactorer class trop de methode exite deja dans File
 
+		} else {
+			System.out.println("file: " + mp3file.getFilenameTag().composeFilename() + " ID3 not suported ");
+			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
+			throw e;
+		}
+	}
+	
+private MusicDto doLoadLibId3Dto(String fileName) throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
+		
+		MP3File mp3file = new MP3File(fileName);
+		MusicDto SongDto = new MusicDto();
+		if (mp3file.hasID3v1Tag()) {
+
+			SongDto.setAlbum(mp3file.getID3v1Tag().getAlbum());
+			SongDto.setFileName(mp3file.getFilenameTag().composeFilename());
+			SongDto.setAuthor(mp3file.getID3v1Tag().getArtist());
+			SongDto.setPathFile(mp3file.getMp3file().getPath());
+			SongDto.setSongName(mp3file.getID3v1Tag().getTitle());
+			
+			return SongDto;
 		} else {
 			System.out.println("file: " + mp3file.getFilenameTag().composeFilename() + " ID3 not suported ");
 			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
