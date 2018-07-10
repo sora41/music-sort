@@ -50,14 +50,14 @@ public class MusicFileBandMaster extends FileBandMaster {
 		return listeFichiers;
 	}
 
-	private void doLoadMyMpId3(String fileName) {
+	private void doLoadMyMpId3(String pathFileName) {
 		TestMp3 mp3 = new TestMp3();
-		mp3.loadMp3Mannuel(fileName);
+		mp3.loadMp3Mannuel(pathFileName);
 	}
 
-	private void doLoadLibId3(String fileName) throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
+	private void doLoadLibId3(String pathFileName) throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 		
-		MP3File mp3file = new MP3File(fileName);
+		MP3File mp3file = new MP3File(pathFileName);
 		if (mp3file.hasID3v1Tag()) {
 
 			// test tri par author
@@ -218,11 +218,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 		}
 	}
 
-	private void loadMp3Id3(String fileName)
+	private void loadMp3Id3(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 
-		// doLoadMyMpId3(fileName);
-		doLoadLibId3(fileName);
+		// doLoadMyMpId3(pathFileName);
+		doLoadLibId3(pathFileName);
 	}
 
 	private void runSortMusicFile() {
