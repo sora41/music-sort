@@ -8,11 +8,15 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
+import repository.IRepositoryFile;
+import repository.RepositoryFile;
+
 public abstract class FileBandMaster {
 
 	protected File dirIn;
 	protected File dirOut;
 	protected File dirSorted;
+	protected IRepositoryFile managerFile = new RepositoryFile();
 
 	public FileBandMaster(String dirIn, String dirOut, String dirSorted) {
 		this.dirIn = new File(dirIn);
@@ -83,18 +87,6 @@ public abstract class FileBandMaster {
 		return nomFichiers;
 	}
 
-	public void deleteFile(String nameFile) {
-		// System.out.println("deleteFile");
-		File deleteFile = new File(nameFile);
-		if (deleteFile.exists()) {
-			// System.out.println("fichier " + nameFile + " existe");
-			deleteFile.delete();
-
-		} else {
-			System.out.println("fichier a supermier existe pas " + nameFile);
-		}
-	}
-
 	public void deleteFileOndirectory(String dirName) {
 		// System.out.println("deleteFileOndirectory");
 		ArrayList<String> fileList = listeFilesOnDirectory(dirName);
@@ -111,7 +103,7 @@ public abstract class FileBandMaster {
 				}
 			}
 			if (pahtItem.contains(".gitkeep") == false) {
-				deleteFile(pahtItem);
+				managerFile.delete(pahtItem);
 			}
 		}
 	}
@@ -138,7 +130,7 @@ public abstract class FileBandMaster {
 					if (pahtFileItem.contains(".gitkeep") == false) {
 
 						try {
-							copyFile(pahtFileItem, dirIn.getPath() + File.separator + fileNameitem);
+							managerFile.copy(pahtFileItem, dirIn.getPath() + File.separator + fileNameitem);
 						} catch (IOException e) {
 							System.err.println("imposible de deplacer le Fichier " + fileNameitem);
 							System.err.println("du repertoir:" + dirIn + " vers le repertoire " + dirOut);
@@ -147,33 +139,6 @@ public abstract class FileBandMaster {
 
 				}
 			}
-		}
-	}
-
-	public void moveFile(String OrginaleName, String FinalName) throws IOException {
-		File f = new File(OrginaleName);
-		if (f.exists()) {
-			File f2 = new File(FinalName);
-
-			Path pf = f.toPath();
-			Path pf2 = f2.toPath();
-
-			String debugPF = pf.toString();
-			String debugPF2 = pf2.toString();
-
-			Files.move(pf, pf2, StandardCopyOption.REPLACE_EXISTING);
-		}
-	}
-
-	public void copyFile(String OrginaleName, String FinalName) throws IOException {
-		File f = new File(OrginaleName);
-		if (f.exists()) {
-			File f2 = new File(FinalName);
-
-			Path pf = f.toPath();
-			Path pf2 = f2.toPath();
-
-			Files.copy(pf, pf2, StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
 

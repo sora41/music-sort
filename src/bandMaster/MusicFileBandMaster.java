@@ -116,7 +116,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 			pathAutorDir = autorDir.getPath();
 			sortedTarget = pathAutorDir + File.separator + fileName;
 
-			moveFile(pathFile, sortedTarget);
+			//moveFile(pathFile, sortedTarget);
+			managerFile.move(pathFile, sortedTarget);
 
 		} else {
 			TagNotFoundException e = new TagNotFoundException("no artiste");
@@ -160,7 +161,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 				pathAlbumDir = albumDir.getPath();
 				sortedTarget = pathAlbumDir + File.separator + fileName;
 
-				moveFile(pathFile, sortedTarget);
+				//moveFile(pathFile, sortedTarget);
+				managerFile.move(pathFile, sortedTarget);
 			} else {
 				TagNotFoundException e = new TagNotFoundException("no album");
 				throw e;
@@ -193,8 +195,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 			}
 			pathAlbumDir = albumDir.getPath();
 			sortedTarget = pathAlbumDir + File.separator + fileName;
-			moveFile(pathFile, sortedTarget);
-
+			//moveFile(pathFile, sortedTarget);
+			managerFile.move(pathFile, sortedTarget);
 		} else {
 			TagNotFoundException e = new TagNotFoundException("no album");
 			throw e;
@@ -247,7 +249,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 							// dir" + dirOut);
 							// System.out.println(e.getClass() +
 							// e.getMessage());
-							moveFile(pahtFileItem, dirOut + File.separator + fileNameitem);
+							//moveFile(pahtFileItem, dirOut + File.separator + fileNameitem);
+							managerFile.move(pahtFileItem, dirOut + File.separator + fileNameitem);
 						} catch (IOException e2) {
 							System.err.println("imposible de deplacer le Fichier " + fileNameitem);
 							System.err.println("du repertoir:" + dirIn + " vers le repertoire " + dirOut);
