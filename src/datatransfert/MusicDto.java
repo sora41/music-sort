@@ -1,6 +1,8 @@
 package datatransfert;
+
 /**
- * class compilant les informations d'un fichier de musique 
+ * class compilant les informations d'un fichier de musique
+ * 
  * @author sora_41
  *
  */

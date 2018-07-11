@@ -71,9 +71,10 @@ public class MusicFileBandMaster extends FileBandMaster {
 			throw e;
 		}
 	}
-	
-private MusicDto doLoadLibId3Dto(String fileName) throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
-		
+
+	private MusicDto doLoadLibId3Dto(String fileName)
+			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
+
 		MP3File mp3file = new MP3File(fileName);
 		MusicDto SongDto = new MusicDto();
 		if (mp3file.hasID3v1Tag()) {
@@ -83,7 +84,7 @@ private MusicDto doLoadLibId3Dto(String fileName) throws IOException, TagExcepti
 			SongDto.setAuthor(mp3file.getID3v1Tag().getArtist());
 			SongDto.setPathFile(mp3file.getMp3file().getPath());
 			SongDto.setSongName(mp3file.getID3v1Tag().getTitle());
-			
+
 			return SongDto;
 		} else {
 			System.out.println("file: " + mp3file.getFilenameTag().composeFilename() + " ID3 not suported ");

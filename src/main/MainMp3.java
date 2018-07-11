@@ -17,7 +17,6 @@ public class MainMp3 {
 	}
 
 	public static void main(String[] args) {
-
 		initApplication();
 		System.out.println("lancement reset");
 		musicSorter.resetDirectories();
@@ -25,7 +24,5 @@ public class MainMp3 {
 		musicSorter.initDirectorieIn(DIRECTORY_BACK);
 		System.out.println("lancement tri");
 		musicSorter.runSortFile();
-
 	}
-
 }
