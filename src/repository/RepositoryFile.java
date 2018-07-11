@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 
 public class RepositoryFile implements IRepositoryFile {
 
@@ -72,6 +72,17 @@ public class RepositoryFile implements IRepositoryFile {
 
 			Files.copy(pf, pf2, StandardCopyOption.REPLACE_EXISTING);
 		}
+
+	}
+
+	@Override
+	public boolean validateDirectory(File dir) {
+		boolean resultas = false;
+		if (dir != null)
+			if (dir.exists())
+				if (dir.isDirectory())
+					resultas = true;
+		return resultas;
 
 	}
 

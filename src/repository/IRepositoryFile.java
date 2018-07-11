@@ -1,5 +1,6 @@
 package repository;
 
+import java.io.File;
 import java.io.IOException;
 
 public interface IRepositoryFile {
@@ -11,5 +12,7 @@ public interface IRepositoryFile {
 	public abstract void move(String OrginalePathName, String FinalPahtName) throws IOException;
 
 	public abstract void copy(String OrginalePathName, String FinalPahtName) throws IOException;
+	
+	public abstract boolean validateDirectory(File dir); 
 
 }
