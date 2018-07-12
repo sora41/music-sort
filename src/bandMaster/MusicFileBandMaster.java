@@ -10,12 +10,15 @@ import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
 
 import datatransfert.MusicDto;
+import repository.RepositoryMusicFile;
 import repository.TestMp3;
 
 public class MusicFileBandMaster extends FileBandMaster {
 
+	private RepositoryMusicFile repoMusic;
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) {
 		super(dirIn, dirOut, dirSorted);
+		repoMusic = new RepositoryMusicFile();
 	}
 	
 	/**
@@ -66,23 +69,24 @@ public class MusicFileBandMaster extends FileBandMaster {
 			throw e;
 		}
 	}
-
-	private MusicDto doLoadLibId3Dto(String fileName)
+	
+	private void doLoadDTO(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 
-		MP3File mp3file = new MP3File(fileName);
-		MusicDto SongDto = new MusicDto();
-		if (mp3file.hasID3v1Tag()) {
+		MusicDto dto  = repoMusic.getDataToMusicFile(pathFileName);
+		if (null != dto) {
 
-			SongDto.setAlbum(mp3file.getID3v1Tag().getAlbum());
-			SongDto.setFileName(mp3file.getFilenameTag().composeFilename());
-			SongDto.setAuthor(mp3file.getID3v1Tag().getArtist());
-			SongDto.setPathFile(mp3file.getMp3file().getPath());
-			SongDto.setSongName(mp3file.getID3v1Tag().getTitle());
+			// test tri par author
+			// sortedByAutor(mp3file);
 
-			return SongDto;
+			// test tri album
+			// sortedByAlbum(mp3file);
+
+			// tri artiste album
+			sortedByAuthorAndAlbum2(dto);
+
 		} else {
-			System.out.println("file: " + mp3file.getFilenameTag().composeFilename() + " ID3 not suported ");
+			System.out.println("file: " + dto.getFileName() + " ID3 not suported ");
 			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
 			throw e;
 		}
@@ -166,6 +170,52 @@ public class MusicFileBandMaster extends FileBandMaster {
 			throw e;
 		}
 	}
+	private void sortedByAuthorAndAlbum2(MusicDto song) throws IOException, TagNotFoundException {
+
+		File autorDir = null;
+		File albumDir = null;
+		String songAuthor = song.getAuthor();
+		String songAlbum = song.getAlbum();
+		String fileName = song.getFileName();
+		String pathFile = song.getPathFile();
+		String sortedTarget = "";
+		String pathAutorDir = "";
+		String pathAlbumDir = "";
+
+		if ((songAuthor != "") && (!songAuthor.isEmpty())) {
+			if ((songAlbum != "") && (!songAlbum.isEmpty())) {
+				System.out.println(songAlbum + "-" + songAuthor);
+				autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
+				if (!managerFile.validateDirectory(autorDir)) {
+					if (!autorDir.mkdir()) {
+						IOException e = new IOException("echec creation repertoire " + autorDir.getPath());
+						throw e;
+					}
+				}
+
+				pathAutorDir = autorDir.getPath();
+				albumDir = new File(dirSorted.getPath() + File.separator + songAuthor + File.separator + songAlbum);
+				if (!managerFile.validateDirectory(albumDir)) {
+					if (!albumDir.mkdir()) {
+						IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
+						throw e;
+					}
+
+				}
+				pathAlbumDir = albumDir.getPath();
+				sortedTarget = pathAlbumDir + File.separator + fileName;
+
+				managerFile.move(pathFile, sortedTarget);
+			} else {
+				TagNotFoundException e = new TagNotFoundException("no album");
+				throw e;
+			}
+		} else {
+
+			TagNotFoundException e = new TagNotFoundException("no artiste");
+			throw e;
+		}
+	}
 
 	private void sortedByAlbum(MP3File song) throws IOException, TagNotFoundException {
 
@@ -199,7 +249,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 
 		// doLoadMyMpId3(pathFileName);
-		doLoadLibId3(pathFileName);
+		//doLoadLibId3(pathFileName);
+		doLoadDTO(pathFileName);
 	}
 
 	private void runSortMusicFile() {
