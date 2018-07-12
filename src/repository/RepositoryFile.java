@@ -6,7 +6,6 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-//import java.util.ArrayList;
 import java.util.ArrayList;
 
 public class RepositoryFile implements IRepositoryFile {
@@ -56,8 +55,8 @@ public class RepositoryFile implements IRepositoryFile {
 			Path pf = f.toPath();
 			Path pf2 = f2.toPath();
 
-			String debugPF = pf.toString();
-			String debugPF2 = pf2.toString();
+			// String debugPF = pf.toString();
+			// String debugPF2 = pf2.toString();
 
 			Files.move(pf, pf2, StandardCopyOption.REPLACE_EXISTING);
 		}
