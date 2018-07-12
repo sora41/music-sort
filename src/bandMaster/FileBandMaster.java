@@ -16,12 +16,13 @@ public abstract class FileBandMaster {
 	protected File dirIn;
 	protected File dirOut;
 	protected File dirSorted;
-	protected IRepositoryFile managerFile = new RepositoryFile();
+	protected IRepositoryFile managerFile;// = new RepositoryFile();
 
 	public FileBandMaster(String dirIn, String dirOut, String dirSorted) {
 		this.dirIn = new File(dirIn);
 		this.dirOut = new File(dirOut);
 		this.dirSorted = new File(dirSorted);
+		this.managerFile  = new RepositoryFile();
 	}
 
 	public File getDirIn() {
@@ -62,30 +63,8 @@ public abstract class FileBandMaster {
 
 		return resultas;
 	}
-	/*
-	public void deleteFileOndirectory(String dirName) {
-		// System.out.println("deleteFileOndirectory");
-		ArrayList<String> fileList = managerFile.listeFilesOnDirectory(dirName);
-		// System.out.println("taille liste " + fileList.size());
-		File fileItem;
-		String pahtItem;
-
-		for (int i = 0; i < fileList.size(); i++) {
-			pahtItem = dirName + File.separator + fileList.get(i);
-			fileItem = new File(pahtItem);
-			if (fileItem.isDirectory()) {
-				if (fileItem.list().length > 0) {
-					deleteFileOndirectory(pahtItem);
-				}
-			}
-			if (pahtItem.contains(".gitkeep") == false) {
-				managerFile.delete(pahtItem);
-			}
-		}
-	}*/
-
+	
 	public void resetDirectories() {
-		// System.out.println("resetDirectories");
 		managerFile.recursiveDelete(this.dirIn.getPath());
 		managerFile.recursiveDelete(this.dirOut.getPath());
 		managerFile.recursiveDelete(this.dirSorted.getPath());
