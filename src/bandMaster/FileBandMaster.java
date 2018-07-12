@@ -48,48 +48,24 @@ public abstract class FileBandMaster {
 		this.dirSorted = dirSorted;
 	}
 
-	protected boolean validateDirectory(File dir) {
-		boolean resultas = false;
-		if (dir != null)
-			if (dir.exists())
-				if (dir.isDirectory())
-					resultas = true;
-		return resultas;
-	}
-
 	protected boolean validateDirectorys() {
 		boolean resultas = true;
 
-		if (!validateDirectory(dirIn))
+		if (!managerFile.validateDirectory(dirIn))
 			resultas = dirIn.mkdir();
 
-		if ((!validateDirectory(dirOut)) && (resultas))
+		if ((!managerFile.validateDirectory(dirOut)) && (resultas))
 			resultas = dirOut.mkdir();
 
-		if ((!validateDirectory(dirSorted)) && (resultas))
+		if ((!managerFile.validateDirectory(dirSorted)) && (resultas))
 			resultas = dirSorted.mkdir();
 
 		return resultas;
 	}
-
-	public ArrayList<String> listeFilesOnDirectory(String dirName) {
-		// System.out.println("getlistefiles File band");
-		// System.out.println("get liste files");
-		ArrayList<String> nomFichiers = new ArrayList<>();
-		File repertoire = new File(dirName);
-		try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath())) {
-			for (Path path : directoryStream) {
-				nomFichiers.add(path.getFileName().toString());
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return nomFichiers;
-	}
-
+	/*
 	public void deleteFileOndirectory(String dirName) {
 		// System.out.println("deleteFileOndirectory");
-		ArrayList<String> fileList = listeFilesOnDirectory(dirName);
+		ArrayList<String> fileList = managerFile.listeFilesOnDirectory(dirName);
 		// System.out.println("taille liste " + fileList.size());
 		File fileItem;
 		String pahtItem;
@@ -106,13 +82,13 @@ public abstract class FileBandMaster {
 				managerFile.delete(pahtItem);
 			}
 		}
-	}
+	}*/
 
 	public void resetDirectories() {
 		// System.out.println("resetDirectories");
-		deleteFileOndirectory(this.dirIn.getPath());
-		deleteFileOndirectory(this.dirOut.getPath());
-		deleteFileOndirectory(this.dirSorted.getPath());
+		managerFile.recursiveDelete(this.dirIn.getPath());
+		managerFile.recursiveDelete(this.dirOut.getPath());
+		managerFile.recursiveDelete(this.dirSorted.getPath());
 	}
 
 	public void initDirectorieIn(String backDir) {
@@ -121,8 +97,8 @@ public abstract class FileBandMaster {
 		String fileNameitem = "";
 		String pahtFileItem = "";
 
-		if (validateDirectory(back) == true) {
-			listeFichiersBack = listeFilesOnDirectory(back.getPath());
+		if (managerFile.validateDirectory(back) == true) {
+			listeFichiersBack = managerFile.listeFilesOnDirectory(back.getPath());
 			if (listeFichiersBack.size() > 0) {
 				for (int i = 0; i < listeFichiersBack.size(); i++) {
 					fileNameitem = listeFichiersBack.get(i);

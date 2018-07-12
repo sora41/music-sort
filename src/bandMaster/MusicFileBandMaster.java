@@ -17,12 +17,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) {
 		super(dirIn, dirOut, dirSorted);
 	}
-
-	@Override
-	protected boolean validateDirectory(File dir) {
-		return super.validateDirectory(dir);
-	}
-
+	
 	/**
 	 * fonction qui recupere la liste des fichier a traite recupere tout la
 	 * liste contenu dans le repertoire et suprime de la liste tout ce qui ne
@@ -30,7 +25,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	 */
 	public ArrayList<String> getListeFilesMp3(String dirName) {
 		// System.out.println("getlistefiles music band");
-		ArrayList<String> listeFichiers = super.listeFilesOnDirectory(dirName);
+		ArrayList<String> listeFichiers = managerFile.listeFilesOnDirectory(dirName);
 		int fileNumber = listeFichiers.size();
 		String fileNameItem = "";
 		// System.out.println(fileNumber);
@@ -107,7 +102,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			// songAuthor);
 
 			autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
-			if (!validateDirectory(autorDir)) {
+			if (!managerFile.validateDirectory(autorDir)) {
 				if (!autorDir.mkdir()) {
 					IOException e = new IOException("echec creation repertoire " + autorDir.getPath());
 					throw e;
@@ -116,7 +111,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 			pathAutorDir = autorDir.getPath();
 			sortedTarget = pathAutorDir + File.separator + fileName;
 
-			//moveFile(pathFile, sortedTarget);
 			managerFile.move(pathFile, sortedTarget);
 
 		} else {
@@ -142,7 +136,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			if ((songAlbum != "") && (!songAlbum.isEmpty())) {
 				System.out.println(songAlbum + "-" + songAuthor);
 				autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
-				if (!validateDirectory(autorDir)) {
+				if (!managerFile.validateDirectory(autorDir)) {
 					if (!autorDir.mkdir()) {
 						IOException e = new IOException("echec creation repertoire " + autorDir.getPath());
 						throw e;
@@ -151,7 +145,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 				pathAutorDir = autorDir.getPath();
 				albumDir = new File(dirSorted.getPath() + File.separator + songAuthor + File.separator + songAlbum);
-				if (!validateDirectory(albumDir)) {
+				if (!managerFile.validateDirectory(albumDir)) {
 					if (!albumDir.mkdir()) {
 						IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
 						throw e;
@@ -161,7 +155,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 				pathAlbumDir = albumDir.getPath();
 				sortedTarget = pathAlbumDir + File.separator + fileName;
 
-				//moveFile(pathFile, sortedTarget);
 				managerFile.move(pathFile, sortedTarget);
 			} else {
 				TagNotFoundException e = new TagNotFoundException("no album");
@@ -186,7 +179,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		if ((songAlbum != "") && (!songAlbum.isEmpty())) {
 
 			albumDir = new File(dirSorted.getPath() + File.separator + songAlbum);
-			if (!validateDirectory(albumDir)) {
+			if (!managerFile.validateDirectory(albumDir)) {
 				if (!albumDir.mkdir()) {
 					IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
 					throw e;
@@ -195,7 +188,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 			}
 			pathAlbumDir = albumDir.getPath();
 			sortedTarget = pathAlbumDir + File.separator + fileName;
-			//moveFile(pathFile, sortedTarget);
 			managerFile.move(pathFile, sortedTarget);
 		} else {
 			TagNotFoundException e = new TagNotFoundException("no album");

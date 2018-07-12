@@ -2,10 +2,12 @@ package repository;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 //import java.util.ArrayList;
+import java.util.ArrayList;
 
 public class RepositoryFile implements IRepositoryFile {
 
@@ -16,7 +18,7 @@ public class RepositoryFile implements IRepositoryFile {
 			deleteFile.delete();
 
 		} else {
-			//TODO Raise exception
+			// TODO Raise exception
 			System.out.println("fichier a supermier existe pas " + pathFileName);
 		}
 
@@ -24,7 +26,8 @@ public class RepositoryFile implements IRepositoryFile {
 
 	@Override
 	public void recursiveDelete(String pathFileName) {
-		/*ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
+
+		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
 
 		File fileItem;
 		String pahtItem;
@@ -40,7 +43,7 @@ public class RepositoryFile implements IRepositoryFile {
 			if (pahtItem.contains(".gitkeep") == false) {
 				delete(pahtItem);
 			}
-		}*/
+		}
 
 	}
 
@@ -62,7 +65,7 @@ public class RepositoryFile implements IRepositoryFile {
 	}
 
 	@Override
-	public void copy(String OrginalePathName, String FinalPahtName)throws IOException {
+	public void copy(String OrginalePathName, String FinalPahtName) throws IOException {
 		File f = new File(OrginalePathName);
 		if (f.exists()) {
 			File f2 = new File(FinalPahtName);
@@ -84,6 +87,21 @@ public class RepositoryFile implements IRepositoryFile {
 					resultas = true;
 		return resultas;
 
+	}
+
+	@Override
+	public ArrayList<String> listeFilesOnDirectory(String dirName) {
+
+		ArrayList<String> nomFichiers = new ArrayList<>();
+		File repertoire = new File(dirName);
+		try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath())) {
+			for (Path path : directoryStream) {
+				nomFichiers.add(path.getFileName().toString());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return nomFichiers;
 	}
 
 }
