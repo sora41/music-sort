@@ -23,7 +23,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	 * liste contenu dans le repertoire et suprime de la liste tout ce qui ne
 	 * finis pas .mp3 (dans un premier temps )
 	 */
-	public ArrayList<String> getListeFilesMp3(String dirName) {
+	private ArrayList<String> getListeFilesMp3(String dirName) {
 		// System.out.println("getlistefiles music band");
 		ArrayList<String> listeFichiers = managerFile.listeFilesOnDirectory(dirName);
 		int fileNumber = listeFichiers.size();

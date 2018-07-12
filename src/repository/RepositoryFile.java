@@ -54,10 +54,7 @@ public class RepositoryFile implements IRepositoryFile {
 
 			Path pf = f.toPath();
 			Path pf2 = f2.toPath();
-
-			// String debugPF = pf.toString();
-			// String debugPF2 = pf2.toString();
-
+			
 			Files.move(pf, pf2, StandardCopyOption.REPLACE_EXISTING);
 		}
 
