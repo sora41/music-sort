@@ -48,28 +48,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 		mp3.loadMp3Mannuel(pathFileName);
 	}
 
-	private void doLoadLibId3(String pathFileName)
-			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
-
-		MP3File mp3file = new MP3File(pathFileName);
-		if (mp3file.hasID3v1Tag()) {
-
-			// test tri par author
-			// sortedByAutor(mp3file);
-
-			// test tri album
-			// sortedByAlbum(mp3file);
-
-			// tri artiste album
-			sortedByAuthorAndAlbum(mp3file);
-
-		} else {
-			System.out.println("file: " + mp3file.getFilenameTag().composeFilename() + " ID3 not suported ");
-			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
-			throw e;
-		}
-	}
-	
 	private void doLoadDTO(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 
@@ -83,7 +61,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			// sortedByAlbum(mp3file);
 
 			// tri artiste album
-			sortedByAuthorAndAlbum2(dto);
+			sortedByAuthorAndAlbum(dto);
 
 		} else {
 			System.out.println("file: " + dto.getFileName() + " ID3 not suported ");
@@ -124,53 +102,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 	}
 
-	private void sortedByAuthorAndAlbum(MP3File song) throws IOException, TagNotFoundException {
-
-		File autorDir = null;
-		File albumDir = null;
-		String songAuthor = song.getID3v1Tag().getArtist();
-		String songAlbum = song.getID3v1Tag().getAlbum();
-		String fileName = song.getFilenameTag().composeFilename();
-		String pathFile = song.getMp3file().getPath();
-		String sortedTarget = "";
-		String pathAutorDir = "";
-		String pathAlbumDir = "";
-
-		if ((songAuthor != "") && (!songAuthor.isEmpty())) {
-			if ((songAlbum != "") && (!songAlbum.isEmpty())) {
-				System.out.println(songAlbum + "-" + songAuthor);
-				autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
-				if (!managerFile.validateDirectory(autorDir)) {
-					if (!autorDir.mkdir()) {
-						IOException e = new IOException("echec creation repertoire " + autorDir.getPath());
-						throw e;
-					}
-				}
-
-				pathAutorDir = autorDir.getPath();
-				albumDir = new File(dirSorted.getPath() + File.separator + songAuthor + File.separator + songAlbum);
-				if (!managerFile.validateDirectory(albumDir)) {
-					if (!albumDir.mkdir()) {
-						IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
-						throw e;
-					}
-
-				}
-				pathAlbumDir = albumDir.getPath();
-				sortedTarget = pathAlbumDir + File.separator + fileName;
-
-				managerFile.move(pathFile, sortedTarget);
-			} else {
-				TagNotFoundException e = new TagNotFoundException("no album");
-				throw e;
-			}
-		} else {
-
-			TagNotFoundException e = new TagNotFoundException("no artiste");
-			throw e;
-		}
-	}
-	private void sortedByAuthorAndAlbum2(MusicDto song) throws IOException, TagNotFoundException {
+	private void sortedByAuthorAndAlbum(MusicDto song) throws IOException, TagNotFoundException {
 
 		File autorDir = null;
 		File albumDir = null;
@@ -179,7 +111,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String fileName = song.getFileName();
 		String pathFile = song.getPathFile();
 		String sortedTarget = "";
-		String pathAutorDir = "";
 		String pathAlbumDir = "";
 
 		if ((songAuthor != "") && (!songAuthor.isEmpty())) {
@@ -193,7 +124,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 					}
 				}
 
-				pathAutorDir = autorDir.getPath();
 				albumDir = new File(dirSorted.getPath() + File.separator + songAuthor + File.separator + songAlbum);
 				if (!managerFile.validateDirectory(albumDir)) {
 					if (!albumDir.mkdir()) {
@@ -249,11 +179,10 @@ public class MusicFileBandMaster extends FileBandMaster {
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 
 		// doLoadMyMpId3(pathFileName);
-		//doLoadLibId3(pathFileName);
 		doLoadDTO(pathFileName);
 	}
 
-	private void runSortMusicFile() {
+	private void runSortMp3Music() {
 		ArrayList<String> listeFichiersIn;
 		String fileNameitem = "";
 		String pahtFileItem = "";
@@ -305,6 +234,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 	}
 
 	public void runSortFile() {
-		runSortMusicFile();
+		runSortMp3Music();
 	}
 }
