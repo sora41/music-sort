@@ -10,12 +10,13 @@ import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
 
 import datatransfert.MusicDto;
+import repository.IRepositoryMusicFile;
 import repository.RepositoryMusicFile;
 import repository.TestMp3;
 
 public class MusicFileBandMaster extends FileBandMaster {
 
-	private RepositoryMusicFile repoMusic;
+	private IRepositoryMusicFile repoMusic;
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) {
 		super(dirIn, dirOut, dirSorted);
 		repoMusic = new RepositoryMusicFile();
@@ -55,10 +56,10 @@ public class MusicFileBandMaster extends FileBandMaster {
 		if (null != dto) {
 
 			// test tri par author
-			// sortedByAutor(mp3file);
+			 //sortedByAutor(dto);
 
 			// test tri album
-			// sortedByAlbum(mp3file);
+			//sortedByAlbum(dto);
 
 			// tri artiste album
 			sortedByAuthorAndAlbum(dto);
@@ -70,12 +71,13 @@ public class MusicFileBandMaster extends FileBandMaster {
 		}
 	}
 
-	private void sortedByAutor(MP3File song) throws IOException, TagNotFoundException {
+	
+	private void sortedByAutor(MusicDto song) throws IOException, TagNotFoundException {
 
 		File autorDir = null;
-		String songAuthor = song.getID3v1Tag().getArtist();
-		String fileName = song.getFilenameTag().composeFilename();
-		String pathFile = song.getMp3file().getPath();
+		String songAuthor = song.getAuthor();
+		String fileName = song.getFileName();
+		String pathFile = song.getPathFile();
 		String sortedTarget = "";
 		String pathAutorDir = "";
 		// System.out.println("Artiste: "+songAuthor);
@@ -147,12 +149,12 @@ public class MusicFileBandMaster extends FileBandMaster {
 		}
 	}
 
-	private void sortedByAlbum(MP3File song) throws IOException, TagNotFoundException {
+	private void sortedByAlbum(MusicDto song) throws IOException, TagNotFoundException {
 
 		File albumDir = null;
-		String songAlbum = song.getID3v1Tag().getAlbum();
-		String fileName = song.getFilenameTag().composeFilename();
-		String pathFile = song.getMp3file().getPath();
+		String songAlbum = song.getAlbum();
+		String fileName = song.getFileName();
+		String pathFile = song.getPathFile();
 		String sortedTarget = "";
 		String pathAlbumDir = "";
 
@@ -174,7 +176,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			throw e;
 		}
 	}
-
+	
 	private void loadMp3Id3(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 
