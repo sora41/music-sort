@@ -33,6 +33,11 @@ public class MusicDto {
 	 */
 	private String pathFile;
 
+	/**
+	 * annee de parution
+	 */
+	private String Years;
+
 	public String getFileName() {
 		return fileName;
 	}
@@ -71,6 +76,14 @@ public class MusicDto {
 
 	public void setSongName(String songName) {
 		this.songName = songName;
+	}
+
+	public String getYears() {
+		return Years;
+	}
+
+	public void setYears(String years) {
+		Years = years;
 	}
 
 }
