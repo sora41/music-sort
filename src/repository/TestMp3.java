@@ -12,10 +12,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 
-import org.farng.mp3.MP3File;
-import org.farng.mp3.TagException;
-import org.farng.mp3.id3.AbstractID3v2;
-
 public class TestMp3 {
 
 	private String convertCharset(String text) {
@@ -30,20 +26,6 @@ public class TestMp3 {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	public void loadMp3Id3(String fileName) throws IOException, TagException {
-		MP3File mp3file = new MP3File(fileName);
-		AbstractID3v2 tag = mp3file.getID3v2Tag();
-		String title = tag.getSongTitle();
-
-		System.out.println("Title : " + convertCharset(title));
-		System.out.println(mp3file.getID3v1Tag().getTitle());
-		/*
-		 * if (mp3file.hasID3v1Tag()) { System.out.println("ID3v1"); if
-		 * (mp3file.hasID3v2Tag()) System.out.println("ID3v2"); }
-		 */
-
 	}
 
 	public void loadMp3Mannuel(String fileName) {
