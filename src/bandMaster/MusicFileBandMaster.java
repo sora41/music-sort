@@ -71,7 +71,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private void sortedByAutor(MusicDto song) throws IOException, TagNotFoundException {
 
 		File autorDir = null;
-		String songAuthor = song.getAuthor();
+		String songAuthor = applyFormatRuleGenerale( song.getAuthor());
 		String fileName = song.getFileName();
 		String pathFile = song.getPathFile();
 		String sortedTarget = "";
@@ -103,8 +103,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 		File autorDir = null;
 		File albumDir = null;
-		String songAuthor = song.getAuthor();
-		String songAlbum = applyFormatRuleAlbum(song.getAlbum());
+		String songAuthor = applyFormatRuleGenerale(song.getAuthor());
+		String songAlbum = applyFormatRuleGenerale(song.getAlbum());
 		String fileName = song.getFileName();
 		String pathFile = song.getPathFile();
 		String sortedTarget = "";
@@ -147,7 +147,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private void sortedByAlbum(MusicDto song) throws IOException, TagNotFoundException {
 
 		File albumDir = null;
-		String songAlbum =  applyFormatRuleAlbum(song.getAlbum());
+		String songAlbum =  applyFormatRuleGenerale(song.getAlbum());
 		String fileName = song.getFileName();
 		String pathFile = song.getPathFile();
 		String sortedTarget = "";
@@ -227,11 +227,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 		}
 	}
 	
-	private String applyFormatRuleAlbum(String rawAlbum)
+	private String applyFormatRuleGenerale(String raw)
 	{
 		String formatResult ="";
 		// supresion espace debans et deriere
-		formatResult= rawAlbum.trim();
+		formatResult= raw.trim();
 		// tout en maj
 		formatResult = formatResult.toUpperCase();
 		// remplace les double espace par un simple
@@ -243,6 +243,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		
 		return formatResult;
 	}
+	
 	
 	public void runSortFile() {
 		runSortMp3Music();
