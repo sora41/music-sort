@@ -44,11 +44,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 		return listeFichiers;
 	}
 
-	private void doLoadMyMpId3(String pathFileName) {
-		TestMp3 mp3 = new TestMp3();
-		mp3.loadMp3Mannuel(pathFileName);
-	}
-
 	private void doLoadDTO(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 
@@ -180,7 +175,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private void loadMp3Id3(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 
-		// doLoadMyMpId3(pathFileName);
 		doLoadDTO(pathFileName);
 	}
 
