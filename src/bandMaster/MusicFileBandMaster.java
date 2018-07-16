@@ -46,8 +46,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 	private void doLoadDTO(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
-
+		// extraction d'information du fiçhier mp3 dans le dto 
 		MusicDto dto  = repoMusic.getDataToMusicFile(pathFileName);
+		
 		if (null != dto) {
 
 			// test tri par author
@@ -75,10 +76,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String pathFile = song.getPathFile();
 		String sortedTarget = "";
 		String pathAutorDir = "";
-		// System.out.println("Artiste: "+songAuthor);
+	
 		if ((songAuthor != "") && (!songAuthor.isEmpty())) {
-			// System.out.println(dirSorted.getPath() + File.separator +
-			// songAuthor);
+			
 
 			autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
 			if (!managerFile.validateDirectory(autorDir)) {
@@ -104,7 +104,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		File autorDir = null;
 		File albumDir = null;
 		String songAuthor = song.getAuthor();
-		String songAlbum = song.getAlbum();
+		String songAlbum = applyFormatRuleAlbum(song.getAlbum());
 		String fileName = song.getFileName();
 		String pathFile = song.getPathFile();
 		String sortedTarget = "";
@@ -147,7 +147,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private void sortedByAlbum(MusicDto song) throws IOException, TagNotFoundException {
 
 		File albumDir = null;
-		String songAlbum = song.getAlbum();
+		String songAlbum =  applyFormatRuleAlbum(song.getAlbum());
 		String fileName = song.getFileName();
 		String pathFile = song.getPathFile();
 		String sortedTarget = "";
@@ -181,7 +181,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private void runSortMp3Music() {
 		ArrayList<String> listeFichiersIn;
 		String fileNameitem = "";
-		String pahtFileItem = "";
+		String pathFileItem = "";
 		int tabSize = 0;
 		/*
 		 * https://www.jmdoudoux.fr/java/dej/chap-nio2.htm
@@ -202,13 +202,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 				System.out.println("contains " + tabSize + " files");
 				for (int i = 0; i < tabSize; i++) {
 					fileNameitem = listeFichiersIn.get(i);
-					pahtFileItem = dirIn + File.separator + fileNameitem;
+					pathFileItem = dirIn + File.separator + fileNameitem;
 					try {
 						System.out.println("sort" + i + " :: " + (tabSize - 1));
-						// li faut separer l extraction d'information du
-						// traitement
-
-						loadMp3Id3(pahtFileItem);
+						
+						doLoadDTO(pathFileItem);
 					} catch (IOException | TagException | UnsupportedOperationException e) {
 						System.out.println(e.getMessage());
 						// e.printStackTrace();
@@ -218,7 +216,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 							// System.out.println(e.getClass() +
 							// e.getMessage());
 							//moveFile(pahtFileItem, dirOut + File.separator + fileNameitem);
-							managerFile.move(pahtFileItem, dirOut + File.separator + fileNameitem);
+							managerFile.move(pathFileItem, dirOut + File.separator + fileNameitem);
 						} catch (IOException e2) {
 							System.err.println("imposible de deplacer le Fichier " + fileNameitem);
 							System.err.println("du repertoir:" + dirIn + " vers le repertoire " + dirOut);
@@ -228,7 +226,24 @@ public class MusicFileBandMaster extends FileBandMaster {
 			}
 		}
 	}
-
+	
+	private String applyFormatRuleAlbum(String rawAlbum)
+	{
+		String formatResult ="";
+		// supresion espace debans et deriere
+		formatResult= rawAlbum.trim();
+		// tout en maj
+		formatResult = formatResult.toUpperCase();
+		// remplace les double espace par un simple
+		formatResult = formatResult.replaceAll("  ", "_");
+		// remplace les simple espace par un underscore
+		formatResult = formatResult.replaceAll(" ", "_");
+		// remplace un tiret par un underscore
+				formatResult = formatResult.replaceAll("-", "_");
+		
+		return formatResult;
+	}
+	
 	public void runSortFile() {
 		runSortMp3Music();
 	}
