@@ -1,6 +1,9 @@
 package repository;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -98,6 +101,77 @@ public class RepositoryFile implements IRepositoryFile {
 			e.printStackTrace();
 		}
 		return nomFichiers;
+	}
+	
+	public void writeFile(String fileName, String Contenu, Boolean erase) {
+		File f = new File(fileName);
+		FileOutputStream fos = null;
+		try {
+			fos = new FileOutputStream(f, !erase);
+			fos.write(Contenu.getBytes(), 0, Contenu.getBytes().length);
+			fos.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public String readFile (String fileName, int stop) {
+		File f = new File(fileName);
+		String chaine = "";
+		FileInputStream fis = null;
+		int n = 0;
+		int avaible = 0;
+		try {
+			// Instanciation du FIleInputStream
+			fis = new FileInputStream(f);
+			// Tableau de byte taille 8 pour la lecture du flux
+			byte[] buffer = new byte[8];
+			n = fis.read(buffer);
+			while (n >= 0) {
+				for (int i = 0; i <= n - 1; i++)
+					chaine = chaine + (char) buffer[i];
+
+				avaible++;
+				if (avaible >= stop)
+					n = -1;
+				else
+					n = fis.read(buffer);
+			}
+			fis.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return chaine;
+	}
+
+	public String readFile(String fileName) {
+		File f = new File(fileName);
+		String chaine = "";
+		
+		FileInputStream fis = null;
+		try {
+			// Instanciation du FIleInputStream
+			fis = new FileInputStream(f);
+			// Tableau de byte taille 8 pour la lecture du flux
+			byte[] buffer = new byte[8];
+			int n = 0;
+			//int avaible = 0;
+			while ((n = fis.read(buffer)) >= 0) {
+				//avaible = fis.available();
+				for (int i = 0; i <= n - 1; i++)
+					chaine = chaine + (char) buffer[i];
+			}
+			fis.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return chaine;
 	}
 
 }
