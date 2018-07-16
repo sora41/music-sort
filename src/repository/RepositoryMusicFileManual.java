@@ -32,6 +32,9 @@ public class RepositoryMusicFileManual implements IRepositoryMusicFile {
 					dto.setSongName(id3.substring(3, 32));
 					dto.setAuthor(id3.substring(33, 62));
 					dto.setAlbum(id3.substring(63, 91));
+					dto.setYears(id3.substring(93, 97));
+					dto.setFileName(song.getName());
+					dto.setPathFile(pathFileName);
 
 				} else
 					System.out.println(" does not contain" + " ID3 information.");

@@ -24,6 +24,7 @@ public class RepositoryMusicFile implements IRepositoryMusicFile {
 			SongDto.setAuthor(mp3file.getID3v1Tag().getArtist());
 			SongDto.setPathFile(mp3file.getMp3file().getPath());
 			SongDto.setSongName(mp3file.getID3v1Tag().getTitle());
+			SongDto.setYears(mp3file.getID3v1Tag().getYear());
 
 			return SongDto;
 		} else {
