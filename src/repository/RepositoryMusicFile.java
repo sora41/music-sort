@@ -28,7 +28,7 @@ public class RepositoryMusicFile implements IRepositoryMusicFile {
 
 			return SongDto;
 		} else {
-			System.out.println("file: " + mp3file.getFilenameTag().composeFilename() + " ID3 not suported ");
+			//System.out.println("file: " + mp3file.getFilenameTag().composeFilename() + " ID3 not suported ");
 			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
 			throw e;
 		}

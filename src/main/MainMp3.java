@@ -2,7 +2,6 @@ package main;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
@@ -29,8 +28,7 @@ public class MainMp3 {
 			e1.printStackTrace();
 		}
 
-		loggerMp3.setLevel(Level.FINE);
-		//loggerMp3.addHandler(new ConsoleHandler());
+		loggerMp3.setLevel(Level.ALL);
 	}
 
 	public static void initApplication() {
