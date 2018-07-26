@@ -31,7 +31,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			e1.printStackTrace();
 		}
 
-		loggerBandMaster.setLevel(Level.ALL);
+		//loggerBandMaster.setLevel(Level.WARNING);
 	}
 
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) {
@@ -229,7 +229,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 						loggerBandMaster.log(Level.INFO, "sort" + i + " :: " + (tabSize - 1));
 						doLoadDTO(pathFileItem);
 					} catch (IOException | TagException | UnsupportedOperationException e) {
-						loggerBandMaster.log(Level.INFO, e.getMessage());
+						loggerBandMaster.log(Level.SEVERE,  "Fichier : "+ fileNameitem +" "+ e.getMessage());
 						//System.out.println(e.getMessage());
 						// e.printStackTrace();
 						try {

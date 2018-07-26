@@ -28,7 +28,7 @@ public class MainMp3 {
 			e1.printStackTrace();
 		}
 
-		loggerMp3.setLevel(Level.ALL);
+		loggerMp3.setLevel(Level.WARNING);
 	}
 
 	public static void initApplication() {
