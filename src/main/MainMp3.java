@@ -38,7 +38,7 @@ public class MainMp3 {
 	}
 
 	public static void runTest() {
-
+		loggerMp3.log(Level.INFO, "lancement test");
 		test.runTest();
 	}
 
