@@ -43,13 +43,10 @@ public class MainMp3 {
 	}
 
 	public static void runProcces() {
-		//System.out.println("lancement reset");
 		loggerMp3.log(Level.INFO, "lancement reset");
 		musicSorter.resetDirectories();
-		//System.out.println("lancement initalisation");
 		loggerMp3.log(Level.INFO, "lancement initalisation");
 		musicSorter.initDirectorieIn(DIRECTORY_BACK);
-		//System.out.println("lancement tri");
 		loggerMp3.log(Level.INFO, "lancement tri");
 		musicSorter.runSortFile();
 	}
