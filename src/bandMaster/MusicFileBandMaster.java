@@ -17,7 +17,6 @@ import main.MainMp3;
 import repository.IRepositoryMusicFile;
 import repository.RepositoryMusicFile;
 
-
 public class MusicFileBandMaster extends FileBandMaster {
 
 	private IRepositoryMusicFile repoMusic;
@@ -31,7 +30,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			e1.printStackTrace();
 		}
 
-		//loggerBandMaster.setLevel(Level.WARNING);
+		// loggerBandMaster.setLevel(Level.WARNING);
 	}
 
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) {
@@ -79,8 +78,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			sortedByAuthorAndAlbum(dto);
 
 		} else {
-			loggerBandMaster.log(Level.INFO,"file: " + dto.getFileName() + " ID3 not suported ");
-			//System.out.println("file: " + dto.getFileName() + " ID3 not suported ");
+			loggerBandMaster.log(Level.INFO, "file: " + dto.getFileName() + " ID3 not suported ");
 			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
 			throw e;
 		}
@@ -129,9 +127,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 		if ((songAuthor != "") && (!songAuthor.isEmpty())) {
 			if ((songAlbum != "") && (!songAlbum.isEmpty())) {
-				loggerBandMaster.log(Level.INFO,songAlbum + "-" + songAuthor);
-				
-				//System.out.println(songAlbum + "-" + songAuthor);
+				loggerBandMaster.log(Level.INFO, songAlbum + "-" + songAuthor);
 				autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
 				if (!managerFile.validateDirectory(autorDir)) {
 					if (!autorDir.mkdir()) {
@@ -202,11 +198,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String fileNameitem = "";
 		String pathFileItem = "";
 		int tabSize = 0;
-		/*
-		 * https://www.jmdoudoux.fr/java/dej/chap-nio2.htm
-		 * https://docs.oracle.com/javase/7/docs/api/index.html?java/io/File.
-		 * html
-		 */
 
 		// etape 1 tester sur les repertoire suivant existe
 		// sinon les cree
@@ -214,36 +205,24 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 			listeFichiersIn = getListeFilesMp3(dirIn.getPath());
 			loggerBandMaster.log(Level.INFO, "Load dir" + dirIn);
-			// System.out.println("Load dir" + dirIn);
 			// tester si on a des fichier dans le repertoire in
 			tabSize = listeFichiersIn.size();
 			if (tabSize > 0) {
 				// afficherFileListe(listeFichiersIn);
 				loggerBandMaster.log(Level.INFO, "contains " + tabSize + " files");
-				//System.out.println("contains " + tabSize + " files");
 				for (int i = 0; i < tabSize; i++) {
 					fileNameitem = listeFichiersIn.get(i);
 					pathFileItem = dirIn + File.separator + fileNameitem;
 					try {
-						//System.out.println("sort" + i + " :: " + (tabSize - 1));
 						loggerBandMaster.log(Level.INFO, "sort" + i + " :: " + (tabSize - 1));
 						doLoadDTO(pathFileItem);
 					} catch (IOException | TagException | UnsupportedOperationException e) {
-						loggerBandMaster.log(Level.SEVERE,  "Fichier : "+ fileNameitem +" "+ e.getMessage());
-						//System.out.println(e.getMessage());
-						// e.printStackTrace();
+						loggerBandMaster.log(Level.SEVERE, "Fichier : " + fileNameitem + " " + e.getMessage());
 						try {
-							// System.out.println("move: " + pahtFileItem + " to
-							// dir" + dirOut);
-							// System.out.println(e.getClass() +
-							// e.getMessage());
-							// moveFile(pahtFileItem, dirOut + File.separator +
-							// fileNameitem);
 							managerFile.move(pathFileItem, dirOut + File.separator + fileNameitem);
 						} catch (IOException e2) {
-							loggerBandMaster.log(Level.SEVERE, "imposible de deplacer le Fichier " + fileNameitem+"du repertoir:" + dirIn + " vers le repertoire " + dirOut);
-							//System.err.println("imposible de deplacer le Fichier " + fileNameitem);
-							//System.err.println("du repertoir:" + dirIn + " vers le repertoire " + dirOut);
+							loggerBandMaster.log(Level.SEVERE, "imposible de deplacer le Fichier " + fileNameitem
+									+ "du repertoir:" + dirIn + " vers le repertoire " + dirOut);
 						}
 					}
 				}
