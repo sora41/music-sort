@@ -244,6 +244,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 		formatResult = formatResult.replaceAll("-", "_");
 		// supresion les guillement 
 		formatResult = formatResult.replaceAll("\"", "");
+		// supresion des slash \
+		formatResult = formatResult.replaceAll("/", "");
 		return formatResult;
 	}
 
