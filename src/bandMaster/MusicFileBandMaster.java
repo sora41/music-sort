@@ -242,7 +242,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 		formatResult = formatResult.replaceAll(" ", "_");
 		// remplace un tiret par un underscore
 		formatResult = formatResult.replaceAll("-", "_");
-
+		// supresion les guillement 
+		formatResult = formatResult.replaceAll("\"", "");
 		return formatResult;
 	}
 
@@ -250,3 +251,4 @@ public class MusicFileBandMaster extends FileBandMaster {
 		runSortMp3Music();
 	}
 }
+ 
