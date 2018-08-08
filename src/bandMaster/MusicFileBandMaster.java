@@ -42,9 +42,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 	/**
 	 * fonction qui recupere la liste des fichier a traite recupere tout la
 	 * liste contenu dans le repertoire et suprime de la liste tout ce qui ne
-	 * finis pas .mp3 (dans un premier temps )
+	 * finis pas .mp3 
 	 */
-	private ArrayList<String> getListeFilesMp3(String dirName) {
+	private ArrayList<String> getListeFilesMP3(String dirName) {
 		// System.out.println("getlistefiles music band");
 		ArrayList<String> listeFichiers = managerFile.listeFilesOnDirectory(dirName);
 		int fileNumber = listeFichiers.size();
@@ -54,8 +54,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 			// System.out.println(i);
 			fileNameItem = listeFichiers.get(i);
 			// System.out.println(fileNameItem);
-			if (!fileNameItem.endsWith(".mp3"))
+			if (!fileNameItem.endsWith(".mp3")) {
+				// if (!fileNameItem.endsWith(".wma")){
 				listeFichiers.remove(i);
+				// }
+			}
 		}
 
 		return listeFichiers;
@@ -203,7 +206,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		// sinon les cree
 		if (validateDirectorys()) {
 
-			listeFichiersIn = getListeFilesMp3(dirIn.getPath());
+			listeFichiersIn = getListeFilesMP3(dirIn.getPath());
 			loggerBandMaster.log(Level.INFO, "Load dir" + dirIn);
 			// tester si on a des fichier dans le repertoire in
 			tabSize = listeFichiersIn.size();
@@ -242,7 +245,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		formatResult = formatResult.replaceAll(" ", "_");
 		// remplace un tiret par un underscore
 		formatResult = formatResult.replaceAll("-", "_");
-		// supresion les guillement 
+		// supresion les guillement
 		formatResult = formatResult.replaceAll("\"", "");
 		// supresion des slash \
 		formatResult = formatResult.replaceAll("/", "");
@@ -253,4 +256,3 @@ public class MusicFileBandMaster extends FileBandMaster {
 		runSortMp3Music();
 	}
 }
- 
