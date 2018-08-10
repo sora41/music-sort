@@ -28,7 +28,7 @@ public class MainMp3 {
 			e1.printStackTrace();
 		}
 
-		loggerMp3.setLevel(Level.SEVERE);
+		loggerMp3.setLevel(Level.ALL);
 	}
 
 	public static void initApplication() {
@@ -49,6 +49,7 @@ public class MainMp3 {
 		musicSorter.initDirectorieIn(DIRECTORY_BACK);
 		loggerMp3.log(Level.INFO, "lancement tri");
 		musicSorter.runSortFile();
+		loggerMp3.log(Level.INFO, "fin du  tri");
 	}
 
 	public static void main(String[] args) {
@@ -56,5 +57,6 @@ public class MainMp3 {
 		initApplication();
 		runProcces();
 		// runTest();
+		loggerMp3.log(Level.INFO, "fin de l'application ");
 	}
 }
