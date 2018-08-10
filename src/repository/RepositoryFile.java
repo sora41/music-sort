@@ -20,10 +20,8 @@ public class RepositoryFile implements IRepositoryFile {
 			deleteFile.delete();
 
 		} else {
-			// TODO Raise exception
 			System.out.println("fichier a supermier existe pas " + pathFileName);
 		}
-
 	}
 
 	@Override
@@ -46,21 +44,19 @@ public class RepositoryFile implements IRepositoryFile {
 				delete(pahtItem);
 			}
 		}
-
 	}
 
 	@Override
-	public void move(String OrginalePathName, String FinalPahtName) throws IOException {
-		File f = new File(OrginalePathName);
-		if (f.exists()) {
-			File f2 = new File(FinalPahtName);
+	public void move(String orginalePathName, String finalPahtName) throws IOException {
+		File originsfile = new File(orginalePathName);
+		if (originsfile.exists()) {
+			File f2 = new File(finalPahtName);
 
-			Path pf = f.toPath();
+			Path pf = originsfile.toPath();
 			Path pf2 = f2.toPath();
-			
+
 			Files.move(pf, pf2, StandardCopyOption.REPLACE_EXISTING);
 		}
-
 	}
 
 	@Override
@@ -74,7 +70,6 @@ public class RepositoryFile implements IRepositoryFile {
 
 			Files.copy(pf, pf2, StandardCopyOption.REPLACE_EXISTING);
 		}
-
 	}
 
 	@Override
@@ -85,7 +80,6 @@ public class RepositoryFile implements IRepositoryFile {
 				if (dir.isDirectory())
 					resultas = true;
 		return resultas;
-
 	}
 
 	@Override
@@ -102,7 +96,7 @@ public class RepositoryFile implements IRepositoryFile {
 		}
 		return nomFichiers;
 	}
-	
+
 	public void writeFile(String fileName, String Contenu, Boolean erase) {
 		File f = new File(fileName);
 		FileOutputStream fos = null;
@@ -116,8 +110,8 @@ public class RepositoryFile implements IRepositoryFile {
 			e.printStackTrace();
 		}
 	}
-	
-	public String readFile (String fileName, int stop) {
+
+	public String readFile(String fileName, int stop) {
 		File f = new File(fileName);
 		String chaine = "";
 		FileInputStream fis = null;
@@ -151,7 +145,7 @@ public class RepositoryFile implements IRepositoryFile {
 	public String readFile(String fileName) {
 		File f = new File(fileName);
 		String chaine = "";
-		
+
 		FileInputStream fis = null;
 		try {
 			// Instanciation du FIleInputStream
@@ -159,9 +153,9 @@ public class RepositoryFile implements IRepositoryFile {
 			// Tableau de byte taille 8 pour la lecture du flux
 			byte[] buffer = new byte[8];
 			int n = 0;
-			//int avaible = 0;
+			// int avaible = 0;
 			while ((n = fis.read(buffer)) >= 0) {
-				//avaible = fis.available();
+				// avaible = fis.available();
 				for (int i = 0; i <= n - 1; i++)
 					chaine = chaine + (char) buffer[i];
 			}
@@ -173,5 +167,4 @@ public class RepositoryFile implements IRepositoryFile {
 		}
 		return chaine;
 	}
-
 }
