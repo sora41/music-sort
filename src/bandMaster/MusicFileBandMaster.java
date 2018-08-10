@@ -21,7 +21,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 	private IRepositoryMusicFile repoMusic;
 	private static Logger loggerBandMaster = Logger.getLogger(MainMp3.class.getName());
-	
+
 	private static void initLog() {
 
 		try {
@@ -42,7 +42,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	/**
 	 * fonction qui recupere la liste des fichier a traite recupere tout la
 	 * liste contenu dans le repertoire et suprime de la liste tout ce qui ne
-	 * finis pas .mp3 
+	 * finis pas .mp3
 	 */
 	private ArrayList<String> getListeFilesMP3(String dirName) {
 		// System.out.println("getlistefiles music band");
@@ -63,18 +63,17 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 		return listeFichiers;
 	}
-   
+
 	private MusicDto doLoadDTO(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 		// extraction d'information du fiçhier mp3 dans le dto
 		MusicDto dto = repoMusic.getDataToMusicFile(pathFileName);
-		
+
 		if (null == dto) {
-			loggerBandMaster.log(Level.INFO, "file: " + dto.getFileName() + " ID3 not suported ");
+			loggerBandMaster.log(Level.INFO, "file: " + pathFileName + " ID3 not suported ");
 			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
 			throw e;
-		}
-		else {
+		} else {
 			return dto;
 		}
 	}
@@ -188,53 +187,87 @@ public class MusicFileBandMaster extends FileBandMaster {
 		doLoadDTO(pathFileName);
 	}
 
-	private void runSortMp3Music() {
+	private void doRunSortMusic() {
 		ArrayList<String> listeFichiersIn;
-		String fileNameitem = "";
-		String pathFileItem = "";
-		MusicDto musicDtoItem;
+
 		int tabSize = 0;
 
 		// etape 1 tester sur les repertoire suivant existe
 		// sinon les cree
 		if (validateDirectorys()) {
-
-			listeFichiersIn = getListeFilesMP3(dirIn.getPath());
 			loggerBandMaster.log(Level.INFO, "Load dir" + dirIn);
-			// tester si on a des fichier dans le repertoire in
-			tabSize = listeFichiersIn.size();
-			if (tabSize > 0) {
-				// afficherFileListe(listeFichiersIn);
-				loggerBandMaster.log(Level.INFO, "contains " + tabSize + " files");
-				for (int i = 0; i < tabSize; i++) {
-					fileNameitem = listeFichiersIn.get(i);
-					pathFileItem = dirIn + File.separator + fileNameitem;
-					try {
-						loggerBandMaster.log(Level.INFO, "sort" + i + " :: " + (tabSize - 1));
-						musicDtoItem = doLoadDTO(pathFileItem);
-						
-						// test tri par author
-						// sortedByAutor(dto);
+			listeFichiersIn = managerFile.listeFilesOnDirectory(dirIn.getPath());
+			loggerBandMaster.log(Level.INFO, "clean files not mp3");
+			// netoyer la liste de fichier pour ne garder que les fichier mp3
+			rejectFileNotMp3(listeFichiersIn);
+			//
+			sortFilesMp3(listeFichiersIn);
+		}
+	}
 
-						// test tri album
-						// sortedByAlbum(dto);
+	private void rejectFileNotMp3(ArrayList<String> listeFichiersIn) {
+		int fileNumber = 0;
+		String fileNameItem = "";
+		String pathFileItem = "";
 
-						// tri artiste album
-						sortedByAuthorAndAlbum(musicDtoItem);
-						
-						
-					} catch (IOException | TagException | UnsupportedOperationException e) {
-						loggerBandMaster.log(Level.SEVERE, "Fichier : " + fileNameitem + " " + e.getMessage());
-						try {
-							managerFile.move(pathFileItem, dirError + File.separator + fileNameitem);
-						} catch (IOException e2) {
-							loggerBandMaster.log(Level.SEVERE, "imposible de deplacer le Fichier " + fileNameitem
-									+ "du repertoir:" + dirIn + " vers le repertoire " + dirOut);
-						}
-					}
+		fileNumber = listeFichiersIn.size();
+		for (int i = fileNumber - 1; i >= 0; i--) {
+			fileNameItem = listeFichiersIn.get(i);
+			pathFileItem = dirIn + File.separator + fileNameItem;
+			if (!fileNameItem.endsWith(".mp3") && !fileNameItem.equals(".gitkeep")) {
+				try {
+					managerFile.move(pathFileItem, dirNotSuported + File.separator + fileNameItem);
+				} catch (IOException e2) {
+					loggerBandMaster.log(Level.SEVERE, "imposible de deplacer le Fichier " + fileNameItem
+							+ "du repertoir:" + dirIn + " vers le repertoire " + dirNotSuported);
 				}
+				listeFichiersIn.remove(i);
 			}
 		}
+	}
+
+	private void sortFilesMp3(ArrayList<String> listeFichiersIn) {
+		int tabSize = 0;
+		String fileNameitem = "";
+		// tester si on a des fichier dans le repertoire in
+		tabSize = listeFichiersIn.size();
+		if (tabSize > 0) {
+			loggerBandMaster.log(Level.INFO, "contains " + tabSize + " files");
+			for (int i = 0; i < tabSize; i++) {
+				fileNameitem = listeFichiersIn.get(i);
+				loggerBandMaster.log(Level.INFO, "sort" + i + " :: " + (tabSize - 1));
+				sortFileMp3(fileNameitem);
+			}
+		}
+	}
+
+	private void sortFileMp3(String fileName) {
+		MusicDto musicDtoItem;
+		String pathFileItem = "";
+		pathFileItem = dirIn + File.separator + fileName;
+		try {
+
+			musicDtoItem = doLoadDTO(pathFileItem);
+
+			// test tri par author
+			// sortedByAutor(dto);
+
+			// test tri album
+			// sortedByAlbum(dto);
+
+			// tri artiste album
+			sortedByAuthorAndAlbum(musicDtoItem);
+
+		} catch (IOException | TagException | UnsupportedOperationException e) {
+			loggerBandMaster.log(Level.SEVERE, "Fichier : " + fileName + " " + e.getMessage());
+			try {
+				managerFile.move(pathFileItem, dirError + File.separator + fileName);
+			} catch (IOException e2) {
+				loggerBandMaster.log(Level.SEVERE, "imposible de deplacer le Fichier " + fileName + "du repertoir:"
+						+ dirIn + " vers le repertoire " + dirError);
+			}
+		}
+
 	}
 
 	private String applyFormatRuleGenerale(String raw) {
@@ -257,6 +290,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 	}
 
 	public void runSortFile() {
-		runSortMp3Music();
+		doRunSortMusic();
 	}
 }
