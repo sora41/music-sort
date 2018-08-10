@@ -16,13 +16,19 @@ public abstract class FileBandMaster {
 	protected File dirIn;
 	protected File dirOut;
 	protected File dirSorted;
-	protected IRepositoryFile managerFile;// = new RepositoryFile();
+	private static final String DIR_NOT_SUPORTED = "NotSuported";
+	private static final String DIR_ERROR = "Erro";
+	protected File dirNotSuported;
+	protected File dirError;
+	protected IRepositoryFile managerFile;
 
 	public FileBandMaster(String dirIn, String dirOut, String dirSorted) {
 		this.dirIn = new File(dirIn);
 		this.dirOut = new File(dirOut);
+		this.dirError = new File(dirOut + File.separator + DIR_ERROR);
+		this.dirNotSuported = new File(dirOut + File.separator + DIR_NOT_SUPORTED);
 		this.dirSorted = new File(dirSorted);
-		this.managerFile  = new RepositoryFile();
+		this.managerFile = new RepositoryFile();
 	}
 
 	public File getDirIn() {
@@ -49,6 +55,22 @@ public abstract class FileBandMaster {
 		this.dirSorted = dirSorted;
 	}
 
+	public File getDirNotSuported() {
+		return dirNotSuported;
+	}
+
+	public void setDirNotSuported(File dirNotSuported) {
+		this.dirNotSuported = dirNotSuported;
+	}
+
+	public File getDirError() {
+		return dirError;
+	}
+
+	public void setDirError(File dirError) {
+		this.dirError = dirError;
+	}
+
 	protected boolean validateDirectorys() {
 		boolean resultas = true;
 
@@ -58,12 +80,18 @@ public abstract class FileBandMaster {
 		if ((!managerFile.validateDirectory(dirOut)) && (resultas))
 			resultas = dirOut.mkdir();
 
+		if ((!managerFile.validateDirectory(dirError)) && (resultas))
+			resultas = dirError.mkdir();
+
+		if ((!managerFile.validateDirectory(dirNotSuported)) && (resultas))
+			resultas = dirNotSuported.mkdir();
+
 		if ((!managerFile.validateDirectory(dirSorted)) && (resultas))
 			resultas = dirSorted.mkdir();
 
 		return resultas;
 	}
-	
+
 	public void resetDirectories() {
 		managerFile.recursiveDelete(this.dirIn.getPath());
 		managerFile.recursiveDelete(this.dirOut.getPath());
@@ -75,7 +103,7 @@ public abstract class FileBandMaster {
 		ArrayList<String> listeFichiersBack;
 		String fileNameitem = "";
 		String pahtFileItem = "";
-
+		System.out.println("initalisation  " + backDir);
 		if (managerFile.validateDirectory(back) == true) {
 			listeFichiersBack = managerFile.listeFilesOnDirectory(back.getPath());
 			if (listeFichiersBack.size() > 0) {
@@ -87,8 +115,8 @@ public abstract class FileBandMaster {
 						try {
 							managerFile.copy(pahtFileItem, dirIn.getPath() + File.separator + fileNameitem);
 						} catch (IOException e) {
-							System.err.println("imposible de deplacer le Fichier " + fileNameitem);
-							System.err.println("du repertoir:" + dirIn + " vers le repertoire " + dirOut);
+							System.out.println("imposible de deplacer le Fichier " + fileNameitem);
+							System.out.println("du repertoir:" + dirIn + " vers le repertoire " + dirOut);
 						}
 					}
 
