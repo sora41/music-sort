@@ -21,7 +21,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 	private IRepositoryMusicFile repoMusic;
 	private static Logger loggerBandMaster = Logger.getLogger(MainMp3.class.getName());
-
+	
 	private static void initLog() {
 
 		try {
@@ -222,7 +222,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 					} catch (IOException | TagException | UnsupportedOperationException e) {
 						loggerBandMaster.log(Level.SEVERE, "Fichier : " + fileNameitem + " " + e.getMessage());
 						try {
-							managerFile.move(pathFileItem, dirOut + File.separator + fileNameitem);
+							managerFile.move(pathFileItem, dirError + File.separator + fileNameitem);
 						} catch (IOException e2) {
 							loggerBandMaster.log(Level.SEVERE, "imposible de deplacer le Fichier " + fileNameitem
 									+ "du repertoir:" + dirIn + " vers le repertoire " + dirOut);
