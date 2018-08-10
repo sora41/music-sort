@@ -63,27 +63,19 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 		return listeFichiers;
 	}
-
-	private void doLoadDTO(String pathFileName)
+   
+	private MusicDto doLoadDTO(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 		// extraction d'information du fiçhier mp3 dans le dto
 		MusicDto dto = repoMusic.getDataToMusicFile(pathFileName);
-
-		if (null != dto) {
-
-			// test tri par author
-			// sortedByAutor(dto);
-
-			// test tri album
-			// sortedByAlbum(dto);
-
-			// tri artiste album
-			sortedByAuthorAndAlbum(dto);
-
-		} else {
+		
+		if (null == dto) {
 			loggerBandMaster.log(Level.INFO, "file: " + dto.getFileName() + " ID3 not suported ");
 			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
 			throw e;
+		}
+		else {
+			return dto;
 		}
 	}
 
@@ -200,6 +192,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		ArrayList<String> listeFichiersIn;
 		String fileNameitem = "";
 		String pathFileItem = "";
+		MusicDto musicDtoItem;
 		int tabSize = 0;
 
 		// etape 1 tester sur les repertoire suivant existe
@@ -218,7 +211,18 @@ public class MusicFileBandMaster extends FileBandMaster {
 					pathFileItem = dirIn + File.separator + fileNameitem;
 					try {
 						loggerBandMaster.log(Level.INFO, "sort" + i + " :: " + (tabSize - 1));
-						doLoadDTO(pathFileItem);
+						musicDtoItem = doLoadDTO(pathFileItem);
+						
+						// test tri par author
+						// sortedByAutor(dto);
+
+						// test tri album
+						// sortedByAlbum(dto);
+
+						// tri artiste album
+						sortedByAuthorAndAlbum(musicDtoItem);
+						
+						
 					} catch (IOException | TagException | UnsupportedOperationException e) {
 						loggerBandMaster.log(Level.SEVERE, "Fichier : " + fileNameitem + " " + e.getMessage());
 						try {
