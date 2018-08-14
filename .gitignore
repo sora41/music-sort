@@ -1,5 +1,4 @@
 /.settings
-/bin
-/libJavaID3
 /Music/back
 /*.classpath
+/target
