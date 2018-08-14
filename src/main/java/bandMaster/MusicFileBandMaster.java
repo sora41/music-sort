@@ -22,18 +22,16 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private IRepositoryMusicFile repoMusic;
 	private static Logger loggerBandMaster = Logger.getLogger(MainMp3.class.getName());
 
-	private static void initLog() {
+	private static void initLog() throws SecurityException, FileNotFoundException, IOException {
 
-		try {
+
 			LogManager.getLogManager().readConfiguration(new FileInputStream("mp3logging.properties"));
-		} catch (SecurityException | IOException e1) {
-			e1.printStackTrace();
-		}
+		
 
 		// loggerBandMaster.setLevel(Level.WARNING);
 	}
 
-	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) {
+	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) throws SecurityException, FileNotFoundException, IOException {
 		super(dirIn, dirOut, dirSorted);
 		repoMusic = new RepositoryMusicFile();
 		initLog();

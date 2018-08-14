@@ -1,6 +1,7 @@
 package main;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -20,18 +21,13 @@ public class MainMp3 {
 
 	private static Logger loggerMp3 = Logger.getLogger(MainMp3.class.getName());
 
-	private static void initLog() {
+	private static void initLog() throws SecurityException, FileNotFoundException, IOException {
 
-		try {
-			LogManager.getLogManager().readConfiguration(new FileInputStream("mp3logging.properties"));
-		} catch (SecurityException | IOException e1) {
-			e1.printStackTrace();
-		}
-
+		LogManager.getLogManager().readConfiguration(new FileInputStream("mp3logging.properties"));
 		loggerMp3.setLevel(Level.ALL);
 	}
 
-	public static void initApplication() {
+	public static void initApplication() throws SecurityException, FileNotFoundException, IOException {
 		musicSorter = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 		test = new TestCode();
 		initLog();
@@ -54,9 +50,15 @@ public class MainMp3 {
 
 	public static void main(String[] args) {
 
-		initApplication();
-		runProcces();
-		// runTest();
+		try {
+			initApplication();
+			runProcces();
+			// runTest();
+		} catch (SecurityException | IOException e) {
+			System.out.println("echec lors de l'initalisation de l'application ");
+			System.out.println(e.getMessage());
+		}
+	
 		loggerMp3.log(Level.INFO, "fin de l'application ");
 	}
 }
