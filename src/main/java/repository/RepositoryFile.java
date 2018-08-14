@@ -18,7 +18,6 @@ public class RepositoryFile implements IRepositoryFile {
 		File deleteFile = new File(pathFileName);
 		if (deleteFile.exists()) {
 			deleteFile.delete();
-
 		} else {
 			System.out.println("fichier a supermier existe pas " + pathFileName);
 		}
@@ -28,7 +27,6 @@ public class RepositoryFile implements IRepositoryFile {
 	public void recursiveDelete(String pathFileName) {
 
 		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
-
 		File fileItem;
 		String pahtItem;
 
@@ -50,25 +48,25 @@ public class RepositoryFile implements IRepositoryFile {
 	public void move(String orginalePathName, String finalPahtName) throws IOException {
 		File originsfile = new File(orginalePathName);
 		if (originsfile.exists()) {
-			File f2 = new File(finalPahtName);
-
-			Path pf = originsfile.toPath();
-			Path pf2 = f2.toPath();
-
-			Files.move(pf, pf2, StandardCopyOption.REPLACE_EXISTING);
+			File finalFile = new File(finalPahtName);
+			
+			Path patheOrginsFile = originsfile.toPath();
+			Path pathFinalFile = finalFile.toPath();
+			
+			Files.move(patheOrginsFile, pathFinalFile, StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
 
 	@Override
 	public void copy(String OrginalePathName, String FinalPahtName) throws IOException {
-		File f = new File(OrginalePathName);
-		if (f.exists()) {
-			File f2 = new File(FinalPahtName);
+		File originsfile = new File(OrginalePathName);
+		if (originsfile.exists()) {
+			File finalFile = new File(FinalPahtName);
 
-			Path pf = f.toPath();
-			Path pf2 = f2.toPath();
+			Path patheOrginsFile = originsfile.toPath();
+			Path pathFinalFile = finalFile.toPath();
 
-			Files.copy(pf, pf2, StandardCopyOption.REPLACE_EXISTING);
+			Files.copy(patheOrginsFile, pathFinalFile, StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
 
@@ -87,6 +85,7 @@ public class RepositoryFile implements IRepositoryFile {
 
 		ArrayList<String> nomFichiers = new ArrayList<>();
 		File repertoire = new File(dirName);
+		
 		try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath())) {
 			for (Path path : directoryStream) {
 				nomFichiers.add(path.getFileName().toString());
@@ -98,12 +97,12 @@ public class RepositoryFile implements IRepositoryFile {
 	}
 
 	public void writeFile(String fileName, String Contenu, Boolean erase) {
-		File f = new File(fileName);
-		FileOutputStream fos = null;
+		File file = new File(fileName);
+		FileOutputStream fileOutPutStream = null;
 		try {
-			fos = new FileOutputStream(f, !erase);
-			fos.write(Contenu.getBytes(), 0, Contenu.getBytes().length);
-			fos.close();
+			fileOutPutStream = new FileOutputStream(file, !erase);
+			fileOutPutStream.write(Contenu.getBytes(), 0, Contenu.getBytes().length);
+			fileOutPutStream.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -112,17 +111,17 @@ public class RepositoryFile implements IRepositoryFile {
 	}
 
 	public String readFile(String fileName, int stop) {
-		File f = new File(fileName);
+		File file = new File(fileName);
 		String chaine = "";
-		FileInputStream fis = null;
+		FileInputStream fileInputStream = null;
 		int n = 0;
 		int avaible = 0;
 		try {
 			// Instanciation du FIleInputStream
-			fis = new FileInputStream(f);
+			fileInputStream = new FileInputStream(file);
 			// Tableau de byte taille 8 pour la lecture du flux
 			byte[] buffer = new byte[8];
-			n = fis.read(buffer);
+			n = fileInputStream.read(buffer);
 			while (n >= 0) {
 				for (int i = 0; i <= n - 1; i++)
 					chaine = chaine + (char) buffer[i];
@@ -131,9 +130,9 @@ public class RepositoryFile implements IRepositoryFile {
 				if (avaible >= stop)
 					n = -1;
 				else
-					n = fis.read(buffer);
+					n = fileInputStream.read(buffer);
 			}
-			fis.close();
+			fileInputStream.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -143,23 +142,21 @@ public class RepositoryFile implements IRepositoryFile {
 	}
 
 	public String readFile(String fileName) {
-		File f = new File(fileName);
+		File file = new File(fileName);
 		String chaine = "";
 
-		FileInputStream fis = null;
+		FileInputStream fileInputStream = null;
 		try {
 			// Instanciation du FIleInputStream
-			fis = new FileInputStream(f);
+			fileInputStream = new FileInputStream(file);
 			// Tableau de byte taille 8 pour la lecture du flux
 			byte[] buffer = new byte[8];
 			int n = 0;
-			// int avaible = 0;
-			while ((n = fis.read(buffer)) >= 0) {
-				// avaible = fis.available();
+			while ((n = fileInputStream.read(buffer)) >= 0) {
 				for (int i = 0; i <= n - 1; i++)
 					chaine = chaine + (char) buffer[i];
 			}
-			fis.close();
+			fileInputStream.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
