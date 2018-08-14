@@ -12,6 +12,6 @@ public interface IRepositoryMusicFile {
 	public abstract MusicDto getDataToMusicFile(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException;
 
-	public abstract boolean saveDataToMusicFile(MusicDto data);
+	public abstract boolean saveDataToMusicFile(MusicDto data) throws Exception;
 
 }

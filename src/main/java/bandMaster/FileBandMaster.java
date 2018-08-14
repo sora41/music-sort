@@ -1,6 +1,7 @@
 package bandMaster;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -92,13 +93,13 @@ public abstract class FileBandMaster {
 		return resultas;
 	}
 
-	public void resetDirectories() {
+	public void resetDirectories() throws IOException {
 		managerFile.recursiveDelete(this.dirIn.getPath());
 		managerFile.recursiveDelete(this.dirOut.getPath());
 		managerFile.recursiveDelete(this.dirSorted.getPath());
 	}
 
-	public void initDirectorieIn(String backDir) {
+	public void initDirectorieIn(String backDir) throws IOException {
 		File back = new File(backDir);
 		ArrayList<String> listeFichiersBack;
 		String fileNameitem = "";
@@ -122,8 +123,12 @@ public abstract class FileBandMaster {
 
 				}
 			}
+		} else {
+			FileNotFoundException e = new FileNotFoundException(
+					"repertoire: " + back.getAbsolutePath() + " introuvable");
+			throw e;
 		}
 	}
 
-	public abstract void runSortFile();
+	public abstract void runSortFile() throws IOException;
 }

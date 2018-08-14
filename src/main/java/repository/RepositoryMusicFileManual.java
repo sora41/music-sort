@@ -45,14 +45,13 @@ public class RepositoryMusicFileManual implements IRepositoryMusicFile {
 		} finally {
 			file.close();
 		}
-
 		return dto;
 	}
 
 	@Override
-	public boolean saveDataToMusicFile(MusicDto data) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean saveDataToMusicFile(MusicDto data) throws Exception {
+		Exception e = new Exception("fonction non implementer");
+		throw e;
 	}
 
 }

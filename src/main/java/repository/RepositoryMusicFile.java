@@ -28,9 +28,9 @@ public class RepositoryMusicFile implements IRepositoryMusicFile {
 	}
 
 	@Override
-	public boolean saveDataToMusicFile(MusicDto data) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean saveDataToMusicFile(MusicDto data) throws Exception {
+		Exception e = new Exception("fonction non implementer");
+		throw e;
 	}
 
 	private MusicDto getID3DataV1(MP3File mp3file)

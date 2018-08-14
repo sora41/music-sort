@@ -14,17 +14,19 @@ import java.util.ArrayList;
 public class RepositoryFile implements IRepositoryFile {
 
 	@Override
-	public void delete(String pathFileName) {
+	public void delete(String pathFileName) throws FileNotFoundException {
 		File deleteFile = new File(pathFileName);
 		if (deleteFile.exists()) {
 			deleteFile.delete();
 		} else {
-			System.out.println("fichier a supermier existe pas " + pathFileName);
+			FileNotFoundException e = new FileNotFoundException("fichier a suprimer existe pas " + pathFileName);
+			;
+			throw e;
 		}
 	}
 
 	@Override
-	public void recursiveDelete(String pathFileName) {
+	public void recursiveDelete(String pathFileName) throws IOException {
 
 		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
 		File fileItem;
@@ -49,10 +51,10 @@ public class RepositoryFile implements IRepositoryFile {
 		File originsfile = new File(orginalePathName);
 		if (originsfile.exists()) {
 			File finalFile = new File(finalPahtName);
-			
+
 			Path patheOrginsFile = originsfile.toPath();
 			Path pathFinalFile = finalFile.toPath();
-			
+
 			Files.move(patheOrginsFile, pathFinalFile, StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
@@ -81,17 +83,20 @@ public class RepositoryFile implements IRepositoryFile {
 	}
 
 	@Override
-	public ArrayList<String> listeFilesOnDirectory(String dirName) {
+	public ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException {
 
 		ArrayList<String> nomFichiers = new ArrayList<>();
 		File repertoire = new File(dirName);
-		
-		try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath())) {
+
+		if (repertoire.exists()) {
+			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath());
 			for (Path path : directoryStream) {
 				nomFichiers.add(path.getFileName().toString());
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		}
+		else{
+			FileNotFoundException e = new FileNotFoundException("repertoire: "+repertoire.getAbsolutePath()+" introuvable");
+			throw e;
 		}
 		return nomFichiers;
 	}

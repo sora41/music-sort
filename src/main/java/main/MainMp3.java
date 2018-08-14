@@ -38,13 +38,15 @@ public class MainMp3 {
 		test.runTest();
 	}
 
-	public static void runProcces() {
+	public static void runProcces() throws IOException {
+
 		loggerMp3.log(Level.INFO, "lancement reset");
 		musicSorter.resetDirectories();
 		loggerMp3.log(Level.INFO, "lancement initalisation");
 		musicSorter.initDirectorieIn(DIRECTORY_BACK);
 		loggerMp3.log(Level.INFO, "lancement tri");
 		musicSorter.runSortFile();
+
 		loggerMp3.log(Level.INFO, "fin du  tri");
 	}
 
@@ -55,10 +57,10 @@ public class MainMp3 {
 			runProcces();
 			// runTest();
 		} catch (SecurityException | IOException e) {
-			System.out.println("echec lors de l'initalisation de l'application ");
+			System.out.println("echec lors du lancement de l'application ");
 			System.out.println(e.getMessage());
 		}
-	
+
 		loggerMp3.log(Level.INFO, "fin de l'application ");
 	}
 }

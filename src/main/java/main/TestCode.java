@@ -38,11 +38,11 @@ public class TestCode {
 		RepositoryFile repoFile = new RepositoryFile();
 		RepositoryMusicFile repoMusic = new RepositoryMusicFile();
 		ArrayList<String> namefiles;
-		namefiles = repoFile.listeFilesOnDirectory(DirIn);
-		String path = DirIn + File.separator + namefiles.get(1);
-		//afficheStringArray(namefiles);
-		System.out.println(path);
 		try {
+			namefiles = repoFile.listeFilesOnDirectory(DirIn);
+			String path = DirIn + File.separator + namefiles.get(1);
+			// afficheStringArray(namefiles);
+			System.out.println(path);
 
 			mp3 = repoMusic.getDataToMusicFile(path);
 			afficheMusicDto(mp3);
@@ -59,11 +59,12 @@ public class TestCode {
 		RepositoryFile repoFile = new RepositoryFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileManual();
 		ArrayList<String> namefiles;
+		try {
 		namefiles = repoFile.listeFilesOnDirectory(DirIn);
 		String path = DirIn + File.separator + namefiles.get(1);
-		//afficheStringArray(namefiles);
+		// afficheStringArray(namefiles);
 		System.out.println(path);
-		try {
+
 
 			mp3 = repoMusic.getDataToMusicFile(path);
 			afficheMusicDto(mp3);

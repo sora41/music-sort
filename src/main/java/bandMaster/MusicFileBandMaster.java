@@ -41,8 +41,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 	 * fonction qui recupere la liste des fichier a traite recupere tout la
 	 * liste contenu dans le repertoire et suprime de la liste tout ce qui ne
 	 * finis pas .mp3
+	 * @throws IOException 
 	 */
-	private ArrayList<String> getListeFilesMP3(String dirName) {
+	private ArrayList<String> getListeFilesMP3(String dirName) throws IOException {
 		// System.out.println("getlistefiles music band");
 		ArrayList<String> listeFichiers = managerFile.listeFilesOnDirectory(dirName);
 		int fileNumber = listeFichiers.size();
@@ -185,7 +186,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		doLoadDTO(pathFileName);
 	}
 
-	private void doRunSortMusic() {
+	private void doRunSortMusic() throws IOException {
 		ArrayList<String> listeFichiersIn;
 
 		int tabSize = 0;
@@ -287,7 +288,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		return formatResult;
 	}
 
-	public void runSortFile() {
+	public void runSortFile() throws IOException {
 		doRunSortMusic();
 	}
 }
