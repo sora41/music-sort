@@ -14,6 +14,9 @@ import repository.RepositoryMusicFileManual;
 
 public class TestCode {
 
+	private static final String DIRECTORY_TEST_MP3 = "Music\\test\\filesmp3";
+	private static final String DIRECTORY_TEST_CLEAN = "Music\\test\\dircleaner";
+	private static final String DIRECTORY_INIT_CLEAN = "Music\\test\\initfile";
 	public void afficheMusicDto(MusicDto dto) {
 		if (null != dto) {
 
@@ -40,7 +43,7 @@ public class TestCode {
 		ArrayList<String> namefiles;
 		try {
 			namefiles = repoFile.listeFilesOnDirectory(DirIn);
-			String path = DirIn + File.separator + namefiles.get(1);
+			String path = DirIn + File.separator + namefiles.get(0);
 			// afficheStringArray(namefiles);
 			System.out.println(path);
 
@@ -60,11 +63,10 @@ public class TestCode {
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileManual();
 		ArrayList<String> namefiles;
 		try {
-		namefiles = repoFile.listeFilesOnDirectory(DirIn);
-		String path = DirIn + File.separator + namefiles.get(1);
-		// afficheStringArray(namefiles);
-		System.out.println(path);
-
+			namefiles = repoFile.listeFilesOnDirectory(DirIn);
+			String path = DirIn + File.separator + namefiles.get(0);
+			// afficheStringArray(namefiles);
+			System.out.println(path);
 
 			mp3 = repoMusic.getDataToMusicFile(path);
 			afficheMusicDto(mp3);
@@ -73,14 +75,21 @@ public class TestCode {
 
 			e.printStackTrace();
 		}
+	}
+
+	public void test_deletefileRecursif(String DirToClean) {
 
 	}
 
 	public void runTest() {
 		System.out.println("----------------testGetDtoMusique----------------------");
-		testGetDtoMusique("Music\\back");
+		testGetDtoMusique(DIRECTORY_TEST_MP3);
+
 		System.out.println("-------------------testLoadManualRepository------------");
-		testLoadManualRepository("Music\\back");
+		testLoadManualRepository(DIRECTORY_TEST_MP3);
+
+		/*System.out.println("-------------------test_delete_ recursif------------");
+		test_deletefileRecursif(DIRECTORY_TEST_CLEAN);*/
 
 	}
 }
