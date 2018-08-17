@@ -11,17 +11,17 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
-public class RepositoryFile implements IRepositoryFile {
+public class RepositoryNativeFile implements IRepositoryFile {
 
 	@Override
-	public void delete(String pathFileName) throws FileNotFoundException {
+	public void delete(String pathFileName) throws IOException {
 		File deleteFile = new File(pathFileName);
 		if (deleteFile.exists()) {
-			
+
 			if (deleteFile.delete() == true) {
-				System.out.println("supresion "+ pathFileName+" reussi");
+				System.out.println("supresion " + pathFileName + " reussi");
 			} else {
-				System.out.println("supresion "+ pathFileName+" echec");
+				System.out.println("supresion " + pathFileName + " echec");
 			}
 		} else {
 			FileNotFoundException e = new FileNotFoundException("fichier a suprimer existe pas " + pathFileName);
@@ -30,12 +30,14 @@ public class RepositoryFile implements IRepositoryFile {
 		}
 	}
 
+	
+
 	@Override
 	public void recursiveDelete(String pathFileName) throws IOException {
 
 		System.out.println("lancement delete recursif sur le repertoire ");
 		System.out.println(pathFileName);
-		
+
 		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
 		File fileItem;
 		String pahtItem;
@@ -49,11 +51,13 @@ public class RepositoryFile implements IRepositoryFile {
 					recursiveDelete(pahtItem);
 				}
 			}
+
 			if (pahtItem.contains(".gitkeep") == false) {
 				System.out.println("delete" + pahtItem);
 				delete(pahtItem);
 			}
 		}
+
 	}
 
 	@Override
