@@ -30,8 +30,6 @@ public class RepositoryNativeFile implements IRepositoryFile {
 		}
 	}
 
-	
-
 	@Override
 	public void recursiveDelete(String pathFileName) throws IOException {
 
@@ -57,7 +55,6 @@ public class RepositoryNativeFile implements IRepositoryFile {
 				delete(pahtItem);
 			}
 		}
-
 	}
 
 	@Override
