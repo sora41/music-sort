@@ -10,7 +10,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 
 import repository.IRepositoryFile;
-import repository.RepositoryFile;
+import repository.RepositoryNativeFile;
 
 public abstract class FileBandMaster {
 
@@ -29,7 +29,7 @@ public abstract class FileBandMaster {
 		this.dirError = new File(dirOut + File.separator + DIR_ERROR);
 		this.dirNotSuported = new File(dirOut + File.separator + DIR_NOT_SUPORTED);
 		this.dirSorted = new File(dirSorted);
-		this.managerFile = new RepositoryFile();
+		this.managerFile = new RepositoryNativeFile();
 	}
 
 	public File getDirIn() {
@@ -112,7 +112,6 @@ public abstract class FileBandMaster {
 					fileNameitem = listeFichiersBack.get(i);
 					pahtFileItem = backDir + File.separator + fileNameitem;
 					if (pahtFileItem.contains(".gitkeep") == false) {
-
 						try {
 							managerFile.copy(pahtFileItem, dirIn.getPath() + File.separator + fileNameitem);
 						} catch (IOException e) {

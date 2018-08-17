@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public interface IRepositoryFile {
 
-	public abstract void delete(String pathFileName)throws FileNotFoundException;
+	public abstract void delete(String pathFileName)throws FileNotFoundException, IOException;
 
 	public abstract void recursiveDelete(String pathFileName) throws  IOException;
 

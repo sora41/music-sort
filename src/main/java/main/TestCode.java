@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import org.farng.mp3.TagException;
 
 import datatransfert.MusicDto;
+import repository.IRepositoryFile;
 import repository.IRepositoryMusicFile;
-import repository.RepositoryFile;
 import repository.RepositoryMusicFile;
 import repository.RepositoryMusicFileManual;
+import repository.RepositoryNativeFile;
 
 public class TestCode {
 
@@ -38,7 +39,7 @@ public class TestCode {
 	public void testGetDtoMusique(String DirIn) {
 
 		MusicDto mp3;
-		RepositoryFile repoFile = new RepositoryFile();
+		IRepositoryFile repoFile = new RepositoryNativeFile();
 		RepositoryMusicFile repoMusic = new RepositoryMusicFile();
 		ArrayList<String> namefiles;
 		try {
@@ -59,7 +60,7 @@ public class TestCode {
 
 	public void testLoadManualRepository(String DirIn) {
 		MusicDto mp3;
-		RepositoryFile repoFile = new RepositoryFile();
+		IRepositoryFile repoFile = new RepositoryNativeFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileManual();
 		ArrayList<String> namefiles;
 		try {
