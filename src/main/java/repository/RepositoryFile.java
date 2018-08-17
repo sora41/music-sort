@@ -17,7 +17,12 @@ public class RepositoryFile implements IRepositoryFile {
 	public void delete(String pathFileName) throws FileNotFoundException {
 		File deleteFile = new File(pathFileName);
 		if (deleteFile.exists()) {
-			deleteFile.delete();
+			
+			if (deleteFile.delete() == true) {
+				System.out.println("supresion "+ pathFileName+" reussi");
+			} else {
+				System.out.println("supresion "+ pathFileName+" echec");
+			}
 		} else {
 			FileNotFoundException e = new FileNotFoundException("fichier a suprimer existe pas " + pathFileName);
 			;
@@ -28,10 +33,14 @@ public class RepositoryFile implements IRepositoryFile {
 	@Override
 	public void recursiveDelete(String pathFileName) throws IOException {
 
+		System.out.println("lancement delete recursif sur le repertoire ");
+		System.out.println(pathFileName);
+		
 		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
 		File fileItem;
 		String pahtItem;
-
+		int taille = fileList.size();
+		System.out.println("contient" + taille);
 		for (int i = 0; i < fileList.size(); i++) {
 			pahtItem = pathFileName + File.separator + fileList.get(i);
 			fileItem = new File(pahtItem);
@@ -41,6 +50,7 @@ public class RepositoryFile implements IRepositoryFile {
 				}
 			}
 			if (pahtItem.contains(".gitkeep") == false) {
+				System.out.println("delete" + pahtItem);
 				delete(pahtItem);
 			}
 		}
@@ -93,9 +103,9 @@ public class RepositoryFile implements IRepositoryFile {
 			for (Path path : directoryStream) {
 				nomFichiers.add(path.getFileName().toString());
 			}
-		}
-		else{
-			FileNotFoundException e = new FileNotFoundException("repertoire: "+repertoire.getAbsolutePath()+" introuvable");
+		} else {
+			FileNotFoundException e = new FileNotFoundException(
+					"repertoire: " + repertoire.getAbsolutePath() + " introuvable");
 			throw e;
 		}
 		return nomFichiers;
