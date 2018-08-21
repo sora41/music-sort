@@ -1,7 +1,9 @@
 package repository;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -72,14 +74,30 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 
 	@Override
 	public boolean validateDirectory(File dir) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean resultas = false;
+		if (dir != null)
+			if (dir.exists())
+				if (dir.isDirectory())
+					resultas = true;
+		return resultas;
 	}
 
 	@Override
 	public ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<String> nomFichiers = new ArrayList<>();
+		File repertoire = new File(dirName);
+
+		if (repertoire.exists()) {
+			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath());
+			for (Path path : directoryStream) {
+				nomFichiers.add(path.getFileName().toString());
+			}
+		} else {
+			FileNotFoundException e = new FileNotFoundException(
+					"repertoire: " + repertoire.getAbsolutePath() + " introuvable");
+			throw e;
+		}
+		return nomFichiers;
 	}
 
 }
