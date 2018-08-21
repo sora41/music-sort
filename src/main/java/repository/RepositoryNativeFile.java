@@ -10,8 +10,32 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
+
 
 public class RepositoryNativeFile implements IRepositoryFile {
+
+	private static Logger loggerMp3 = Logger.getLogger(RepositoryNativeFile.class.getName());
+	
+	private static void initLog() throws SecurityException, FileNotFoundException, IOException {
+
+		LogManager.getLogManager().readConfiguration(new FileInputStream("mp3logging.properties"));
+		loggerMp3.setLevel(Level.ALL);
+	}
+	
+	
+	public RepositoryNativeFile() {
+		try {
+			initLog();
+		} catch (Exception e) {
+			System.out.println("echec initalisation des logs sur la classe "+this.getClass().getName());
+		}
+		
+	}
+
 
 	@Override
 	public void delete(String pathFileName) throws IOException {
