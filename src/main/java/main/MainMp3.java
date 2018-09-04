@@ -1,11 +1,9 @@
 package main;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import bandMaster.MusicFileBandMaster;
 
@@ -19,56 +17,53 @@ public class MainMp3 {
 	private static MusicFileBandMaster musicSorter;
 	private static TestCode test;
 
-	private static Logger loggerMp3 = Logger.getLogger(MainMp3.class.getName());
-
-	private static void initLog() throws SecurityException, FileNotFoundException, IOException {
-
-		LogManager.getLogManager().readConfiguration(new FileInputStream("mp3logging.properties"));
-		loggerMp3.setLevel(Level.ALL);
-	}
+	private static final Logger LOGGER4J = LogManager.getLogger(MainMp3.class.getName());
 
 	public static void initApplication() throws SecurityException, FileNotFoundException, IOException {
 		musicSorter = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 		test = new TestCode();
-		initLog();
+
 	}
 
 	public static void runTest() {
-		loggerMp3.log(Level.INFO, "lancement test");
+		LOGGER4J.info("demarage des tests");
 		test.runTest();
+		LOGGER4J.info("fin des tests");
 	}
 
 	public static void runProcces() throws IOException {
 
-		loggerMp3.log(Level.INFO, "lancement reset");
+		LOGGER4J.info("demarage Reset");
 		musicSorter.resetDirectories();
-	
-		loggerMp3.log(Level.INFO, "lancement initalisation");
+		LOGGER4J.info("fin Reset");
+
+		LOGGER4J.info("demarage sequence initalisation ");
 		musicSorter.initDirectorieIn(DIRECTORY_BACK);
-		
-		loggerMp3.log(Level.INFO, "lancement tri");
+		LOGGER4J.info("Fin initialisation ");
+
+		LOGGER4J.info("demarage du tri");
 		musicSorter.runSortFile();
-		loggerMp3.log(Level.INFO, "fin du  tri");
+		LOGGER4J.info("fin du tri");
 
 	}
 
 	public static void debugReset() throws IOException {
 
-		loggerMp3.log(Level.INFO, "lancement reset");
 		musicSorter.resetDirectories();
 	}
 
 	public static void main(String[] args) {
-
+		LOGGER4J.info("demarage de l'application");
 		try {
 			initApplication();
 			runProcces();
 			// runTest();
 		} catch (SecurityException | IOException e) {
-			loggerMp3.log(Level.SEVERE, e.getClass() +e.getMessage());
-			
-		}
 
-		loggerMp3.log(Level.INFO, "fin de l'application ");
+			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),
+					e.getStackTrace());
+
+		}
+		LOGGER4J.info("fin de l'application ");
 	}
 }

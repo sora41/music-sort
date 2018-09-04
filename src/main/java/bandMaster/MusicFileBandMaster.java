@@ -20,21 +20,21 @@ import repository.RepositoryMusicFile;
 public class MusicFileBandMaster extends FileBandMaster {
 
 	private IRepositoryMusicFile repoMusic;
-	private static Logger loggerBandMaster = Logger.getLogger(MainMp3.class.getName());
+	//private static Logger loggerBandMaster = Logger.getLogger(MainMp3.class.getName());
 
-	private static void initLog() throws SecurityException, FileNotFoundException, IOException {
+	//private static void initLog() throws SecurityException, FileNotFoundException, IOException {
 
 
-			LogManager.getLogManager().readConfiguration(new FileInputStream("mp3logging.properties"));
+			//LogManager.getLogManager().readConfiguration(new FileInputStream("mp3logging.properties"));
 		
 
 		// loggerBandMaster.setLevel(Level.WARNING);
-	}
+	//}
 
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) throws SecurityException, FileNotFoundException, IOException {
 		super(dirIn, dirOut, dirSorted);
 		repoMusic = new RepositoryMusicFile();
-		initLog();
+		//initLog();
 	}
 
 	/**

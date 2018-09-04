@@ -18,6 +18,7 @@ public class TestCode {
 	private static final String DIRECTORY_TEST_MP3 = "Music\\test\\filesmp3";
 	private static final String DIRECTORY_TEST_CLEAN = "Music\\test\\dircleaner";
 	private static final String DIRECTORY_INIT_CLEAN = "Music\\test\\initfile";
+	
 	public void afficheMusicDto(MusicDto dto) {
 		if (null != dto) {
 
