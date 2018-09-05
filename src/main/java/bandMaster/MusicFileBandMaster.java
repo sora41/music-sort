@@ -1,7 +1,6 @@
 package bandMaster;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,9 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
-
 import datatransfert.MusicDto;
-import main.MainMp3;
 import repository.IRepositoryMusicFile;
 import repository.RepositoryMusicFile;
 
@@ -134,7 +131,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 				throw e;
 			}
 		} else {
-
 			TagNotFoundException e = new TagNotFoundException("no artiste");
 			throw e;
 		}
@@ -198,12 +194,19 @@ public class MusicFileBandMaster extends FileBandMaster {
 		int fileNumber = 0;
 		String fileNameItem = "";
 		String pathFileItem = "";
-
+		boolean isMp3 = false;
+		boolean containegitkeep = false;
+		
 		fileNumber = listeFichiersIn.size();
 		for (int i = fileNumber - 1; i >= 0; i--) {
 			fileNameItem = listeFichiersIn.get(i);
 			pathFileItem = dirIn + File.separator + fileNameItem;
-			if (!fileNameItem.endsWith(".mp3") && !fileNameItem.contains(".gitkeep")) {
+			isMp3 =fileNameItem.endsWith(".mp3");
+			containegitkeep =fileNameItem.contains(".gitkeep");
+			// ca fait quoi ca tu vois ce n'est pas asser clair
+			// si ce n'est pas un mp3 et pas gitkeep 
+			// je les deplace dans le repertoire notsuported et je retire de la liste 
+			if (!isMp3 && containegitkeep) {
 				try {
 					managerFile.move(pathFileItem, dirNotSuported + File.separator + fileNameItem);
 				} catch (IOException e2) {
