@@ -5,10 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
 
@@ -20,43 +18,33 @@ import repository.RepositoryMusicFile;
 public class MusicFileBandMaster extends FileBandMaster {
 
 	private IRepositoryMusicFile repoMusic;
-	//private static Logger loggerBandMaster = Logger.getLogger(MainMp3.class.getName());
+	private static final Logger LOGGER4J = LogManager.getLogger(MusicFileBandMaster.class.getName());
 
-	//private static void initLog() throws SecurityException, FileNotFoundException, IOException {
-
-
-			//LogManager.getLogManager().readConfiguration(new FileInputStream("mp3logging.properties"));
-		
-
-		// loggerBandMaster.setLevel(Level.WARNING);
-	//}
-
-	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) throws SecurityException, FileNotFoundException, IOException {
+	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted)
+			throws SecurityException, FileNotFoundException, IOException {
 		super(dirIn, dirOut, dirSorted);
 		repoMusic = new RepositoryMusicFile();
-		//initLog();
 	}
 
 	/**
 	 * fonction qui recupere la liste des fichier a traite recupere tout la
 	 * liste contenu dans le repertoire et suprime de la liste tout ce qui ne
 	 * finis pas .mp3
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	private ArrayList<String> getListeFilesMP3(String dirName) throws IOException {
-		// System.out.println("getlistefiles music band");
+		LOGGER4J.trace("getlistefiles music band");
 		ArrayList<String> listeFichiers = managerFile.listeFilesOnDirectory(dirName);
 		int fileNumber = listeFichiers.size();
 		String fileNameItem = "";
-		// System.out.println(fileNumber);
+		LOGGER4J.trace(fileNumber);
 		for (int i = fileNumber - 1; i >= 0; i--) {
-			// System.out.println(i);
+			LOGGER4J.trace(i);
 			fileNameItem = listeFichiers.get(i);
-			// System.out.println(fileNameItem);
+			LOGGER4J.trace(fileNameItem);
 			if (!fileNameItem.endsWith(".mp3")) {
-				// if (!fileNameItem.endsWith(".wma")){
 				listeFichiers.remove(i);
-				// }
 			}
 		}
 
@@ -69,7 +57,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		MusicDto dto = repoMusic.getDataToMusicFile(pathFileName);
 
 		if (null == dto) {
-			//loggerBandMaster.log(Level.INFO, "file: " + pathFileName + " ID3 not suported ");
+
 			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
 			throw e;
 		} else {
@@ -120,7 +108,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 		if ((songAuthor != "") && (!songAuthor.isEmpty())) {
 			if ((songAlbum != "") && (!songAlbum.isEmpty())) {
-				//loggerBandMaster.log(Level.INFO, songAlbum + "-" + songAuthor);
+				LOGGER4J.trace(songAuthor + "-" + songAlbum + "-" + fileName);
 				autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
 				if (!managerFile.validateDirectory(autorDir)) {
 					if (!autorDir.mkdir()) {
@@ -194,9 +182,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 		// etape 1 tester sur les repertoire suivant existe
 		// sinon les cree
 		if (validateDirectorys()) {
-			//loggerBandMaster.log(Level.INFO, "Load dir" + dirIn);
+			LOGGER4J.debug("Load dir" + dirIn);
+			// loggerBandMaster.log(Level.INFO, "Load dir" + dirIn);
 			listeFichiersIn = managerFile.listeFilesOnDirectory(dirIn.getPath());
-			//loggerBandMaster.log(Level.INFO, "clean files not mp3");
+			LOGGER4J.debug("clean files not mp3");
+			// loggerBandMaster.log(Level.INFO, "clean files not mp3");
 			// netoyer la liste de fichier pour ne garder que les fichier mp3
 			rejectFileNotMp3(listeFichiersIn);
 			//
@@ -213,12 +203,14 @@ public class MusicFileBandMaster extends FileBandMaster {
 		for (int i = fileNumber - 1; i >= 0; i--) {
 			fileNameItem = listeFichiersIn.get(i);
 			pathFileItem = dirIn + File.separator + fileNameItem;
-			if (!fileNameItem.endsWith(".mp3") && !fileNameItem.equals(".gitkeep")) {
+			if (!fileNameItem.endsWith(".mp3") && !fileNameItem.contains(".gitkeep")) {
 				try {
 					managerFile.move(pathFileItem, dirNotSuported + File.separator + fileNameItem);
 				} catch (IOException e2) {
-					//loggerBandMaster.log(Level.SEVERE, "imposible de deplacer le Fichier " + fileNameItem
-					//		+ "du repertoir:" + dirIn + " vers le repertoire " + dirNotSuported);
+
+					String erroMgs = "imposible de deplacer le Fichier " + fileNameItem + "du repertoir:" + dirIn
+							+ " vers le repertoire " + dirNotSuported;
+					LOGGER4J.error(erroMgs, e2.getMessage(),e2.getClass().getName(), e2.getStackTrace());
 				}
 				listeFichiersIn.remove(i);
 			}
@@ -231,10 +223,10 @@ public class MusicFileBandMaster extends FileBandMaster {
 		// tester si on a des fichier dans le repertoire in
 		tabSize = listeFichiersIn.size();
 		if (tabSize > 0) {
-			//loggerBandMaster.log(Level.INFO, "contains " + tabSize + " files");
+			LOGGER4J.trace("contains files : ", tabSize);
 			for (int i = 0; i < tabSize; i++) {
 				fileNameitem = listeFichiersIn.get(i);
-				//loggerBandMaster.log(Level.INFO, "sort" + i + " :: " + (tabSize - 1));
+				LOGGER4J.trace("sort" +  i +"-"+(tabSize - 1));	
 				sortFileMp3(fileNameitem);
 			}
 		}
@@ -258,12 +250,14 @@ public class MusicFileBandMaster extends FileBandMaster {
 			sortedByAuthorAndAlbum(musicDtoItem);
 
 		} catch (IOException | TagException | UnsupportedOperationException e) {
-			//loggerBandMaster.log(Level.SEVERE, "Fichier : " + fileName + " " + e.getMessage());
+			
+			LOGGER4J.error("Fichier : "+fileName +"-"+ e.getMessage(),e.getClass().getName(), e.getStackTrace());
 			try {
 				managerFile.move(pathFileItem, dirError + File.separator + fileName);
 			} catch (IOException e2) {
-				//loggerBandMaster.log(Level.SEVERE, "imposible de deplacer le Fichier " + fileName + "du repertoir:"
-					//	+ dirIn + " vers le repertoire " + dirError);
+				String erroMgs = "imposible de deplacer le Fichier " + fileName + "du repertoir:" + dirIn
+						+ " vers le repertoire " + dirNotSuported;
+				LOGGER4J.error( erroMgs +"-"+e2.getMessage(),e2.getClass().getName(), e2.getStackTrace());
 			}
 		}
 

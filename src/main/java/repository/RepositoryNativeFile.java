@@ -10,32 +10,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 
 
 
 public class RepositoryNativeFile implements IRepositoryFile {
 
-	//private static Logger loggerMp3 = Logger.getLogger(RepositoryNativeFile.class.getName());
-	
-	/*private static void initLog() throws SecurityException, FileNotFoundException, IOException {
 
-		LogManager.getLogManager().readConfiguration(new FileInputStream("mp3logging.properties"));
-		loggerMp3.setLevel(Level.ALL);
-	}*/
+	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryNativeFile.class.getName());
 	
-	
-	public RepositoryNativeFile() {
-		try {
-			//		initLog();
-		} catch (Exception e) {
-			System.out.println("echec initalisation des logs sur la classe "+this.getClass().getName());
-		}
-		
-	}
-
 
 	@Override
 	public void delete(String pathFileName) throws IOException {
@@ -43,9 +29,10 @@ public class RepositoryNativeFile implements IRepositoryFile {
 		if (deleteFile.exists()) {
 
 			if (deleteFile.delete() == true) {
-				System.out.println("supresion " + pathFileName + " reussi");
+				LOGGER4J.trace("supresion " + pathFileName + " reussi");
+				
 			} else {
-				System.out.println("supresion " + pathFileName + " echec");
+				LOGGER4J.trace("supresion " + pathFileName + " echec");
 			}
 		} else {
 			FileNotFoundException e = new FileNotFoundException("fichier a suprimer existe pas " + pathFileName);
@@ -56,15 +43,14 @@ public class RepositoryNativeFile implements IRepositoryFile {
 
 	@Override
 	public void recursiveDelete(String pathFileName) throws IOException {
-
-		System.out.println("lancement delete recursif sur le repertoire ");
-		System.out.println(pathFileName);
+		LOGGER4J.trace("lancement delete recursif sur le repertoire ",pathFileName);
 
 		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
 		File fileItem;
 		String pahtItem;
 		int taille = fileList.size();
-		System.out.println("contient" + taille);
+		
+		LOGGER4J.trace("contient" + taille);
 		for (int i = 0; i < fileList.size(); i++) {
 			pahtItem = pathFileName + File.separator + fileList.get(i);
 			fileItem = new File(pahtItem);
@@ -75,7 +61,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 			}
 
 			if (pahtItem.contains(".gitkeep") == false) {
-				System.out.println("delete" + pahtItem);
+				LOGGER4J.trace("delete" + pahtItem);
 				delete(pahtItem);
 			}
 		}
@@ -143,10 +129,8 @@ public class RepositoryNativeFile implements IRepositoryFile {
 			fileOutPutStream = new FileOutputStream(file, !erase);
 			fileOutPutStream.write(Contenu.getBytes(), 0, Contenu.getBytes().length);
 			fileOutPutStream.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER4J.error(e.getMessage(), e.getClass().getName() ,e.getStackTrace());
 		}
 	}
 
@@ -173,10 +157,8 @@ public class RepositoryNativeFile implements IRepositoryFile {
 					n = fileInputStream.read(buffer);
 			}
 			fileInputStream.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER4J.error(e.getMessage(), e.getClass().getName() ,e.getStackTrace());
 		}
 		return chaine;
 	}
@@ -197,10 +179,8 @@ public class RepositoryNativeFile implements IRepositoryFile {
 					chaine = chaine + (char) buffer[i];
 			}
 			fileInputStream.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER4J.error(e.getMessage(), e.getClass().getName() ,e.getStackTrace());
 		}
 		return chaine;
 	}

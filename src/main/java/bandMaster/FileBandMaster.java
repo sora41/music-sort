@@ -5,17 +5,22 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import repository.IRepositoryFile;
 import repository.RepositoryNativeFile;
 import repository.RepositoryWalkingFile;
 
 public abstract class FileBandMaster {
 
+	private static final Logger LOGGER4J = LogManager.getLogger(FileBandMaster.class.getName());
+	private static final String DIR_NOT_SUPORTED = "NotSuported";
+	private static final String DIR_ERROR = "Erro";
+	
 	protected File dirIn;
 	protected File dirOut;
 	protected File dirSorted;
-	private static final String DIR_NOT_SUPORTED = "NotSuported";
-	private static final String DIR_ERROR = "Erro";
 	protected File dirNotSuported;
 	protected File dirError;
 	protected IRepositoryFile managerFile;
@@ -102,7 +107,7 @@ public abstract class FileBandMaster {
 		ArrayList<String> listeFichiersBack;
 		String fileNameitem = "";
 		String pahtFileItem = "";
-		System.out.println("initalisation  " + backDir);
+		LOGGER4J.debug("initalisation  " + backDir);
 		if (managerFile.validateDirectory(back) == true) {
 			listeFichiersBack = managerFile.listeFilesOnDirectory(back.getPath());
 			if (listeFichiersBack.size() > 0) {
@@ -113,8 +118,7 @@ public abstract class FileBandMaster {
 						try {
 							managerFile.copy(pahtFileItem, dirIn.getPath() + File.separator + fileNameitem);
 						} catch (IOException e) {
-							System.out.println("imposible de deplacer le Fichier " + fileNameitem);
-							System.out.println("du repertoir:" + dirIn + " vers le repertoire " + dirOut);
+							LOGGER4J.error("imposible de deplacer le Fichier " + fileNameitem +"du repertoir:" + dirIn + " vers le repertoire " + dirOut);
 						}
 					}
 
