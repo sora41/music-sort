@@ -18,18 +18,18 @@ import java.util.logging.Logger;
 
 public class RepositoryNativeFile implements IRepositoryFile {
 
-	private static Logger loggerMp3 = Logger.getLogger(RepositoryNativeFile.class.getName());
+	//private static Logger loggerMp3 = Logger.getLogger(RepositoryNativeFile.class.getName());
 	
-	private static void initLog() throws SecurityException, FileNotFoundException, IOException {
+	/*private static void initLog() throws SecurityException, FileNotFoundException, IOException {
 
 		LogManager.getLogManager().readConfiguration(new FileInputStream("mp3logging.properties"));
 		loggerMp3.setLevel(Level.ALL);
-	}
+	}*/
 	
 	
 	public RepositoryNativeFile() {
 		try {
-			initLog();
+			//		initLog();
 		} catch (Exception e) {
 			System.out.println("echec initalisation des logs sur la classe "+this.getClass().getName());
 		}
