@@ -13,15 +13,9 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
-
-
-
 public class RepositoryNativeFile implements IRepositoryFile {
 
-
 	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryNativeFile.class.getName());
-	
 
 	@Override
 	public void delete(String pathFileName) throws IOException {
@@ -30,7 +24,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 
 			if (deleteFile.delete() == true) {
 				LOGGER4J.trace("supresion " + pathFileName + " reussi");
-				
+
 			} else {
 				LOGGER4J.trace("supresion " + pathFileName + " echec");
 			}
@@ -43,13 +37,13 @@ public class RepositoryNativeFile implements IRepositoryFile {
 
 	@Override
 	public void recursiveDelete(String pathFileName) throws IOException {
-		LOGGER4J.trace("lancement delete recursif sur le repertoire ",pathFileName);
+		LOGGER4J.trace("lancement delete recursif sur le repertoire ", pathFileName);
 
 		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
 		File fileItem;
 		String pahtItem;
 		int taille = fileList.size();
-		
+
 		LOGGER4J.trace("contient" + taille);
 		for (int i = 0; i < fileList.size(); i++) {
 			pahtItem = pathFileName + File.separator + fileList.get(i);
@@ -77,6 +71,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 			Path pathFinalFile = finalFile.toPath();
 
 			Files.move(patheOrginsFile, pathFinalFile, StandardCopyOption.REPLACE_EXISTING);
+
 		}
 	}
 
@@ -130,7 +125,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 			fileOutPutStream.write(Contenu.getBytes(), 0, Contenu.getBytes().length);
 			fileOutPutStream.close();
 		} catch (IOException e) {
-			LOGGER4J.error(e.getMessage(), e.getClass().getName() ,e.getStackTrace());
+			LOGGER4J.error(e.getMessage(), e.getClass().getName(), e.getStackTrace());
 		}
 	}
 
@@ -158,7 +153,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 			}
 			fileInputStream.close();
 		} catch (IOException e) {
-			LOGGER4J.error(e.getMessage(), e.getClass().getName() ,e.getStackTrace());
+			LOGGER4J.error(e.getMessage(), e.getClass().getName(), e.getStackTrace());
 		}
 		return chaine;
 	}
@@ -180,7 +175,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 			}
 			fileInputStream.close();
 		} catch (IOException e) {
-			LOGGER4J.error(e.getMessage(), e.getClass().getName() ,e.getStackTrace());
+			LOGGER4J.error(e.getMessage(), e.getClass().getName(), e.getStackTrace());
 		}
 		return chaine;
 	}
