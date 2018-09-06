@@ -196,24 +196,28 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String pathFileItem = "";
 		boolean isMp3 = false;
 		boolean containegitkeep = false;
-		
+
 		fileNumber = listeFichiersIn.size();
 		for (int i = fileNumber - 1; i >= 0; i--) {
 			fileNameItem = listeFichiersIn.get(i);
 			pathFileItem = dirIn + File.separator + fileNameItem;
-			isMp3 =fileNameItem.endsWith(".mp3");
-			containegitkeep =fileNameItem.contains(".gitkeep");
+			isMp3 = fileNameItem.endsWith(".mp3");
+			containegitkeep = fileNameItem.contains(".gitkeep");
 			// ca fait quoi ca tu vois ce n'est pas asser clair
-			// si ce n'est pas un mp3 et pas gitkeep 
-			// je les deplace dans le repertoire notsuported et je retire de la liste 
+			// si ce n'est pas un mp3 et pas gitkeep
+			// je les deplace dans le repertoire notsuported et je retire de la
+			// liste
 			if (!isMp3 && containegitkeep) {
-				try {
-					managerFile.move(pathFileItem, dirNotSuported + File.separator + fileNameItem);
-				} catch (IOException e2) {
+				// on ignore le gitkeep pour le deplacement mais pas dans la supresion de la liste 
+				if (false == containegitkeep) {
+					try {
+						managerFile.move(pathFileItem, dirNotSuported + File.separator + fileNameItem);
+					} catch (IOException e2) {
 
-					String erroMgs = "imposible de deplacer le Fichier " + fileNameItem + "du repertoir:" + dirIn
-							+ " vers le repertoire " + dirNotSuported;
-					LOGGER4J.error(erroMgs, e2.getMessage(),e2.getClass().getName(), e2.getStackTrace());
+						String erroMgs = "imposible de deplacer le Fichier " + fileNameItem + "du repertoir:" + dirIn
+								+ " vers le repertoire " + dirNotSuported;
+						LOGGER4J.error(erroMgs, e2.getMessage(), e2.getClass().getName(), e2.getStackTrace());
+					}
 				}
 				listeFichiersIn.remove(i);
 			}
@@ -229,7 +233,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			LOGGER4J.trace("contains files : ", tabSize);
 			for (int i = 0; i < tabSize; i++) {
 				fileNameitem = listeFichiersIn.get(i);
-				LOGGER4J.trace("sort" +  i +"-"+(tabSize - 1));	
+				LOGGER4J.trace("sort" + i + "-" + (tabSize - 1));
 				sortFileMp3(fileNameitem);
 			}
 		}
@@ -253,14 +257,14 @@ public class MusicFileBandMaster extends FileBandMaster {
 			sortedByAuthorAndAlbum(musicDtoItem);
 
 		} catch (IOException | TagException | UnsupportedOperationException e) {
-			
-			LOGGER4J.error("Fichier : "+fileName +"-"+ e.getMessage(),e.getClass().getName(), e.getStackTrace());
+
+			LOGGER4J.error("Fichier : " + fileName + "-" + e.getMessage(), e.getClass().getName(), e.getStackTrace());
 			try {
 				managerFile.move(pathFileItem, dirError + File.separator + fileName);
 			} catch (IOException e2) {
 				String erroMgs = "imposible de deplacer le Fichier " + fileName + "du repertoir:" + dirIn
 						+ " vers le repertoire " + dirNotSuported;
-				LOGGER4J.error( erroMgs +"-"+e2.getMessage(),e2.getClass().getName(), e2.getStackTrace());
+				LOGGER4J.error(erroMgs + "-" + e2.getMessage(), e2.getClass().getName(), e2.getStackTrace());
 			}
 		}
 
