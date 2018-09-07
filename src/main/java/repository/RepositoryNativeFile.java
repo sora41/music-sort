@@ -37,7 +37,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 
 	@Override
 	public void recursiveDelete(String pathFileName) throws IOException {
-		LOGGER4J.trace("lancement delete recursif sur le repertoire ", pathFileName);
+		LOGGER4J.trace("lancement delete recursif sur le repertoire "+ pathFileName);
 
 		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
 		File fileItem;
