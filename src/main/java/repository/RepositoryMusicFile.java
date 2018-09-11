@@ -14,17 +14,25 @@ public class RepositoryMusicFile implements IRepositoryMusicFile {
 	@Override
 	public MusicDto getDataToMusicFile(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
-		MP3File mp3file = new MP3File(pathFileName);
-		if (mp3file.hasID3v1Tag()) {
-			return this.getID3DataV1(mp3file);
-		} else {
-			if (mp3file.hasID3v2Tag()) {
-				return this.getID3DataV2(mp3file);
+		MP3File mp3File ;
+		try {
+			mp3File = new MP3File(pathFileName);
+			
+			if (mp3File.hasID3v1Tag()) {
+				return this.getID3DataV1(mp3File);
 			} else {
-				TagNotFoundException e = new TagNotFoundException(" ID3 v1 & v2 not suported ");
-				throw e;
+				if (mp3File.hasID3v2Tag()) {
+					return this.getID3DataV2(mp3File);
+				} else {
+					TagNotFoundException e = new TagNotFoundException(" ID3 v1 & v2 not suported ");
+					throw e;
+				}
 			}
+		} finally {
+			System.out.println("echo");
 		}
+		
+	
 	}
 
 	@Override
