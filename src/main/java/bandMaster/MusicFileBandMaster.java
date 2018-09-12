@@ -11,6 +11,7 @@ import org.farng.mp3.TagNotFoundException;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
 import repository.RepositoryMusicFile;
+import repository.RepositoryMusicFileManual;
 
 public class MusicFileBandMaster extends FileBandMaster {
 
@@ -20,7 +21,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted)
 			throws SecurityException, FileNotFoundException, IOException {
 		super(dirIn, dirOut, dirSorted);
-		repoMusic = new RepositoryMusicFile();
+		//repoMusic = new RepositoryMusicFile();
+		repoMusic = new RepositoryMusicFileManual();
 	}
 
 	/**
@@ -246,7 +248,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 		try {
 
 			musicDtoItem = doLoadDTO(pathFileItem);
-
 			// test tri par author
 			// sortedByAutor(dto);
 

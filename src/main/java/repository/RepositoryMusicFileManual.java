@@ -37,7 +37,8 @@ public class RepositoryMusicFileManual implements IRepositoryMusicFile {
 					dto.setPathFile(pathFileName);
 
 				} else {
-					System.out.println(" does not contain" + " ID3 information.");
+					IOException e = new IOException(" does not contain" + " ID3 information.");
+					throw e;
 				}
 			} else {
 				IOException e = new IOException("Size file zero");

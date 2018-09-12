@@ -1,5 +1,6 @@
 package repository;
 
+//import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -15,6 +16,7 @@ public class RepositoryMusicFile implements IRepositoryMusicFile {
 	public MusicDto getDataToMusicFile(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 		MP3File mp3File ;
+		//File fileNeedClose;
 		try {
 			mp3File = new MP3File(pathFileName);
 			
@@ -29,7 +31,12 @@ public class RepositoryMusicFile implements IRepositoryMusicFile {
 				}
 			}
 		} finally {
-			System.out.println("echo");
+			System.out.println("echo ici il fudrais ferme le fichier FF7");
+			//fileNeedClose = new File(pathFileName);
+			//System.out.println("apres le new "+fileNeedClose);
+			//fileNeedClose.canWrite()
+			//RandomAccessFile newFile = new RandomAccessFile(file, writeable ? "rw" : "r");
+			// voir dans le fichier JMP3 ligne 249 
 		}
 		
 	
