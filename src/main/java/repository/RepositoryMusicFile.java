@@ -1,5 +1,7 @@
 package repository;
 
+import java.io.File;
+import java.io.FileInputStream;
 //import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,31 +17,23 @@ public class RepositoryMusicFile implements IRepositoryMusicFile {
 	@Override
 	public MusicDto getDataToMusicFile(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
-		MP3File mp3File ;
-		//File fileNeedClose;
-		try {
+		MP3File mp3File = null;
+		MusicDto result = null;
+		if (containTag(pathFileName)) {
 			mp3File = new MP3File(pathFileName);
-			
+
 			if (mp3File.hasID3v1Tag()) {
-				return this.getID3DataV1(mp3File);
+				result = this.getID3DataV1(mp3File);
 			} else {
 				if (mp3File.hasID3v2Tag()) {
-					return this.getID3DataV2(mp3File);
+					result = this.getID3DataV2(mp3File);
 				} else {
 					TagNotFoundException e = new TagNotFoundException(" ID3 v1 & v2 not suported ");
 					throw e;
 				}
 			}
-		} finally {
-			System.out.println("echo ici il fudrais ferme le fichier FF7");
-			//fileNeedClose = new File(pathFileName);
-			//System.out.println("apres le new "+fileNeedClose);
-			//fileNeedClose.canWrite()
-			//RandomAccessFile newFile = new RandomAccessFile(file, writeable ? "rw" : "r");
-			// voir dans le fichier JMP3 ligne 249 
 		}
-		
-	
+		return result;
 	}
 
 	@Override
@@ -75,5 +69,37 @@ public class RepositoryMusicFile implements IRepositoryMusicFile {
 
 		return SongDto;
 
+	}
+
+	private boolean containTag(String pathFileName) throws IOException, TagNotFoundException {
+
+		boolean resultas = true;
+
+		File song = new File(pathFileName);
+		FileInputStream file = new FileInputStream(song);
+		int size = -1;
+
+		if (song.canRead())
+			size = (int) song.length();
+		try {
+			if (size > 0) {
+
+				file.skip(size - 128);
+				byte[] last128 = new byte[128];
+				file.read(last128);
+				String id3 = new String(last128);
+				String tag = id3.substring(0, 3);
+				if (tag.equals("TAG") == false) {
+					TagNotFoundException e = new TagNotFoundException(" No tag detected on file " );
+					throw e;
+				}
+			} else {
+				IOException e = new IOException("Size file zero");
+				throw e;
+			}
+		} finally {
+			file.close();
+		}
+		return resultas;
 	}
 }

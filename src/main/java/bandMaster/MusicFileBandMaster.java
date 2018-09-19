@@ -21,8 +21,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted)
 			throws SecurityException, FileNotFoundException, IOException {
 		super(dirIn, dirOut, dirSorted);
-		//repoMusic = new RepositoryMusicFile();
-		repoMusic = new RepositoryMusicFileManual();
+		repoMusic = new RepositoryMusicFile();
+		//repoMusic = new RepositoryMusicFileManual();
 	}
 
 	/**
