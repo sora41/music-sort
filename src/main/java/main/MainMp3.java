@@ -25,31 +25,43 @@ public class MainMp3 {
 
 	}
 
+	/* lance les test developpe manuellement pour le moment */
 	public static void runTest() {
 		LOGGER4J.info("demarage des tests");
 		test.runTest();
 		LOGGER4J.info("fin des tests");
 	}
 
-	public static void runProcces() throws IOException {
-
-		LOGGER4J.info("demarage Reset");
-		musicSorter.resetDirectories();
-		LOGGER4J.info("fin Reset");
-
+	/*
+	 * initalise le repertoire in la fonction deplace tout les fichier contenu
+	 * dans le repertoire back dans le repertoire in
+	 */
+	public static void initDirectory() throws IOException {
 		LOGGER4J.info("demarage sequence initalisation ");
 		musicSorter.initDirectorieIn(DIRECTORY_BACK);
 		LOGGER4J.info("Fin initialisation ");
+	}
 
+	/* apell la fonction de tri 
+	 * */
+	public static void launchSort() throws IOException {
 		LOGGER4J.info("demarage du tri");
 		musicSorter.runSortFile();
 		LOGGER4J.info("fin du tri");
-
 	}
 
-	public static void debugReset() throws IOException {
-
+	/* vide les repetoire utiliser par l'application 
+	 * */
+	public static void ResetDirectory() throws IOException {
+		LOGGER4J.info("demarage Reset");
 		musicSorter.resetDirectories();
+		LOGGER4J.info("fin Reset");
+	}
+
+	public static void runProcces() throws IOException {
+		ResetDirectory();
+		initDirectory();
+		launchSort();
 	}
 
 	public static void main(String[] args) {
