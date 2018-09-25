@@ -63,11 +63,18 @@ public class MainMp3 {
 		initDirectory();
 		launchSort();
 	}
+	
+	public static void debugReset() throws IOException
+	{	initDirectory();	
+		ResetDirectory();
+			
+	}
 
 	public static void main(String[] args) {
 		LOGGER4J.info("demarage de l'application");
 		try {
 			initApplication();
+			//debugReset();
 			runProcces();
 			// runTest();
 		} catch (SecurityException | IOException e) {

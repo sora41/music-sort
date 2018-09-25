@@ -31,8 +31,8 @@ public abstract class FileBandMaster {
 		this.dirError = new File(dirOut + File.separator + DIR_ERROR);
 		this.dirNotSuported = new File(dirOut + File.separator + DIR_NOT_SUPORTED);
 		this.dirSorted = new File(dirSorted);
-		//this.managerFile = new RepositoryWalkingFile();
-		this.managerFile = new RepositoryNativeFile();
+		this.managerFile = new RepositoryWalkingFile();
+		//this.managerFile = new RepositoryNativeFile();
 	}
 
 	public File getDirIn() {

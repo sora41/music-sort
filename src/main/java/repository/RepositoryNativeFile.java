@@ -30,7 +30,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 			}
 		} else {
 			FileNotFoundException e = new FileNotFoundException("fichier a suprimer existe pas " + pathFileName);
-			;
+			
 			throw e;
 		}
 	}
@@ -116,7 +116,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 		}
 		return nomFichiers;
 	}
-
+/*
 	public void writeFile(String fileName, String Contenu, Boolean erase) {
 		File file = new File(fileName);
 		FileOutputStream fileOutPutStream = null;
@@ -128,7 +128,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 			LOGGER4J.error(e.getMessage(), e.getClass().getName(), e.getStackTrace());
 		}
 	}
-
+/*
 	public String readFile(String fileName, int stop) {
 		File file = new File(fileName);
 		String chaine = "";
@@ -157,7 +157,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 		}
 		return chaine;
 	}
-
+	
 	public String readFile(String fileName) {
 		File file = new File(fileName);
 		String chaine = "";
@@ -178,5 +178,5 @@ public class RepositoryNativeFile implements IRepositoryFile {
 			LOGGER4J.error(e.getMessage(), e.getClass().getName(), e.getStackTrace());
 		}
 		return chaine;
-	}
+	}*/
 }
