@@ -2,18 +2,20 @@ package repository;
 
 import java.io.File;
 import java.io.FileInputStream;
-//import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
-
 import datatransfert.MusicDto;
 
 public class RepositoryMusicFile implements IRepositoryMusicFile {
 
+	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryMusicFile.class.getName());
+	
 	@Override
 	public MusicDto getDataToMusicFile(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {

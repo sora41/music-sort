@@ -13,7 +13,12 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class RepositoryWalkingFile implements IRepositoryFile {
+
+	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryWalkingFile.class.getName());
 
 	@Override
 	public void delete(String pathFileName) throws IOException {
