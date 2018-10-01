@@ -22,36 +22,59 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 
 	@Override
 	public void delete(String pathFileName) throws IOException {
+		LOGGER4J.trace("supresion " + pathFileName);
 		Path directory = Paths.get(pathFileName);
-		Files.deleteIfExists(directory);
+		if (Files.deleteIfExists(directory)) {
+			LOGGER4J.trace("supresion " + pathFileName + " reussi");
+		} else {
+			LOGGER4J.trace("supresion " + pathFileName + " echec");
+		}
+
+	}
+	
+	@Override
+	public void cleanDirectory(String pathFileName) throws IOException {
+		LOGGER4J.trace("start cleanDirectory"+ pathFileName );
+		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
+		
+		for (int i = 0; i < fileList.size(); i++) {
+			recursiveDelete(fileList.get(i));
+		}
+		LOGGER4J.trace("end cleanDirectory" );
+		
 	}
 
 	@Override
 	public void recursiveDelete(String pathFileName) throws IOException {
+		LOGGER4J.trace("start recursiveDelete"+ pathFileName );
 		Path directory = Paths.get(pathFileName);
 		Files.walkFileTree(directory, new SimpleFileVisitor<Path>() {
 
 			@Override
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-
+				LOGGER4J.trace("start FileVisitResult" + file.toString());
 				if (file.endsWith(".gitkeep") == false) {
+					LOGGER4J.trace("on gitkeep == false" );
 					Files.delete(file);
 				}
-
+				LOGGER4J.trace("end FileVisitResult" );
 				return FileVisitResult.CONTINUE;
 			}
 
 			@Override
 			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+				LOGGER4J.trace("start FileVisitResult" );
 				Files.delete(dir);
+				LOGGER4J.trace("end FileVisitResult" );
 				return FileVisitResult.CONTINUE;
 			}
 		});
-
+		LOGGER4J.trace("end recursiveDelete" );
 	}
 
 	@Override
 	public void move(String orginalePathName, String finalPahtName) throws IOException {
+		LOGGER4J.trace("Start move" );
 		File originsfile = new File(orginalePathName);
 		if (originsfile.exists()) {
 			File finalFile = new File(finalPahtName);
@@ -61,10 +84,12 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 
 			Files.move(patheOrginsFile, pathFinalFile, StandardCopyOption.REPLACE_EXISTING);
 		}
+		LOGGER4J.trace("end move" );
 	}
 
 	@Override
 	public void copy(String OrginalePathName, String FinalPahtName) throws IOException {
+		LOGGER4J.trace("Start copy" );
 		File originsfile = new File(OrginalePathName);
 		if (originsfile.exists()) {
 			File finalFile = new File(FinalPahtName);
@@ -74,21 +99,24 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 
 			Files.copy(patheOrginsFile, pathFinalFile, StandardCopyOption.REPLACE_EXISTING);
 		}
-
+		LOGGER4J.trace("end copy" );
 	}
 
 	@Override
 	public boolean validateDirectory(File dir) {
+		LOGGER4J.trace("start validateDirectory" );
 		boolean resultas = false;
 		if (dir != null)
 			if (dir.exists())
 				if (dir.isDirectory())
 					resultas = true;
+		LOGGER4J.trace("end validateDirectory" );
 		return resultas;
 	}
 
 	@Override
 	public ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException {
+		LOGGER4J.trace("start listeFilesOnDirectory" );
 		ArrayList<String> nomFichiers = new ArrayList<>();
 		File repertoire = new File(dirName);
 
@@ -102,7 +130,10 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 					"repertoire: " + repertoire.getAbsolutePath() + " introuvable");
 			throw e;
 		}
+		LOGGER4J.trace("end listeFilesOnDirectory" );
 		return nomFichiers;
 	}
+
+	
 
 }

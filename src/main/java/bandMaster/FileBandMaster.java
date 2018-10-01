@@ -31,8 +31,8 @@ public abstract class FileBandMaster {
 		this.dirError = new File(dirOut + File.separator + DIR_ERROR);
 		this.dirNotSuported = new File(dirOut + File.separator + DIR_NOT_SUPORTED);
 		this.dirSorted = new File(dirSorted);
-		this.managerFile = new RepositoryWalkingFile();
-		//this.managerFile = new RepositoryNativeFile();
+		//this.managerFile = new RepositoryWalkingFile();
+		this.managerFile = new RepositoryNativeFile();
 	}
 
 	public File getDirIn() {
@@ -97,9 +97,9 @@ public abstract class FileBandMaster {
 	}
 
 	public void resetDirectories() throws IOException {
-		managerFile.recursiveDelete(this.dirIn.getPath());
-		managerFile.recursiveDelete(this.dirOut.getPath());
-		managerFile.recursiveDelete(this.dirSorted.getPath());
+		managerFile.cleanDirectory(this.dirIn.getPath());
+		managerFile.cleanDirectory(this.dirOut.getPath());
+		managerFile.cleanDirectory(this.dirSorted.getPath());
 	}
 
 	public void initDirectorieIn(String backDir) throws IOException {

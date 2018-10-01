@@ -9,7 +9,9 @@ public interface IRepositoryFile {
 
 	public abstract void delete(String pathFileName)throws FileNotFoundException, IOException;
 
-	public abstract void recursiveDelete(String pathFileName) throws  IOException;
+	public abstract void recursiveDelete(String pathFileName) throws IOException;
+	
+	public abstract void cleanDirectory(String pathFileName) throws IOException;
 
 	public abstract void move(String orginalePathName, String finalPahtName) throws IOException;
 

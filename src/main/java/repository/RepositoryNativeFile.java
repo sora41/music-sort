@@ -34,7 +34,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 			throw e;
 		}
 	}
-
+	/*suprime le fichier et tout ceux qu'il contient */
 	@Override
 	public void recursiveDelete(String pathFileName) throws IOException {
 		LOGGER4J.trace("lancement delete recursif sur le repertoire "+ pathFileName);
@@ -59,6 +59,59 @@ public class RepositoryNativeFile implements IRepositoryFile {
 				delete(pahtItem);
 			}
 		}
+	}
+	//originale
+	/*suprime le fichier et tout ceux qu'il contient */
+	public void recursiveDeleteOrg(String pathFileName) throws IOException {
+		LOGGER4J.trace("lancement delete recursif sur le repertoire "+ pathFileName);
+
+		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
+		File fileItem;
+		String pahtItem;
+		int taille = fileList.size();
+
+		LOGGER4J.trace("contient" + taille);
+		for (int i = 0; i < fileList.size(); i++) {
+			pahtItem = pathFileName + File.separator + fileList.get(i);
+			fileItem = new File(pahtItem);
+			if (fileItem.isDirectory()) {
+				if (fileItem.list().length > 0) {
+					recursiveDelete(pahtItem);
+				}
+			}
+
+			if (pahtItem.contains(".gitkeep") == false) {
+				LOGGER4J.trace("delete" + pahtItem);
+				delete(pahtItem);
+			}
+		}
+	}
+	/*vide  le repertoire  et tout ceux qu'il contient sauf les fichier gitkeep */
+	@Override
+	public void cleanDirectory(String pathFileName) throws IOException {
+		LOGGER4J.trace("lancement delete recursif sur le repertoire "+ pathFileName);
+
+		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
+		File fileItem;
+		String pahtItem;
+		int taille = fileList.size();
+
+		LOGGER4J.trace("contient" + taille);
+		for (int i = 0; i < fileList.size(); i++) {
+			pahtItem = pathFileName + File.separator + fileList.get(i);
+			fileItem = new File(pahtItem);
+			if (fileItem.isDirectory()) {
+				if (fileItem.list().length > 0) {
+					recursiveDelete(pahtItem);
+				}
+			}
+
+			if (pahtItem.contains(".gitkeep") == false) {
+				LOGGER4J.trace("delete" + pahtItem);
+				delete(pahtItem);
+			}
+		}
+		
 	}
 
 	@Override
@@ -179,4 +232,6 @@ public class RepositoryNativeFile implements IRepositoryFile {
 		}
 		return chaine;
 	}*/
+
+
 }
