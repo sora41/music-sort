@@ -42,16 +42,18 @@ public class MainMp3 {
 		LOGGER4J.info("Fin initialisation ");
 	}
 
-	/* apell la fonction de tri 
-	 * */
+	/*
+	 * apell la fonction de tri
+	 */
 	public static void launchSort() throws IOException {
 		LOGGER4J.info("demarage du tri");
 		musicSorter.runSortFile();
 		LOGGER4J.info("fin du tri");
 	}
 
-	/* vide les repetoire utiliser par l'application 
-	 * */
+	/*
+	 * vide les repetoire utiliser par l'application
+	 */
 	public static void ResetDirectory() throws IOException {
 		LOGGER4J.info("demarage Reset");
 		musicSorter.resetDirectories();
@@ -63,24 +65,27 @@ public class MainMp3 {
 		initDirectory();
 		launchSort();
 	}
-	
-	public static void debugReset() throws IOException
-	{	initDirectory();	
+
+	public static void debugReset() throws IOException {
+		initDirectory();
 		ResetDirectory();
-			
+
 	}
 
 	public static void main(String[] args) {
 		LOGGER4J.info("demarage de l'application");
 		try {
 			initApplication();
-			//debugReset();
+			// debugReset();
 			runProcces();
 			// runTest();
 		} catch (SecurityException | IOException e) {
 
 			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),
 					e.getStackTrace());
+			LOGGER4J.fatal("message :"+e.getMessage());
+			LOGGER4J.fatal("Eclass :"+e.getClass().getName());
+		
 
 		}
 		LOGGER4J.info("fin de l'application ");
