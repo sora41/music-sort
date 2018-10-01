@@ -4,7 +4,7 @@
         "name": "JSONConfigDemo",
         "packages": "com.howtodoinjava",
         "ThresholdFilter": {
-            "level": "debug"
+            "level": "trace"
         },
         "appenders": {
             "Console": {
@@ -16,7 +16,7 @@
         },
         "loggers": {
             "root": {
-                "level": "debug",
+                "level": "trace",
                 "AppenderRef": {
                     "ref": "STDOUT"
                 }
