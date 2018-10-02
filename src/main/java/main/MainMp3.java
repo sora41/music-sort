@@ -9,14 +9,33 @@ import bandMaster.MusicFileBandMaster;
 
 public class MainMp3 {
 
+	/**
+	 * the in music file directory
+	 */
 	private static final String DIRECTORY_IN = "Music\\inMusic";
+	/**
+	 * the out music file directory
+	 */
 	private static final String DIRECTORY_OUT = "Music\\outMusic";
+	/**
+	 * the sorted music file directory
+	 */
 	private static final String DIRECTORY_SORT = "Music\\sortedMusic";
+	/**
+	 * the back music file directory use on test to provide the in music file
+	 */
 	private static final String DIRECTORY_BACK = "Music\\back";
-
+	/**
+	 * the music Sorter
+	 */
 	private static MusicFileBandMaster musicSorter;
+	/**
+	 * the application tester deprecied (unit test incomming )
+	 */
 	private static TestCode test;
-
+	/**
+	 * the loger from log4j
+	 */
 	private static final Logger LOGGER4J = LogManager.getLogger(MainMp3.class.getName());
 
 	public static void initApplication() throws SecurityException, FileNotFoundException, IOException {
@@ -43,7 +62,7 @@ public class MainMp3 {
 	}
 
 	/*
-	 * apell la fonction de tri
+	 * appel la fonction de tri
 	 */
 	public static void launchSort() throws IOException {
 		LOGGER4J.info("demarage du tri");
@@ -66,26 +85,18 @@ public class MainMp3 {
 		launchSort();
 	}
 
-	public static void debugReset() throws IOException {
-		initDirectory();
-		ResetDirectory();
-
-	}
-
 	public static void main(String[] args) {
 		LOGGER4J.info("demarage de l'application");
 		try {
 			initApplication();
-			// debugReset();
 			runProcces();
 			// runTest();
 		} catch (SecurityException | IOException e) {
 
 			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),
 					e.getStackTrace());
-			LOGGER4J.fatal("message :"+e.getMessage());
-			LOGGER4J.fatal("Eclass :"+e.getClass().getName());
-		
+			LOGGER4J.fatal("message :" + e.getMessage());
+			LOGGER4J.fatal("Eclass :" + e.getClass().getName());
 
 		}
 		LOGGER4J.info("fin de l'application ");
