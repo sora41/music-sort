@@ -37,7 +37,11 @@ public class MainMp3 {
 	 * the loger from log4j
 	 */
 	private static final Logger LOGGER4J = LogManager.getLogger(MainMp3.class.getName());
+	
 
+    /**
+     * init application sorter 
+     */
 	public static void initApplication() throws SecurityException, FileNotFoundException, IOException {
 		musicSorter = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 		test = new TestCode();

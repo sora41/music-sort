@@ -119,7 +119,6 @@ public abstract class FileBandMaster {
 							LOGGER4J.error("imposible de deplacer le Fichier " + fileNameitem +"du repertoir:" + dirIn + " vers le repertoire " + dirOut);
 						}
 					}
-
 				}
 			}
 		} else {
