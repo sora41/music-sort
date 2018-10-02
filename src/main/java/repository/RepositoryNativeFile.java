@@ -26,92 +26,67 @@ public class RepositoryNativeFile implements IRepositoryFile {
 				LOGGER4J.trace("supresion " + pathFileName + " reussi");
 
 			} else {
-				LOGGER4J.trace("supresion " + pathFileName + " echec");
+				LOGGER4J.fatal("supresion " + pathFileName + " echec");
 			}
 		} else {
 			FileNotFoundException e = new FileNotFoundException("fichier a suprimer existe pas " + pathFileName);
-			
+
 			throw e;
 		}
 	}
-	/*suprime le fichier et tout ceux qu'il contient */
+
+	/* suprime le fichier et tout ceux qu'il contient */
 	@Override
 	public void recursiveDelete(String pathFileName) throws IOException {
-		LOGGER4J.trace("lancement delete recursif sur le repertoire "+ pathFileName);
+		LOGGER4J.trace("lancement delete recursif sur le repertoire " + pathFileName);
 
-		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
-		File fileItem;
+		File fileItem, file;
 		String pahtItem;
-		int taille = fileList.size();
+		ArrayList<String> fileList;
 
-		LOGGER4J.trace("contient" + taille);
-		for (int i = 0; i < fileList.size(); i++) {
-			pahtItem = pathFileName + File.separator + fileList.get(i);
-			fileItem = new File(pahtItem);
-			if (fileItem.isDirectory()) {
-				if (fileItem.list().length > 0) {
-					recursiveDelete(pahtItem);
-				}
-			}
+		file = new File(pathFileName);
+		boolean isDir = file.isDirectory();
 
-			if (pahtItem.contains(".gitkeep") == false) {
-				LOGGER4J.trace("delete" + pahtItem);
-				delete(pahtItem);
+		if (isDir == true) {
+			fileList = listeFilesOnDirectory(pathFileName);
+
+			int taille = fileList.size();
+
+			LOGGER4J.trace("contient" + taille);
+			for (int i = 0; i < fileList.size(); i++) {
+				pahtItem = pathFileName + File.separator + fileList.get(i);
+				fileItem = new File(pahtItem);
+				recursiveDelete(pahtItem);
 			}
 		}
-	}
-	//originale
-	/*suprime le fichier et tout ceux qu'il contient */
-	public void recursiveDeleteOrg(String pathFileName) throws IOException {
-		LOGGER4J.trace("lancement delete recursif sur le repertoire "+ pathFileName);
-
-		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
-		File fileItem;
-		String pahtItem;
-		int taille = fileList.size();
-
-		LOGGER4J.trace("contient" + taille);
-		for (int i = 0; i < fileList.size(); i++) {
-			pahtItem = pathFileName + File.separator + fileList.get(i);
-			fileItem = new File(pahtItem);
-			if (fileItem.isDirectory()) {
-				if (fileItem.list().length > 0) {
-					recursiveDelete(pahtItem);
-				}
-			}
-
-			if (pahtItem.contains(".gitkeep") == false) {
-				LOGGER4J.trace("delete" + pahtItem);
-				delete(pahtItem);
-			}
+		if (pathFileName.contains(".gitkeep") == false) {
+			LOGGER4J.trace("delete" + pathFileName);
+			delete(pathFileName);
+		} else {
+			LOGGER4J.trace("ignore " + pathFileName);
 		}
 	}
-	/*vide  le repertoire  et tout ceux qu'il contient sauf les fichier gitkeep */
+
+	
+
+	/*
+	 * vide le repertoire et tout ceux qu'il contient sauf les fichier gitkeep
+	 */
 	@Override
 	public void cleanDirectory(String pathFileName) throws IOException {
-		LOGGER4J.trace("lancement delete recursif sur le repertoire "+ pathFileName);
+		LOGGER4J.trace("lancement clean sur le repertoire " + pathFileName);
 
 		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
-		File fileItem;
+
 		String pahtItem;
 		int taille = fileList.size();
 
 		LOGGER4J.trace("contient" + taille);
 		for (int i = 0; i < fileList.size(); i++) {
 			pahtItem = pathFileName + File.separator + fileList.get(i);
-			fileItem = new File(pahtItem);
-			if (fileItem.isDirectory()) {
-				if (fileItem.list().length > 0) {
-					recursiveDelete(pahtItem);
-				}
-			}
-
-			if (pahtItem.contains(".gitkeep") == false) {
-				LOGGER4J.trace("delete" + pahtItem);
-				delete(pahtItem);
-			}
+			recursiveDelete(pahtItem);
 		}
-		
+
 	}
 
 	@Override
@@ -169,69 +144,6 @@ public class RepositoryNativeFile implements IRepositoryFile {
 		}
 		return nomFichiers;
 	}
-/*
-	public void writeFile(String fileName, String Contenu, Boolean erase) {
-		File file = new File(fileName);
-		FileOutputStream fileOutPutStream = null;
-		try {
-			fileOutPutStream = new FileOutputStream(file, !erase);
-			fileOutPutStream.write(Contenu.getBytes(), 0, Contenu.getBytes().length);
-			fileOutPutStream.close();
-		} catch (IOException e) {
-			LOGGER4J.error(e.getMessage(), e.getClass().getName(), e.getStackTrace());
-		}
-	}
-/*
-	public String readFile(String fileName, int stop) {
-		File file = new File(fileName);
-		String chaine = "";
-		FileInputStream fileInputStream = null;
-		int n = 0;
-		int avaible = 0;
-		try {
-			// Instanciation du FIleInputStream
-			fileInputStream = new FileInputStream(file);
-			// Tableau de byte taille 8 pour la lecture du flux
-			byte[] buffer = new byte[8];
-			n = fileInputStream.read(buffer);
-			while (n >= 0) {
-				for (int i = 0; i <= n - 1; i++)
-					chaine = chaine + (char) buffer[i];
-
-				avaible++;
-				if (avaible >= stop)
-					n = -1;
-				else
-					n = fileInputStream.read(buffer);
-			}
-			fileInputStream.close();
-		} catch (IOException e) {
-			LOGGER4J.error(e.getMessage(), e.getClass().getName(), e.getStackTrace());
-		}
-		return chaine;
-	}
-	
-	public String readFile(String fileName) {
-		File file = new File(fileName);
-		String chaine = "";
-
-		FileInputStream fileInputStream = null;
-		try {
-			// Instanciation du FIleInputStream
-			fileInputStream = new FileInputStream(file);
-			// Tableau de byte taille 8 pour la lecture du flux
-			byte[] buffer = new byte[8];
-			int n = 0;
-			while ((n = fileInputStream.read(buffer)) >= 0) {
-				for (int i = 0; i <= n - 1; i++)
-					chaine = chaine + (char) buffer[i];
-			}
-			fileInputStream.close();
-		} catch (IOException e) {
-			LOGGER4J.error(e.getMessage(), e.getClass().getName(), e.getStackTrace());
-		}
-		return chaine;
-	}*/
 
 
 }
