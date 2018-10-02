@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import repository.IRepositoryFile;
-import repository.RepositoryNativeFile;
 import repository.RepositoryWalkingFile;
 
 public abstract class FileBandMaster {
@@ -32,7 +31,6 @@ public abstract class FileBandMaster {
 		this.dirNotSuported = new File(dirOut + File.separator + DIR_NOT_SUPORTED);
 		this.dirSorted = new File(dirSorted);
 		this.managerFile = new RepositoryWalkingFile();
-		//this.managerFile = new RepositoryNativeFile();
 	}
 
 	public File getDirIn() {
