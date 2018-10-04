@@ -30,18 +30,17 @@ public class MainMp3 {
 	 */
 	private static MusicFileBandMaster musicSorter;
 	/**
-	 * the application tester object  deprecied (unit test incomming )
+	 * the application tester object deprecied (unit test incomming )
 	 */
 	private static TestCode test;
 	/**
 	 * the loger from log4j
 	 */
 	private static final Logger LOGGER4J = LogManager.getLogger(MainMp3.class.getName());
-	
 
-    /**
-     * init application sorter et les tests
-     */
+	/**
+	 * init application sorter et les tests
+	 */
 	public static void initApplication() throws SecurityException, FileNotFoundException, IOException {
 		musicSorter = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 		test = new TestCode();
@@ -56,8 +55,7 @@ public class MainMp3 {
 	}
 
 	/**
-	 * init the directory in 
-	 * the function move all files in back directory to 
+	 * init the directory in the function move all files in back directory to
 	 * inMusic directory
 	 */
 	public static void initDirectory() throws IOException {
@@ -76,28 +74,30 @@ public class MainMp3 {
 	}
 
 	/**
-	 * clean directory use by application 
+	 * clean directory use by application
 	 */
 	public static void ResetDirectory() throws IOException {
 		LOGGER4J.info("demarage Reset");
 		musicSorter.resetDirectories();
 		LOGGER4J.info("fin Reset");
 	}
+
 	/**
-	 *  launch the sort operations 
+	 * launch the sort operations
 	 */
 	public static void runProcces() throws IOException {
 		ResetDirectory();
 		initDirectory();
 		launchSort();
 	}
+
 	/** Main */
 	public static void main(String[] args) {
 		LOGGER4J.info("demarage de l'application");
 		try {
 			initApplication();
 			runProcces();
-			//runTest();
+			// runTest();
 		} catch (SecurityException | IOException e) {
 
 			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),

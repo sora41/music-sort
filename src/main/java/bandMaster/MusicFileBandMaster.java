@@ -15,24 +15,24 @@ import repository.RepositoryMusicFileManual;
 
 public class MusicFileBandMaster extends FileBandMaster {
 
-	 /**
-     * the IRepositoryMusicFile containe the music repository.
-     */
+	/**
+	 * the IRepositoryMusicFile containe the music repository.
+	 */
 	private IRepositoryMusicFile repoMusic;
 	/**
 	 * the loger from log4j
 	 */
 	private static final Logger LOGGER4J = LogManager.getLogger(MusicFileBandMaster.class.getName());
 
-    /**
-     * Creates a new MusicFileBandMaster object with diretory In ,diretory out and diretory sorted set .
-     *  initliatise tne RepositoryMusiqueFile
-     */
+	/**
+	 * Creates a new MusicFileBandMaster object with diretory In ,diretory out
+	 * and diretory sorted set . initliatise tne RepositoryMusiqueFile
+	 */
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted)
 			throws SecurityException, FileNotFoundException, IOException {
 		super(dirIn, dirOut, dirSorted);
 		repoMusic = new RepositoryMusicFile();
-		//repoMusic = new RepositoryMusicFileManual();
+		// repoMusic = new RepositoryMusicFileManual();
 	}
 
 	/**
@@ -40,6 +40,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 	 * liste contenu dans le repertoire et suprime de la liste tout ce qui ne
 	 * finis pas .mp3
 	 * 
+	 * @param dirName
+	 *            name to directory to you want the liste of files
 	 * @throws IOException
 	 */
 	private ArrayList<String> getListeFilesMP3(String dirName) throws IOException {
@@ -218,7 +220,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 			// je les deplace dans le repertoire notsuported et je retire de la
 			// liste
 			if (!isMp3 && containegitkeep) {
-				// on ignore le gitkeep pour le deplacement mais pas dans la supresion de la liste 
+				// on ignore le gitkeep pour le deplacement mais pas dans la
+				// supresion de la liste
 				if (false == containegitkeep) {
 					try {
 						managerFile.move(pathFileItem, dirNotSuported + File.separator + fileNameItem);
