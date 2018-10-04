@@ -35,33 +35,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 		// repoMusic = new RepositoryMusicFileManual();
 	}
 
-	/**
-	 * fonction qui recupere la liste des fichier a traite recupere tout la
-	 * liste contenu dans le repertoire et suprime de la liste tout ce qui ne
-	 * finis pas .mp3
-	 * 
-	 * @param dirName
-	 *            name to directory to you want the liste of files
-	 * @throws IOException
-	 */
-	private ArrayList<String> getListeFilesMP3(String dirName) throws IOException {
-		LOGGER4J.trace("getlistefiles music band");
-		ArrayList<String> listeFichiers = managerFile.listeFilesOnDirectory(dirName);
-		int fileNumber = listeFichiers.size();
-		String fileNameItem = "";
-		LOGGER4J.trace(fileNumber);
-		for (int i = fileNumber - 1; i >= 0; i--) {
-			LOGGER4J.trace(i);
-			fileNameItem = listeFichiers.get(i);
-			LOGGER4J.trace(fileNameItem);
-			if (!fileNameItem.endsWith(".mp3")) {
-				listeFichiers.remove(i);
-			}
-		}
-
-		return listeFichiers;
-	}
-
 	private MusicDto doLoadDTO(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 		// extraction d'information du fiçhier mp3 dans le dto
