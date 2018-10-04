@@ -35,6 +35,13 @@ public class MusicFileBandMaster extends FileBandMaster {
 		// repoMusic = new RepositoryMusicFileManual();
 	}
 
+	/**
+	 * load DtoMusic object by Path file
+	 * 
+	 * @param pathFileName
+	 *            file String path
+	 * @return dto object load or null
+	 */
 	private MusicDto doLoadDTO(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 		// extraction d'information du fiçhier mp3 dans le dto
@@ -49,6 +56,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 		}
 	}
 
+	/**
+	 * sort music file by author
+	 */
 	private void sortedByAutor(MusicDto song) throws IOException, TagNotFoundException {
 
 		File autorDir = null;
@@ -79,6 +89,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 	}
 
+	/**
+	 * sort music file by author and album
+	 */
 	private void sortedByAuthorAndAlbum(MusicDto song) throws IOException, TagNotFoundException {
 
 		File autorDir = null;
@@ -123,6 +136,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 		}
 	}
 
+	/**
+	 * sort music file by album
+	 */
 	private void sortedByAlbum(MusicDto song) throws IOException, TagNotFoundException {
 
 		File albumDir = null;
@@ -157,6 +173,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		doLoadDTO(pathFileName);
 	}
 
+	/** launch sort procedure */
 	private void doRunSortMusic() throws IOException {
 		ArrayList<String> listeFichiersIn;
 
@@ -170,11 +187,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 			LOGGER4J.debug("clean files not mp3");
 			// netoyer la liste de fichier pour ne garder que les fichier mp3
 			rejectFileNotMp3(listeFichiersIn);
-			//
 			sortFilesMp3(listeFichiersIn);
 		}
 	}
 
+	/** move file not take in charge */
 	private void rejectFileNotMp3(ArrayList<String> listeFichiersIn) {
 		int fileNumber = 0;
 		String fileNameItem = "";
@@ -232,12 +249,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		try {
 
 			musicDtoItem = doLoadDTO(pathFileItem);
-			// test tri par author
-			// sortedByAutor(dto);
-
-			// test tri album
-			// sortedByAlbum(dto);
-
+	
 			// tri artiste album
 			sortedByAuthorAndAlbum(musicDtoItem);
 
@@ -252,9 +264,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 				LOGGER4J.error(erroMgs + "-" + e2.getMessage(), e2.getClass().getName(), e2.getStackTrace());
 			}
 		}
-
 	}
 
+	/** format string use for create directori */
 	private String applyFormatRuleGenerale(String raw) {
 		String formatResult = "";
 		// supresion espace debans et deriere
@@ -274,6 +286,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		return formatResult;
 	}
 
+	/** launch sort procedure */
 	public void runSortFile() throws IOException {
 		doRunSortMusic();
 	}
