@@ -15,9 +15,19 @@ import repository.RepositoryMusicFileManual;
 
 public class MusicFileBandMaster extends FileBandMaster {
 
+	 /**
+     * the IRepositoryMusicFile containe the music repository.
+     */
 	private IRepositoryMusicFile repoMusic;
+	/**
+	 * the loger from log4j
+	 */
 	private static final Logger LOGGER4J = LogManager.getLogger(MusicFileBandMaster.class.getName());
 
+    /**
+     * Creates a new MusicFileBandMaster object with diretory In ,diretory out and diretory sorted set .
+     *  initliatise tne RepositoryMusiqueFile
+     */
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted)
 			throws SecurityException, FileNotFoundException, IOException {
 		super(dirIn, dirOut, dirSorted);
@@ -181,10 +191,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 		// sinon les cree
 		if (validateDirectorys()) {
 			LOGGER4J.debug("Load dir" + dirIn);
-			// loggerBandMaster.log(Level.INFO, "Load dir" + dirIn);
 			listeFichiersIn = managerFile.listeFilesOnDirectory(dirIn.getPath());
 			LOGGER4J.debug("clean files not mp3");
-			// loggerBandMaster.log(Level.INFO, "clean files not mp3");
 			// netoyer la liste de fichier pour ne garder que les fichier mp3
 			rejectFileNotMp3(listeFichiersIn);
 			//
