@@ -30,7 +30,7 @@ public class MainMp3 {
 	 */
 	private static MusicFileBandMaster musicSorter;
 	/**
-	 * the application tester deprecied (unit test incomming )
+	 * the application tester object  deprecied (unit test incomming )
 	 */
 	private static TestCode test;
 	/**
@@ -40,7 +40,7 @@ public class MainMp3 {
 	
 
     /**
-     * init application sorter 
+     * init application sorter et les tests
      */
 	public static void initApplication() throws SecurityException, FileNotFoundException, IOException {
 		musicSorter = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
@@ -48,16 +48,17 @@ public class MainMp3 {
 
 	}
 
-	/* lance les test developpe manuellement pour le moment */
+	/** launch manual test deprecied (unit test incomming ) */
 	public static void runTest() {
 		LOGGER4J.info("demarage des tests");
 		test.runTest();
 		LOGGER4J.info("fin des tests");
 	}
 
-	/*
-	 * initalise le repertoire in la fonction deplace tout les fichier contenu
-	 * dans le repertoire back dans le repertoire in
+	/**
+	 * init the directory in 
+	 * the function move all files in back directory to 
+	 * inMusic directory
 	 */
 	public static void initDirectory() throws IOException {
 		LOGGER4J.info("demarage sequence initalisation ");
@@ -65,8 +66,8 @@ public class MainMp3 {
 		LOGGER4J.info("Fin initialisation ");
 	}
 
-	/*
-	 * appel la fonction de tri
+	/**
+	 * call sort functions
 	 */
 	public static void launchSort() throws IOException {
 		LOGGER4J.info("demarage du tri");
@@ -74,27 +75,29 @@ public class MainMp3 {
 		LOGGER4J.info("fin du tri");
 	}
 
-	/*
-	 * vide les repetoire utiliser par l'application
+	/**
+	 * clean directory use by application 
 	 */
 	public static void ResetDirectory() throws IOException {
 		LOGGER4J.info("demarage Reset");
 		musicSorter.resetDirectories();
 		LOGGER4J.info("fin Reset");
 	}
-
+	/**
+	 *  launch the sort operations 
+	 */
 	public static void runProcces() throws IOException {
 		ResetDirectory();
 		initDirectory();
 		launchSort();
 	}
-
+	/** Main */
 	public static void main(String[] args) {
 		LOGGER4J.info("demarage de l'application");
 		try {
 			initApplication();
 			runProcces();
-			// runTest();
+			//runTest();
 		} catch (SecurityException | IOException e) {
 
 			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),
