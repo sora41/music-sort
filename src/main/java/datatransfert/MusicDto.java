@@ -37,6 +37,12 @@ public class MusicDto {
 	 * annee de parution
 	 */
 	private String Years;
+	
+
+	/**
+	 * genre musical
+	 */
+	private String genre;
 
 	public String getFileName() {
 		return fileName;
@@ -85,5 +91,17 @@ public class MusicDto {
 	public void setYears(String years) {
 		Years = years;
 	}
+
+	public String getGenre() {
+		return genre;
+	}
+
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+	
+	
+	
+	
 
 }
