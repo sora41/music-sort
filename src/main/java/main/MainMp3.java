@@ -97,7 +97,7 @@ public class MainMp3 {
 		try {
 			initApplication();
 			runProcces();
-			// runTest();
+			//runTest();
 		} catch (SecurityException | IOException e) {
 
 			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),

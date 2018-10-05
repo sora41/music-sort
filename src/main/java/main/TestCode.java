@@ -28,6 +28,7 @@ public class TestCode {
 			System.out.println("autor " + dto.getAuthor());
 			System.out.println("album " + dto.getAlbum());
 			System.out.println("annee " + dto.getYears());
+			System.out.println("genre " + dto.getGenre());
 		}
 	}
 
