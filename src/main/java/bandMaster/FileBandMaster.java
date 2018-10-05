@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import repository.IRepositoryFile;
-import repository.RepositoryWalkingFile;
+import repository.file.RepositoryWalkingFile;
 
 public abstract class FileBandMaster {
 

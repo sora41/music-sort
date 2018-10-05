@@ -10,7 +10,7 @@ import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
-import repository.RepositoryMusicFile;
+import repository.music.RepositoryMusicFile;
 
 public class MusicFileBandMaster extends FileBandMaster {
 

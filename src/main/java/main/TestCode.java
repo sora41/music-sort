@@ -9,9 +9,9 @@ import org.farng.mp3.TagException;
 import datatransfert.MusicDto;
 import repository.IRepositoryFile;
 import repository.IRepositoryMusicFile;
-import repository.RepositoryMusicFile;
-import repository.RepositoryMusicFileManual;
-import repository.RepositoryNativeFile;
+import repository.music.RepositoryMusicFile;
+import repository.music.RepositoryMusicFileManual;
+import repository.file.RepositoryNativeFile;
 
 public class TestCode {
 

@@ -88,7 +88,7 @@ public class MainMp3 {
 	public static void runProcces() throws IOException {
 		ResetDirectory();
 		initDirectory();
-		//launchSort();
+		launchSort();
 	}
 
 	/** Main */

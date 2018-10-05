@@ -1,4 +1,4 @@
-package repository;
+package repository.music;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +11,7 @@ import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
 import datatransfert.MusicDto;
+import repository.IRepositoryMusicFile;
 
 public class RepositoryMusicFile implements IRepositoryMusicFile {
 

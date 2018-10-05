@@ -1,4 +1,4 @@
-package repository;
+package repository.music;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.farng.mp3.TagException;
 
 import datatransfert.MusicDto;
+import repository.IRepositoryMusicFile;
 
 public class RepositoryMusicFileManual implements IRepositoryMusicFile {
 	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryMusicFileManual.class.getName());
