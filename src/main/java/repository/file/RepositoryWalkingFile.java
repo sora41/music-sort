@@ -17,7 +17,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import repository.IRepositoryFile;
-
+/**
+ *  repository file implemented with lib java.nio.file new walking methode
+*/
 public class RepositoryWalkingFile implements IRepositoryFile {
 
 	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryWalkingFile.class.getName());
