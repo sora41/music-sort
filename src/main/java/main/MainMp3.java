@@ -48,7 +48,7 @@ public class MainMp3 {
 	}
 
 	/** launch manual test deprecied (unit test incomming ) */
-	public static void runTest() {
+	public static void runTest() throws IOException {
 		LOGGER4J.info("demarage des tests");
 		test.runTest();
 		LOGGER4J.info("fin des tests");
@@ -96,8 +96,8 @@ public class MainMp3 {
 		LOGGER4J.info("demarage de l'application");
 		try {
 			initApplication();
-			runProcces();
-			//runTest();
+			//runProcces();
+			runTest();
 		} catch (SecurityException | IOException e) {
 
 			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),

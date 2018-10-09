@@ -3,7 +3,11 @@ package main;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 
+import org.apache.commons.io.FileSystemUtils;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.IOFileFilter;
 import org.farng.mp3.TagException;
 
 import datatransfert.MusicDto;
@@ -18,6 +22,8 @@ public class TestCode {
 	private static final String DIRECTORY_TEST_MP3 = "Music\\test\\filesmp3";
 	private static final String DIRECTORY_TEST_CLEAN = "Music\\test\\dircleaner";
 	private static final String DIRECTORY_INIT_CLEAN = "Music\\test\\initfile";
+	private static final String DIRECTORY_TEST_APACHE = "Music\\test\\apache";
+	private static final String DIRECTORY_TEST_DES = "Music\\test\\dest";
 	
 	public void afficheMusicDto(MusicDto dto) {
 		if (null != dto) {
@@ -80,11 +86,32 @@ public class TestCode {
 		}
 	}
 
+	public void test_create_directory() throws IOException
+	{
+		
+		File file = new File(DIRECTORY_TEST_APACHE);
+		File dest = new File(DIRECTORY_TEST_DES);
+		
+		System.out.println(dest.list().length);
+		for (String fileStr : dest.list()) {
+			System.out.println(fileStr);
+		};
+		Collection<File> files ;
+		//FileUtils.moveDirectory(file, dest);
+		//FileUtils.cleanDirectory(dest);
+		String [] extention = {""};
+		files = FileUtils.listFiles(dest, null,true);
+		System.out.println(files.size());
+		for (File file2 : files) {
+			System.out.println(file2.getName());
+		}
+	}
+	
 	public void test_deletefileRecursif(String DirToClean) {
 
 	}
 
-	public void runTest() {
+	public void runTest() throws IOException {
 		System.out.println("----------------testGetDtoMusique----------------------");
 		testGetDtoMusique(DIRECTORY_TEST_MP3);
 
@@ -93,6 +120,10 @@ public class TestCode {
 
 		/*System.out.println("-------------------test_delete_ recursif------------");
 		test_deletefileRecursif(DIRECTORY_TEST_CLEAN);*/
+		
+
+		System.out.println("-------------------test_forceMKDIR------------");
+		test_create_directory();
 
 	}
 }
