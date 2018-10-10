@@ -22,58 +22,76 @@ public class RepositoyApacheFile implements IRepositoryFile {
 
 	@Override
 	public void delete(String pathFileName) throws FileNotFoundException, IOException {
+		LOGGER4J.trace("start delete " + pathFileName);
 		File fileToDelete = new File(pathFileName);
 		FileUtils.forceDelete(fileToDelete);
+		LOGGER4J.trace("end delete " + pathFileName);
 	}
 
 	@Override
 	public void recursiveDelete(String pathFileName) throws IOException {
+		LOGGER4J.trace("start recursiveDelete " + pathFileName);
 		File fileToDelete = new File(pathFileName);
 		FileUtils.forceDelete(fileToDelete);
+		LOGGER4J.trace("end recursiveDelete " + pathFileName);
 	}
 
 	@Override
 	public void cleanDirectory(String pathFileName) throws IOException {
+		LOGGER4J.trace("start cleanDirectory" + pathFileName);
 		File fileToClean = new File(pathFileName);
 		FileUtils.cleanDirectory(fileToClean);
+		LOGGER4J.trace("end cleanDirectory");
 	}
 
 	@Override
 	public void move(String orginalePathName, String finalPahtName) throws IOException {
+		LOGGER4J.trace("Start move");
 		File file = new File(orginalePathName);
 		File dest = new File(finalPahtName);
 		FileUtils.moveDirectory(file, dest);
+		LOGGER4J.trace("end move");
 	}
 
 	@Override
 	public void copy(String orginalePathName, String finalPahtName) throws IOException {
+		LOGGER4J.trace("start copy");
 		File fileSrc = new File(orginalePathName);
 		File filedest = new File(finalPahtName);
 		FileUtils.copyDirectory(fileSrc, filedest);
+		LOGGER4J.trace("end copy");
 	}
 
 	@Override
 	public boolean validateDirectory(File dir) {
-		// TODO Auto-generated method stub
-		return false;
+		LOGGER4J.trace("start validateDirectory");
+		boolean resultas = false;
+		if (dir != null)
+			if (dir.exists())
+				if (dir.isDirectory())
+					resultas = true;
+		LOGGER4J.trace("end validateDirectory");
+		return resultas;
 	}
 
 	@Override
 	public ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectory");
-		ArrayList<String> nomFichiers = new ArrayList<>();
+		ArrayList<String> nomFichiers = null;
 		File repertoire = new File(dirName);
-		Collection<File> files ;
-	
-		
-		files = FileUtils.listFiles(repertoire, null,false);
-		
-		for (File fileItem : files) {
-			
-			nomFichiers.add(fileItem.getName());
+		Collection<File> files;
+
+		files = FileUtils.listFiles(repertoire, null, false);
+
+		if ((null != files) && (files.size() > 0)) {
+			nomFichiers = new ArrayList<>();
+			for (File fileItem : files) {
+
+				nomFichiers.add(fileItem.getName());
+			}
 		}
-		
-		return null;
+		LOGGER4J.trace("end listeFilesOnDirectory");
+		return nomFichiers;
 	}
 
 }
