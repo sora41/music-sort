@@ -96,8 +96,8 @@ public class MainMp3 {
 		LOGGER4J.info("demarage de l'application");
 		try {
 			initApplication();
-			//runProcces();
-			runTest();
+			runProcces();
+			//runTest();
 		} catch (SecurityException | IOException e) {
 
 			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),
