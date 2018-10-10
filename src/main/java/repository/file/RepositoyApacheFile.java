@@ -49,7 +49,7 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		LOGGER4J.trace("Start move");
 		File file = new File(orginalePathName);
 		File dest = new File(finalPahtName);
-		FileUtils.moveDirectory(file, dest);
+		FileUtils.moveFile(file, dest);
 		LOGGER4J.trace("end move");
 	}
 
@@ -58,7 +58,7 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		LOGGER4J.trace("start copy");
 		File fileSrc = new File(orginalePathName);
 		File filedest = new File(finalPahtName);
-		FileUtils.copyDirectory(fileSrc, filedest);
+		FileUtils.copyFile(fileSrc, filedest);
 		LOGGER4J.trace("end copy");
 	}
 
