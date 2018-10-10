@@ -119,6 +119,7 @@ public abstract class FileBandMaster {
 							managerFile.copy(pahtFileItem, dirIn.getPath() + File.separator + fileNameitem);
 						} catch (IOException e) {
 							LOGGER4J.error("imposible de deplacer le Fichier " + fileNameitem +"du repertoir:" + dirIn + " vers le repertoire " + dirOut);
+							LOGGER4J.error("error" + e.getMessage());
 						}
 					}
 				}
