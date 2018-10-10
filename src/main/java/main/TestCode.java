@@ -86,6 +86,7 @@ public class TestCode {
 		}
 	}
 
+	
 	public void test_create_directory() throws IOException
 	{
 		
@@ -107,6 +108,24 @@ public class TestCode {
 		}
 	}
 	
+	public void test_move_directory() throws IOException
+	{
+		
+		File file = new File(DIRECTORY_TEST_APACHE);
+		File dest = new File(DIRECTORY_TEST_DES);
+		
+		FileUtils.moveDirectory(file, dest);
+	}
+
+	public void test_move_file() throws IOException
+	{
+		
+		File file = new File("Music\\test\\1.txt");
+		File dest = new File(DIRECTORY_TEST_DES+"\\1.txt");
+		
+		FileUtils.moveFile(file, dest);
+		
+	}
 	public void test_deletefileRecursif(String DirToClean) {
 
 	}
@@ -122,8 +141,14 @@ public class TestCode {
 		test_deletefileRecursif(DIRECTORY_TEST_CLEAN);*/
 		
 
-		System.out.println("-------------------test_forceMKDIR------------");
+		/*System.out.println("-------------------test_forceMKDIR------------");
 		test_create_directory();
+		*/
+		/*System.out.println("-------------------test_move_directory------------");
+		test_move_directory();
+		*/
+		System.out.println("-------------------test_move_file------------");
+		test_move_file();;
 
 	}
 }
