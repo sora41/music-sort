@@ -90,7 +90,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 	}
 
 	@Override
-	public void move(String orginalePathName, String finalPahtName) throws IOException {
+	public void moveFile(String orginalePathName, String finalPahtName) throws IOException {
 		File originsfile = new File(orginalePathName);
 		if (originsfile.exists()) {
 			File finalFile = new File(finalPahtName);
@@ -104,7 +104,7 @@ public class RepositoryNativeFile implements IRepositoryFile {
 	}
 
 	@Override
-	public void copy(String OrginalePathName, String FinalPahtName) throws IOException {
+	public void copyFile(String OrginalePathName, String FinalPahtName) throws IOException {
 		File originsfile = new File(OrginalePathName);
 		if (originsfile.exists()) {
 			File finalFile = new File(FinalPahtName);

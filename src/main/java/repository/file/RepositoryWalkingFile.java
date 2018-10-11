@@ -82,7 +82,7 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 	}
 
 	@Override
-	public void move(String orginalePathName, String finalPahtName) throws IOException {
+	public void moveFile(String orginalePathName, String finalPahtName) throws IOException {
 		LOGGER4J.trace("Start move");
 		File originsfile = new File(orginalePathName);
 		if (originsfile.exists()) {
@@ -97,7 +97,7 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 	}
 
 	@Override
-	public void copy(String OrginalePathName, String FinalPahtName) throws IOException {
+	public void copyFile(String OrginalePathName, String FinalPahtName) throws IOException {
 		LOGGER4J.trace("Start copy");
 		File originsfile = new File(OrginalePathName);
 		if (originsfile.exists()) {

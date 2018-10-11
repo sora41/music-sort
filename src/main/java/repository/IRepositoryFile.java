@@ -13,9 +13,9 @@ public interface IRepositoryFile {
 	
 	public abstract void cleanDirectory(String pathFileName) throws IOException;
 
-	public abstract void move(String orginalePathName, String finalPahtName) throws IOException;
+	public abstract void moveFile(String orginalePathName, String finalPahtName) throws IOException;
 
-	public abstract void copy(String orginalePathName, String finalPahtName) throws IOException;
+	public abstract void copyFile(String orginalePathName, String finalPahtName) throws IOException;
 	
 	public abstract boolean validateDirectory(File dir); 
 	

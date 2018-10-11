@@ -78,7 +78,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			pathAutorDir = autorDir.getPath();
 			sortedTarget = pathAutorDir + File.separator + fileName;
 
-			managerFile.move(pathFile, sortedTarget);
+			managerFile.moveFile(pathFile, sortedTarget);
 
 		} else {
 			TagNotFoundException e = new TagNotFoundException("no artiste");
@@ -123,7 +123,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 				pathAlbumDir = albumDir.getPath();
 				sortedTarget = pathAlbumDir + File.separator + fileName;
 
-				managerFile.move(pathFile, sortedTarget);
+				managerFile.moveFile(pathFile, sortedTarget);
 			} else {
 				TagNotFoundException e = new TagNotFoundException("no album");
 				throw e;
@@ -158,7 +158,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			}
 			pathAlbumDir = albumDir.getPath();
 			sortedTarget = pathAlbumDir + File.separator + fileName;
-			managerFile.move(pathFile, sortedTarget);
+			managerFile.moveFile(pathFile, sortedTarget);
 		} else {
 			TagNotFoundException e = new TagNotFoundException("no album");
 			throw e;
@@ -213,7 +213,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 					// supresion de la liste
 					if (false == containegitkeep) {
 						try {
-							managerFile.move(pathFileItem, dirNotSuported + File.separator + fileNameItem);
+							managerFile.moveFile(pathFileItem, dirNotSuported + File.separator + fileNameItem);
 						} catch (IOException e2) {
 
 							String erroMgs = "imposible de deplacer le Fichier " + fileNameItem + "du repertoir:"
@@ -264,7 +264,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 			LOGGER4J.error("Fichier : " + fileName + "-" + e.getMessage(), e.getClass().getName(), e.getStackTrace());
 			try {
-				managerFile.move(pathFileItem, dirError + File.separator + fileName);
+				managerFile.moveFile(pathFileItem, dirError + File.separator + fileName);
 			} catch (IOException e2) {
 				String erroMgs = "imposible de deplacer le Fichier " + fileName + "du repertoir:" + dirIn
 						+ " vers le repertoire " + dirNotSuported;

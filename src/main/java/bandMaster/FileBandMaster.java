@@ -116,7 +116,7 @@ public abstract class FileBandMaster {
 					pahtFileItem = backDir + File.separator + fileNameitem;
 					if (pahtFileItem.contains(".gitkeep") == false) {
 						try {
-							managerFile.copy(pahtFileItem, dirIn.getPath() + File.separator + fileNameitem);
+							managerFile.copyFile(pahtFileItem, dirIn.getPath() + File.separator + fileNameitem);
 						} catch (IOException e) {
 							LOGGER4J.error("imposible de deplacer le Fichier " + fileNameitem +"du repertoir:" + dirIn + " vers le repertoire " + dirOut);
 							LOGGER4J.error("error" + e.getMessage());

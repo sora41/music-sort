@@ -45,7 +45,7 @@ public class RepositoyApacheFile implements IRepositoryFile {
 	}
 
 	@Override
-	public void move(String orginalePathName, String finalPahtName) throws IOException {
+	public void moveFile(String orginalePathName, String finalPahtName) throws IOException {
 		LOGGER4J.trace("Start move");
 		File file = new File(orginalePathName);
 		File dest = new File(finalPahtName);
@@ -54,7 +54,7 @@ public class RepositoyApacheFile implements IRepositoryFile {
 	}
 
 	@Override
-	public void copy(String orginalePathName, String finalPahtName) throws IOException {
+	public void copyFile(String orginalePathName, String finalPahtName) throws IOException {
 		LOGGER4J.trace("start copy");
 		File fileSrc = new File(orginalePathName);
 		File filedest = new File(finalPahtName);
