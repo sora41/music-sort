@@ -11,11 +11,19 @@ import org.apache.logging.log4j.Logger;
 import repository.IRepositoryFile;
 import repository.file.RepositoryWalkingFile;
 import repository.file.RepositoyApacheFile;
-
+/**
+ * orchestrateur de la gestion des fichiers 
+ * */
 public abstract class FileBandMaster {
-
+	
 	private static final Logger LOGGER4J = LogManager.getLogger(FileBandMaster.class.getName());
+	/**
+	 * nom du repertoire de sorti des fichier non suporté par l'application 
+	 * */
 	private static final String DIR_NOT_SUPORTED = "NotSuported";
+	/**
+	 * nom du repertoire de sorti erreur 
+	 * */
 	private static final String DIR_ERROR = "Erro";
 	/**
 	 * repertoire d'entre des musique a trie
@@ -34,8 +42,7 @@ public abstract class FileBandMaster {
 	 **/
 	protected File dirNotSuported;
 	/**
-	 * repertoire de sorti des fichier possedant des informations invalide (tag
-	 * manquant )
+	 * repertoire de sorti des fichier en erreur dans la couche metier de l'application 
 	 **/
 	protected File dirError;
 	/**
@@ -166,6 +173,8 @@ public abstract class FileBandMaster {
 			throw e;
 		}
 	}
-
+	/**
+	 * function de trie des fichiers 
+	 * */
 	public abstract void runSortFile() throws IOException;
 }

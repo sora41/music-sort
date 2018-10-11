@@ -11,7 +11,9 @@ import org.farng.mp3.TagNotFoundException;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
 import repository.music.RepositoryMusicFile;
-
+/**
+ * orchestrateur de la gestion des fichiers MP3
+ * */
 public class MusicFileBandMaster extends FileBandMaster {
 
 	/**
