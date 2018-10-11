@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-
+/** inteface de gestion de fichier */
 public interface IRepositoryFile {
 
 	public abstract void delete(String pathFileName)throws FileNotFoundException, IOException;
