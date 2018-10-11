@@ -17,14 +17,31 @@ public abstract class FileBandMaster {
 	private static final Logger LOGGER4J = LogManager.getLogger(FileBandMaster.class.getName());
 	private static final String DIR_NOT_SUPORTED = "NotSuported";
 	private static final String DIR_ERROR = "Erro";
-	
+	/*
+	 * repertoire d'entre des musique a trie 
+	 * **/
 	protected File dirIn;
+	/*
+	 * repertoire de sorti des musiques non triable  
+	 * **/
 	protected File dirOut;
+	/*
+	 * repertoire de sorti des musique trier  
+	 * **/
 	protected File dirSorted;
+	/*
+	 * repertoire de sorti des fichier non suporter (different format )  
+	 * **/
 	protected File dirNotSuported;
+	/*
+	 * repertoire de sorti des fichier possedant des informations invalide  (tag manquant )
+	 * **/
 	protected File dirError;
+	/**
+	 * manager de fichier 
+	 * */
 	protected IRepositoryFile managerFile;
-
+	
 	public FileBandMaster(String dirIn, String dirOut, String dirSorted) {
 		this.dirIn = new File(dirIn);
 		this.dirOut = new File(dirOut);
@@ -74,7 +91,9 @@ public abstract class FileBandMaster {
 	public void setDirError(File dirError) {
 		this.dirError = dirError;
 	}
-
+	/*
+	 * verifie si les repertoires utilise par l'application existe
+	 * **/
 	protected boolean validateDirectorys() {
 		boolean resultas = true;
 
@@ -95,25 +114,37 @@ public abstract class FileBandMaster {
 
 		return resultas;
 	}
-
+	/**
+	 * vide les repertoire inmusi, outmusic,sortedmusic
+	 * */
 	public void resetDirectories() throws IOException {
 		managerFile.cleanDirectory(this.dirIn.getPath());
 		managerFile.cleanDirectory(this.dirOut.getPath());
 		managerFile.cleanDirectory(this.dirSorted.getPath());
 	}
-
+	
+	/**
+	 * 
+	 * initialise le repertoire d'entré de l'application 
+	 * en copiant les fichier un a un  du repertoire back ver le repertoire inMusic  
+	*/
 	public void initDirectorieIn(String backDir) throws IOException {
 		File back = new File(backDir);
 		ArrayList<String> listeFichiersBack;
 		String fileNameitem = "";
 		String pahtFileItem = "";
 		LOGGER4J.debug("initalisation  " + backDir);
+		//verfie si le repertoire back existe 
 		if (managerFile.validateDirectory(back) == true) {
 			listeFichiersBack = managerFile.listeFilesOnDirectory(back.getPath());
-			if (listeFichiersBack.size() > 0) {
+			// verifie si la liste  de fichier existe et si elle contient des elements 
+			if (null == listeFichiersBack && listeFichiersBack.size() > 0) {
 				for (int i = 0; i < listeFichiersBack.size(); i++) {
+					// recuperation du nom du fichier 
 					fileNameitem = listeFichiersBack.get(i);
+					// creation de la string path 
 					pahtFileItem = backDir + File.separator + fileNameitem;
+					//ignore gitkeep 
 					if (pahtFileItem.contains(".gitkeep") == false) {
 						try {
 							managerFile.copyFile(pahtFileItem, dirIn.getPath() + File.separator + fileNameitem);
