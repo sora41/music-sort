@@ -54,7 +54,7 @@ public class RepositoryMusicFile implements IRepositoryMusicFile {
 		songDto.setFileName(mp3file.getFilenameTag().composeFilename());
 		songDto.setAuthor(mp3file.getID3v1Tag().getArtist());
 		songDto.setPathFile(mp3file.getMp3file().getPath());
-		songDto.setSongName(mp3file.getID3v1Tag().getTitle());
+		songDto.setTitleSong(mp3file.getID3v1Tag().getTitle());
 		songDto.setYears(mp3file.getID3v1Tag().getYear());
 		String dtoGenre = Byte.toString(mp3file.getID3v1Tag().getGenre());
 
@@ -71,7 +71,7 @@ public class RepositoryMusicFile implements IRepositoryMusicFile {
 		songDto.setFileName(mp3file.getFilenameTag().composeFilename());
 		songDto.setAuthor(mp3file.getID3v2Tag().getLeadArtist());
 		songDto.setPathFile(mp3file.getMp3file().getPath());
-		songDto.setSongName(mp3file.getID3v2Tag().getSongTitle());
+		songDto.setTitleSong(mp3file.getID3v2Tag().getSongTitle());
 		songDto.setYears(mp3file.getID3v2Tag().getYearReleased());
 		songDto.setGenre(mp3file.getID3v2Tag().getSongGenre());
 		return songDto;

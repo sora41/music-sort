@@ -15,7 +15,9 @@ import repository.file.RepositoyApacheFile;
  * orchestrateur de la gestion des fichiers 
  * */
 public abstract class FileBandMaster {
-	
+	/**
+	 * the loger from log4j
+	 */
 	private static final Logger LOGGER4J = LogManager.getLogger(FileBandMaster.class.getName());
 	/**
 	 * nom du repertoire de sorti des fichier non suporté par l'application 

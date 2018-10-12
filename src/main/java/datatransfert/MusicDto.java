@@ -7,40 +7,32 @@ package datatransfert;
  *
  */
 public class MusicDto {
-
 	/**
-	 * nom du fichier
+	 *  file name
 	 */
 	private String fileName;
-
 	/**
-	 * titre de la chanson
+	 * title song's
 	 */
-	private String songName;
-
+	private String titleSong;
 	/**
-	 * nom de l'auteur
+	 *  author name
 	 */
 	private String author;
-
 	/**
-	 * nom de l'album
+	 * title Album
 	 */
 	private String album;
-
 	/**
-	 * chemin du fichier
+	 * path file 
 	 */
 	private String pathFile;
-
 	/**
-	 * annee de parution
+	 * edition years
 	 */
 	private String Years;
-	
-
 	/**
-	 * genre musical
+	 *  musical genre 
 	 */
 	private String genre;
 
@@ -76,12 +68,12 @@ public class MusicDto {
 		this.pathFile = pathFile;
 	}
 
-	public String getSongName() {
-		return songName;
+	public String getTitleSong() {
+		return titleSong;
 	}
 
-	public void setSongName(String songName) {
-		this.songName = songName;
+	public void setTitleSong(String titleSong) {
+		this.titleSong = titleSong;
 	}
 
 	public String getYears() {

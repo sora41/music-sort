@@ -30,7 +30,7 @@ public class TestCode {
 
 			System.out.println("filname " + dto.getFileName());
 			System.out.println("path " + dto.getPathFile());
-			System.out.println("title " + dto.getSongName());
+			System.out.println("title " + dto.getTitleSong());
 			System.out.println("autor " + dto.getAuthor());
 			System.out.println("album " + dto.getAlbum());
 			System.out.println("annee " + dto.getYears());
