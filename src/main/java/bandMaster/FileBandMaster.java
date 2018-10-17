@@ -144,23 +144,23 @@ public abstract class FileBandMaster {
 		File back = new File(backDir);
 		ArrayList<String> listeFichiersBack;
 		String fileNameitem = "";
-		String pahtFileItem = "";
+		String newPahtFileItem = "";
 		LOGGER4J.debug("initalisation  " + backDir);
 		// verfie si le repertoire back existe
 		if (managerFile.validateDirectory(back) == true) {
 			listeFichiersBack = managerFile.listeFilesOnDirectory(back.getPath());
 			// verifie si la liste de fichier existe et si elle contient des
 			// elements
-			if (null == listeFichiersBack && listeFichiersBack.size() > 0) {
+			if (null != listeFichiersBack && listeFichiersBack.size() > 0) {
 				for (int i = 0; i < listeFichiersBack.size(); i++) {
 					// recuperation du nom du fichier
 					fileNameitem = listeFichiersBack.get(i);
-					// creation de la string path
-					pahtFileItem = backDir + File.separator + fileNameitem;
+					// creation de la string path de destination 
+					newPahtFileItem = fileNameitem.substring(backDir.length()+1);
 					// ignore gitkeep
-					if (pahtFileItem.contains(".gitkeep") == false) {
+					if (newPahtFileItem.contains(".gitkeep") == false) {
 						try {
-							managerFile.copyFile(pahtFileItem, dirIn.getPath() + File.separator + fileNameitem);
+							managerFile.copyFile(fileNameitem,  dirIn.getPath() + File.separator +newPahtFileItem);
 						} catch (IOException e) {
 							LOGGER4J.error("imposible de deplacer le Fichier " + fileNameitem + "du repertoir:" + dirIn
 									+ " vers le repertoire " + dirOut);

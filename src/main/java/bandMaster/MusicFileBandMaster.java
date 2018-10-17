@@ -11,9 +11,10 @@ import org.farng.mp3.TagNotFoundException;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
 import repository.music.RepositoryMusicFile;
+
 /**
  * orchestrateur de la gestion des fichiers MP3
- * */
+ */
 public class MusicFileBandMaster extends FileBandMaster {
 
 	/**
@@ -173,24 +174,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 		doLoadDTO(pathFileName);
 	}
 
-	/** launch sort procedure */
-	private void doRunSortMusic() throws IOException {
-		ArrayList<String> listeFichiersIn;
-
-		int tabSize = 0;
-
-		// etape 1 tester sur les repertoire suivant existe
-		// sinon les cree
-		if (validateDirectorys()) {
-			LOGGER4J.debug("Load dir" + dirIn);
-			listeFichiersIn = managerFile.listeFilesOnDirectory(dirIn.getPath());
-			LOGGER4J.debug("clean files not mp3");
-			// netoyer la liste de fichier pour ne garder que les fichier mp3
-			rejectFileNotMp3(listeFichiersIn);
-			sortFilesMp3(listeFichiersIn);
-		}
-	}
-
 	/** move file not take in charge */
 	private void rejectFileNotMp3(ArrayList<String> listeFichiersIn) {
 		int fileNumber = 0;
@@ -229,7 +212,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		}
 	}
 
-	private void sortFilesMp3(ArrayList<String> listeFichiersIn) {
+	private void sortListFileMp3(ArrayList<String> listeFichiersIn) {
 		int tabSize = 0;
 		String fileNameitem = "";
 		boolean zeroFile = true;
@@ -253,20 +236,14 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 	private void sortFileMp3(String fileName) {
 		MusicDto musicDtoItem;
-		String pathFileItem = "";
-		pathFileItem = dirIn + File.separator + fileName;
 		try {
-
-			musicDtoItem = doLoadDTO(pathFileItem);
-
+			musicDtoItem = doLoadDTO(fileName);
 			// tri artiste album
 			sortedByAuthorAndAlbum(musicDtoItem);
-
 		} catch (IOException | TagException | UnsupportedOperationException e) {
-
 			LOGGER4J.error("Fichier : " + fileName + "-" + e.getMessage(), e.getClass().getName(), e.getStackTrace());
 			try {
-				managerFile.moveFile(pathFileItem, dirError + File.separator + fileName);
+				managerFile.moveFile(fileName, dirError + File.separator + fileName);
 			} catch (IOException e2) {
 				String erroMgs = "imposible de deplacer le Fichier " + fileName + "du repertoir:" + dirIn
 						+ " vers le repertoire " + dirNotSuported;
@@ -297,6 +274,17 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 	/** launch sort procedure */
 	public void runSortFile() throws IOException {
-		doRunSortMusic();
+		ArrayList<String> listeFichiersIn;
+		int tabSize = 0;
+		// etape 1 tester sur les repertoire suivant existe
+		// sinon les cree
+		if (validateDirectorys()) {
+			LOGGER4J.debug("Load dir" + dirIn);
+			listeFichiersIn = managerFile.listeFilesOnDirectory(dirIn.getPath());
+			LOGGER4J.debug("clean files not mp3");
+			// netoyer la liste de fichier pour ne garder que les fichier mp3
+			rejectFileNotMp3(listeFichiersIn);
+			sortListFileMp3(listeFichiersIn);
+		}
 	}
 }
