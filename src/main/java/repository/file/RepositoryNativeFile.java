@@ -67,20 +67,15 @@ public class RepositoryNativeFile implements IRepositoryFile {
 		}
 	}
 
-	
-
 	/*
 	 * vide le repertoire et tout ceux qu'il contient sauf les fichier gitkeep
 	 */
 	@Override
 	public void cleanDirectory(String pathFileName) throws IOException {
 		LOGGER4J.trace("lancement clean sur le repertoire " + pathFileName);
-
 		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
-
 		String pahtItem;
 		int taille = fileList.size();
-
 		LOGGER4J.trace("contient" + taille);
 		for (int i = 0; i < fileList.size(); i++) {
 			pahtItem = pathFileName + File.separator + fileList.get(i);
@@ -129,13 +124,14 @@ public class RepositoryNativeFile implements IRepositoryFile {
 	@Override
 	public ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException {
 
-		ArrayList<String> nomFichiers = new ArrayList<>();
+		ArrayList<String> nomFichiers = null;
 		File repertoire = new File(dirName);
 
 		if (repertoire.exists()) {
+			nomFichiers = new ArrayList<>();
 			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath());
 			for (Path path : directoryStream) {
-				nomFichiers.add(path.getFileName().toString());
+				nomFichiers.add(path.toString());
 			}
 		} else {
 			FileNotFoundException e = new FileNotFoundException(
@@ -145,5 +141,43 @@ public class RepositoryNativeFile implements IRepositoryFile {
 		return nomFichiers;
 	}
 
+	@Override
+	public ArrayList<String> listeFilesOnDirectoryAndSubDirectory(String dirName) throws IOException {
+		ArrayList<String> nomFichiers = null;
+		ArrayList<String> nomFichiersTempo = null;
+		File repertoire = new File(dirName);
+		String fileNameItem;
+		System.out.println(dirName);
+		if (repertoire.exists()) {
+			nomFichiers = new ArrayList<>();
+			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath());
+			for (Path path : directoryStream) {
+				fileNameItem = path.getFileName().toString();
+				if (path.toFile().isDirectory()) {
+					nomFichiersTempo = listeFilesOnDirectoryAndSubDirectory(dirName + "\\" + fileNameItem);
+
+					if ((null != nomFichiersTempo)) {
+						if (nomFichiersTempo.size() > 0) {
+
+							if (nomFichiers.addAll(nomFichiersTempo) == false) {
+								IOException eCollectionSet = new IOException(
+										"erro affection apelle recurisif sur le fichier" + fileNameItem
+												+ "dans le repertoire" + dirName);
+								throw eCollectionSet;
+							}
+						}
+					}
+
+				} else {
+					nomFichiers.add(path.toString());
+				}
+			}
+		} else {
+			FileNotFoundException eFileNotFound = new FileNotFoundException(
+					"repertoire: " + repertoire.getAbsolutePath() + " introuvable");
+			throw eFileNotFound;
+		}
+		return nomFichiers;
+	}
 
 }

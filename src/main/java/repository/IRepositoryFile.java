@@ -20,6 +20,8 @@ public interface IRepositoryFile {
 	public abstract boolean validateDirectory(File dir); 
 	
 	public abstract ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException ;
+	
+	public abstract ArrayList<String> listeFilesOnDirectoryAndSubDirectory(String dirName) throws IOException ;
 
 
 }

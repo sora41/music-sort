@@ -17,10 +17,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import repository.IRepositoryFile;
+
 /**
- *  repository file implemented with lib java.nio.file new walking methode
-*/
-public class RepositoryWalkingFile implements IRepositoryFile {
+ * repository file implemented with lib java.nio.file new walking methode
+ */
+public class RepositoryWalkingFile  implements IRepositoryFile {
 
 	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryWalkingFile.class.getName());
 
@@ -34,7 +35,6 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 		} else {
 			LOGGER4J.trace("supresion " + pathFileName + " echec");
 		}
-
 	}
 
 	@Override
@@ -47,7 +47,6 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 			recursiveDelete(pahtItem);
 		}
 		LOGGER4J.trace("end cleanDirectory");
-
 	}
 
 	@Override
@@ -126,13 +125,14 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 	@Override
 	public ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectory");
-		ArrayList<String> nomFichiers = new ArrayList<>();
+		ArrayList<String> nomFichiers = null;
 		File repertoire = new File(dirName);
 
 		if (repertoire.exists()) {
 			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath());
+			nomFichiers = new ArrayList<>();
 			for (Path path : directoryStream) {
-				nomFichiers.add(path.getFileName().toString());
+				nomFichiers.add(path.toString());
 			}
 		} else {
 			FileNotFoundException e = new FileNotFoundException(
@@ -140,6 +140,44 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 			throw e;
 		}
 		LOGGER4J.trace("end listeFilesOnDirectory");
+		return nomFichiers;
+	}
+
+	@Override
+	public ArrayList<String> listeFilesOnDirectoryAndSubDirectory(String dirName) throws IOException {
+		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
+		ArrayList<String> nomFichiers = null;
+		ArrayList<String> nomFichiersTempo = null;
+		File repertoire = new File(dirName);
+		String fileNameItem;
+		System.out.println(dirName);
+		if (repertoire.exists()) {
+			nomFichiers = new ArrayList<>();
+			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath());
+			for (Path path : directoryStream) {
+				fileNameItem = path.getFileName().toString();
+				if (path.toFile().isDirectory()) {
+					nomFichiersTempo = listeFilesOnDirectoryAndSubDirectory(dirName +"\\"+fileNameItem);
+					if ((null != nomFichiersTempo)) {
+						if (nomFichiersTempo.size() > 0) {
+							if (nomFichiers.addAll(nomFichiersTempo) == false) {
+								IOException eCollectionSet = new IOException(
+										"erro affection apelle recurisif sur le fichier" + fileNameItem
+												+ "dans le repertoire" + dirName);
+								throw eCollectionSet;
+							}
+						}
+					}
+				} else {
+					nomFichiers.add(path.toString());
+				}
+			}
+		} else {
+			FileNotFoundException eFileNotFound = new FileNotFoundException(
+					"repertoire: " + repertoire.getAbsolutePath() + " introuvable");
+			throw eFileNotFound;
+		}
+		LOGGER4J.trace("end listeFilesOnDirectoryAndSubDirectory");
 		return nomFichiers;
 	}
 
