@@ -51,7 +51,7 @@ public class TestCode {
 		ArrayList<String> namefiles;
 		try {
 			namefiles = repoFile.listeFilesOnDirectory(DirIn);
-			String path = DirIn + File.separator + namefiles.get(0);
+			String path =  namefiles.get(0);
 			// afficheStringArray(namefiles);
 			System.out.println(path);
 
@@ -72,7 +72,7 @@ public class TestCode {
 		ArrayList<String> namefiles;
 		try {
 			namefiles = repoFile.listeFilesOnDirectory(DirIn);
-			String path = DirIn + File.separator + namefiles.get(0);
+			String path = namefiles.get(0);
 			// afficheStringArray(namefiles);
 			System.out.println(path);
 
