@@ -280,7 +280,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		// sinon les cree
 		if (validateDirectorys()) {
 			LOGGER4J.debug("Load dir" + dirIn);
-			listeFichiersIn = managerFile.listeFilesOnDirectory(dirIn.getPath());
+			listeFichiersIn = managerFile.listeFilesOnDirectoryAndSubDirectory(dirIn.getPath());
 			LOGGER4J.debug("clean files not mp3");
 			// netoyer la liste de fichier pour ne garder que les fichier mp3
 			rejectFileNotMp3(listeFichiersIn);

@@ -148,7 +148,7 @@ public abstract class FileBandMaster {
 		LOGGER4J.debug("initalisation  " + backDir);
 		// verfie si le repertoire back existe
 		if (managerFile.validateDirectory(back) == true) {
-			listeFichiersBack = managerFile.listeFilesOnDirectory(back.getPath());
+			listeFichiersBack = managerFile.listeFilesOnDirectoryAndSubDirectory(back.getPath());
 			// verifie si la liste de fichier existe et si elle contient des
 			// elements
 			if (null != listeFichiersBack && listeFichiersBack.size() > 0) {

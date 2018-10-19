@@ -46,20 +46,20 @@ public class RepositoyApacheFile implements IRepositoryFile {
 
 	@Override
 	public void moveFile(String orginalePathName, String finalPahtName) throws IOException {
-		LOGGER4J.trace("Start move");
+		LOGGER4J.trace("Start moveFile");
 		File file = new File(orginalePathName);
 		File dest = new File(finalPahtName);
 		FileUtils.moveFile(file, dest);
-		LOGGER4J.trace("end move");
+		LOGGER4J.trace("end moveFile");
 	}
 
 	@Override
 	public void copyFile(String orginalePathName, String finalPahtName) throws IOException {
-		LOGGER4J.trace("start copy");
+		LOGGER4J.trace("start copyFile");
 		File fileSrc = new File(orginalePathName);
 		File filedest = new File(finalPahtName);
 		FileUtils.copyFile(fileSrc, filedest);
-		LOGGER4J.trace("end copy");
+		LOGGER4J.trace("end copyFile");
 	}
 
 	@Override
