@@ -1,4 +1,4 @@
-package repository;
+package repository.music;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +11,7 @@ import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
 import datatransfert.MusicDto;
+import repository.IRepositoryMusicFile;
 
 public class RepositoryMusicFile implements IRepositoryMusicFile {
 
@@ -47,29 +48,33 @@ public class RepositoryMusicFile implements IRepositoryMusicFile {
 	private MusicDto getID3DataV1(MP3File mp3file)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 
-		MusicDto SongDto = new MusicDto();
+		MusicDto songDto = new MusicDto();
 
-		SongDto.setAlbum(mp3file.getID3v1Tag().getAlbum());
-		SongDto.setFileName(mp3file.getFilenameTag().composeFilename());
-		SongDto.setAuthor(mp3file.getID3v1Tag().getArtist());
-		SongDto.setPathFile(mp3file.getMp3file().getPath());
-		SongDto.setSongName(mp3file.getID3v1Tag().getTitle());
-		SongDto.setYears(mp3file.getID3v1Tag().getYear());
+		songDto.setAlbum(mp3file.getID3v1Tag().getAlbum());
+		songDto.setFileName(mp3file.getFilenameTag().composeFilename());
+		songDto.setAuthor(mp3file.getID3v1Tag().getArtist());
+		songDto.setPathFile(mp3file.getMp3file().getPath());
+		songDto.setTitleSong(mp3file.getID3v1Tag().getTitle());
+		songDto.setYears(mp3file.getID3v1Tag().getYear());
+		String dtoGenre = Byte.toString(mp3file.getID3v1Tag().getGenre());
 
-		return SongDto;
+		songDto.setGenre(dtoGenre);
+		
+
+		return songDto;
 	}
 
 	private MusicDto getID3DataV2(MP3File mp3file) {
-		MusicDto SongDto = new MusicDto();
+		MusicDto songDto = new MusicDto();
 
-		SongDto.setAlbum(mp3file.getID3v2Tag().getAlbumTitle());
-		SongDto.setFileName(mp3file.getFilenameTag().composeFilename());
-		SongDto.setAuthor(mp3file.getID3v2Tag().getLeadArtist());
-		SongDto.setPathFile(mp3file.getMp3file().getPath());
-		SongDto.setSongName(mp3file.getID3v2Tag().getSongTitle());
-		SongDto.setYears(mp3file.getID3v2Tag().getYearReleased());
-
-		return SongDto;
+		songDto.setAlbum(mp3file.getID3v2Tag().getAlbumTitle());
+		songDto.setFileName(mp3file.getFilenameTag().composeFilename());
+		songDto.setAuthor(mp3file.getID3v2Tag().getLeadArtist());
+		songDto.setPathFile(mp3file.getMp3file().getPath());
+		songDto.setTitleSong(mp3file.getID3v2Tag().getSongTitle());
+		songDto.setYears(mp3file.getID3v2Tag().getYearReleased());
+		songDto.setGenre(mp3file.getID3v2Tag().getSongGenre());
+		return songDto;
 
 	}
 

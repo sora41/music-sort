@@ -3,31 +3,37 @@ package main;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Collection;
+import org.apache.commons.io.FileUtils;
 import org.farng.mp3.TagException;
 
 import datatransfert.MusicDto;
 import repository.IRepositoryFile;
 import repository.IRepositoryMusicFile;
-import repository.RepositoryMusicFile;
-import repository.RepositoryMusicFileManual;
-import repository.RepositoryNativeFile;
+import repository.music.RepositoryMusicFile;
+import repository.music.RepositoryMusicFileManual;
+import repository.file.RepositoryNativeFile;
+import repository.file.RepositoryWalkingFile;
+import repository.file.RepositoyApacheFile;
 
 public class TestCode {
 
 	private static final String DIRECTORY_TEST_MP3 = "Music\\test\\filesmp3";
 	private static final String DIRECTORY_TEST_CLEAN = "Music\\test\\dircleaner";
 	private static final String DIRECTORY_INIT_CLEAN = "Music\\test\\initfile";
-	
+	private static final String DIRECTORY_TEST_APACHE = "Music\\test\\apache";
+	private static final String DIRECTORY_TEST_DES = "Music\\test\\dest";
+
 	public void afficheMusicDto(MusicDto dto) {
 		if (null != dto) {
 
 			System.out.println("filname " + dto.getFileName());
 			System.out.println("path " + dto.getPathFile());
-			System.out.println("title " + dto.getSongName());
+			System.out.println("title " + dto.getTitleSong());
 			System.out.println("autor " + dto.getAuthor());
 			System.out.println("album " + dto.getAlbum());
 			System.out.println("annee " + dto.getYears());
+			System.out.println("genre " + dto.getGenre());
 		}
 	}
 
@@ -45,7 +51,7 @@ public class TestCode {
 		ArrayList<String> namefiles;
 		try {
 			namefiles = repoFile.listeFilesOnDirectory(DirIn);
-			String path = DirIn + File.separator + namefiles.get(0);
+			String path =  namefiles.get(0);
 			// afficheStringArray(namefiles);
 			System.out.println(path);
 
@@ -66,7 +72,7 @@ public class TestCode {
 		ArrayList<String> namefiles;
 		try {
 			namefiles = repoFile.listeFilesOnDirectory(DirIn);
-			String path = DirIn + File.separator + namefiles.get(0);
+			String path = namefiles.get(0);
 			// afficheStringArray(namefiles);
 			System.out.println(path);
 
@@ -79,19 +85,88 @@ public class TestCode {
 		}
 	}
 
-	public void test_deletefileRecursif(String DirToClean) {
+	public void test_create_directory() throws IOException {
+
+		File file = new File(DIRECTORY_TEST_APACHE);
+		File dest = new File(DIRECTORY_TEST_DES);
+
+		System.out.println(dest.list().length);
+		for (String fileStr : dest.list()) {
+			System.out.println(fileStr);
+		}
+		;
+		Collection<File> files;
+		// FileUtils.moveDirectory(file, dest);
+		// FileUtils.cleanDirectory(dest);
+		String[] extention = { "" };
+		files = FileUtils.listFiles(dest, null, true);
+		System.out.println(files.size());
+		for (File file2 : files) {
+			System.out.println(file2.getName());
+		}
+	}
+
+	public void test_move_directory() throws IOException {
+		File file = new File(DIRECTORY_TEST_APACHE);
+		File dest = new File(DIRECTORY_TEST_DES);
+		FileUtils.moveDirectory(file, dest);
+	}
+
+	public void test_move_file() throws IOException {
+		File file = new File("Music\\test\\1.txt");
+		File dest = new File(DIRECTORY_TEST_DES + "\\1.txt");
+		FileUtils.moveFile(file, dest);
 
 	}
 
-	public void runTest() {
+	public void test_getlisteFileRecursifWalking(String dirtoScan) throws IOException {
+		RepositoryWalkingFile rwf = new RepositoryWalkingFile();
+		afficheStringArray(rwf.listeFilesOnDirectoryAndSubDirectory(dirtoScan));
+	}
+
+	public void test_getlisteFileRecursifNatif(String dirtoScan) throws IOException {
+		RepositoryNativeFile rnf = new RepositoryNativeFile();
+		afficheStringArray(rnf.listeFilesOnDirectoryAndSubDirectory(dirtoScan));
+	}
+
+	public void test_getlisteFileRecursifApache(String dirtoScan) throws IOException {
+		RepositoyApacheFile raf = new RepositoyApacheFile();
+		afficheStringArray(raf.listeFilesOnDirectoryAndSubDirectory(dirtoScan));
+	}
+
+	public void runTest() throws IOException {
 		System.out.println("----------------testGetDtoMusique----------------------");
 		testGetDtoMusique(DIRECTORY_TEST_MP3);
 
 		System.out.println("-------------------testLoadManualRepository------------");
 		testLoadManualRepository(DIRECTORY_TEST_MP3);
 
-		/*System.out.println("-------------------test_delete_ recursif------------");
-		test_deletefileRecursif(DIRECTORY_TEST_CLEAN);*/
+		/*
+		 * System.out.
+		 * println("-------------------test_delete_ recursif------------");
+		 * test_deletefileRecursif(DIRECTORY_TEST_CLEAN);
+		 */
 
+		/*
+		 * System.out.println("-------------------test_forceMKDIR------------");
+		 * test_create_directory();
+		 */
+		/*
+		 * System.out.println(
+		 * "-------------------test_move_directory------------");
+		 * test_move_directory();
+		 * 
+		 * System.out.println("-------------------test_move_file------------");
+		 * test_move_file();
+		 */
+
+		System.out.println("-------------------test_getlisteFileRecursifWalking------------");
+		test_getlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
+
+		System.out.println("-------------------test_getlisteFileRecursifNatif------------");
+		test_getlisteFileRecursifNatif(DIRECTORY_INIT_CLEAN);
+
+		System.out.println("-------------------test_getlisteFileRecursifApache------------");
+		test_getlisteFileRecursifApache(DIRECTORY_INIT_CLEAN);
 	}
 }
