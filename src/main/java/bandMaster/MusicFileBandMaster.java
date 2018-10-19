@@ -13,7 +13,7 @@ import repository.IRepositoryMusicFile;
 import repository.music.RepositoryMusicFile;
 
 /**
- * orchestrateur de la gestion des fichiers MP3
+ * bandMaster file music 
  */
 public class MusicFileBandMaster extends FileBandMaster {
 
@@ -58,7 +58,10 @@ public class MusicFileBandMaster extends FileBandMaster {
 	}
 
 	/**
-	 * sort music file by author
+	 *  sort music file by author
+	 * @param song
+	 * @throws IOException
+	 * @throws TagNotFoundException
 	 */
 	private void sortedByAutor(MusicDto song) throws IOException, TagNotFoundException {
 
@@ -211,7 +214,10 @@ public class MusicFileBandMaster extends FileBandMaster {
 			}
 		}
 	}
-
+	/**
+	 * 
+	 * @param listeFichiersIn
+	 */
 	private void sortListFileMp3(ArrayList<String> listeFichiersIn) {
 		int tabSize = 0;
 		String fileNameitem = "";
@@ -233,7 +239,10 @@ public class MusicFileBandMaster extends FileBandMaster {
 			LOGGER4J.info("aucun fichier a traité ");
 		}
 	}
-
+	/**
+	 * 
+	 * @param fileName
+	 */
 	private void sortFileMp3(String fileName) {
 		MusicDto musicDtoItem;
 		try {
