@@ -191,7 +191,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 				pathFileItem = dirIn + File.separator + fileNameItem;
 				isMp3 = fileNameItem.endsWith(".mp3");
 				containegitkeep = fileNameItem.contains(".gitkeep");
-				// ca fait quoi ca tu vois ce n'est pas asser clair
+				// ca fait quoi ca tu vois ce n'est pas asser clair  
 				// si ce n'est pas un mp3 et pas gitkeep
 				// je les deplace dans le repertoire notsuported et je retire de
 				// la
