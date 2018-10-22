@@ -174,7 +174,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		doLoadDTO(pathFileName);
 	}
 
-	/** move file not take in charge */
+	/** move file not take in charge  */
 	private void rejectFileNotMp3(ArrayList<String> listeFichiersIn) {
 		int fileNumber = 0;
 		String fileNameItem = "";
