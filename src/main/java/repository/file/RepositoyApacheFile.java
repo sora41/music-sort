@@ -55,11 +55,11 @@ public class RepositoyApacheFile implements IRepositoryFile {
 
 	@Override
 	public void copyFile(String orginalePathName, String finalPahtName) throws IOException {
-		LOGGER4J.trace("start copyFile");
+		LOGGER4J.trace("start copyFile "+orginalePathName);
 		File fileSrc = new File(orginalePathName);
 		File filedest = new File(finalPahtName);
 		FileUtils.copyFile(fileSrc, filedest);
-		LOGGER4J.trace("end copyFile");
+		LOGGER4J.trace("end copyFile"+finalPahtName);
 	}
 
 	@Override
