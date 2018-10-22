@@ -170,13 +170,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			throw e;
 		}
 	}
-
-	private void loadMp3Id3(String pathFileName)
-			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
-
-		doLoadDTO(pathFileName);
-	}
-
+	
 	/**
 	 * 
 	 * @param listeFichiersIn
@@ -247,12 +241,13 @@ public class MusicFileBandMaster extends FileBandMaster {
 	/** launch sort procedure */
 	public void runSortFile() throws IOException {
 		ArrayList<String> listeFichiersIn;
+		String [] filter = {"mp3"};
 		int tabSize = 0;
 		// etape 1 tester sur les repertoire suivant existe
 		// sinon les cree
 		if (validateDirectorys()) {
 			LOGGER4J.debug("Load dir" + dirIn);
-			listeFichiersIn = managerFile.listeFilesOnDirectoryAndSubDirectory(dirIn.getPath());
+			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(),filter);
 			LOGGER4J.debug("clean files not mp3");
 			sortListFileMp3(listeFichiersIn);
 		}
