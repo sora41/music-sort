@@ -181,4 +181,11 @@ public class RepositoryWalkingFile  implements IRepositoryFile {
 		return nomFichiers;
 	}
 
+	@Override
+	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName, String[] filters)
+			throws IOException {
+		throw new IOException("Methode not Implemented ");
+		//return null;
+	}
+
 }

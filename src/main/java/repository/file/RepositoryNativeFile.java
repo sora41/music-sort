@@ -180,4 +180,12 @@ public class RepositoryNativeFile implements IRepositoryFile {
 		return nomFichiers;
 	}
 
+	@Override
+	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName, String[] filters)
+			throws IOException {
+		// TODO Auto-generated method stub
+		throw new IOException("Methode not Implemented ");
+		//	return null;
+	}
+
 }

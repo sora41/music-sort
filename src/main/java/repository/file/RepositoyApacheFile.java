@@ -113,5 +113,24 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		LOGGER4J.trace("end listeFilesOnDirectoryAndSubDirectory");
 		return nomFichiers;
 	}
+	@Override
+	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName,String [] filters) throws IOException {
+		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
+		ArrayList<String> nomFichiers = null;
+		File repertoire = new File(dirName);
+		Collection<File> files;
+
+		files = FileUtils.listFiles(repertoire, filters, true);
+
+		if ((null != files) && (files.size() > 0)) {
+			nomFichiers = new ArrayList<>();
+			for (File fileItem : files) {
+
+				nomFichiers.add(fileItem.getPath());
+			}
+		}
+		LOGGER4J.trace("end listeFilesOnDirectoryAndSubDirectory");
+		return nomFichiers;
+	}
 
 }
