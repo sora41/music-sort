@@ -22,7 +22,13 @@ public interface IRepositoryFile {
 	public abstract ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException ;
 	
 	public abstract ArrayList<String> listeFilesOnDirectoryAndSubDirectory(String dirName) throws IOException ;
-
+	/*** /
+	 * renvoie la liste des fichier contenu dans le repertoire et ses sous repertoire , avec un filtre 
+	 * @param dirName
+	 * @param filters
+	 * @return
+	 * @throws IOException
+	 */
 	public abstract ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName,String [] filters) throws IOException;
 
 }
