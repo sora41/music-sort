@@ -23,5 +23,6 @@ public interface IRepositoryFile {
 	
 	public abstract ArrayList<String> listeFilesOnDirectoryAndSubDirectory(String dirName) throws IOException ;
 
+	public abstract ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName,String [] filters) throws IOException;
 
 }
