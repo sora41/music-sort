@@ -177,43 +177,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 		doLoadDTO(pathFileName);
 	}
 
-	/** move file not take in charge */
-	private void rejectFileNotMp3(ArrayList<String> listeFichiersIn) {
-		int fileNumber = 0;
-		String fileNameItem = "";
-		String pathFileItem = "";
-		boolean isMp3 = false;
-		boolean containegitkeep = false;
-		if (null != listeFichiersIn) {
-			fileNumber = listeFichiersIn.size();
-			for (int i = fileNumber - 1; i >= 0; i--) {
-				fileNameItem = listeFichiersIn.get(i);
-				pathFileItem = dirIn + File.separator + fileNameItem;
-				isMp3 = fileNameItem.endsWith(".mp3");
-				containegitkeep = fileNameItem.contains(".gitkeep");
-				// ca fait quoi ca tu vois ce n'est pas asser clair
-				// si ce n'est pas un mp3 et pas gitkeep
-				// je les deplace dans le repertoire notsuported et je retire de
-				// la
-				// liste
-				if (!isMp3 && containegitkeep) {
-					// on ignore le gitkeep pour le deplacement mais pas dans la
-					// supresion de la liste
-					if (false == containegitkeep) {
-						try {
-							managerFile.moveFile(pathFileItem, dirNotSuported + File.separator + fileNameItem);
-						} catch (IOException e2) {
-
-							String erroMgs = "imposible de deplacer le Fichier " + fileNameItem + "du repertoir:"
-									+ dirIn + " vers le repertoire " + dirNotSuported;
-							LOGGER4J.error(erroMgs, e2.getMessage(), e2.getClass().getName(), e2.getStackTrace());
-						}
-					}
-					listeFichiersIn.remove(i);
-				}
-			}
-		}
-	}
 	/**
 	 * 
 	 * @param listeFichiersIn
@@ -291,8 +254,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 			LOGGER4J.debug("Load dir" + dirIn);
 			listeFichiersIn = managerFile.listeFilesOnDirectoryAndSubDirectory(dirIn.getPath());
 			LOGGER4J.debug("clean files not mp3");
-			// netoyer la liste de fichier pour ne garder que les fichier mp3
-			rejectFileNotMp3(listeFichiersIn);
 			sortListFileMp3(listeFichiersIn);
 		}
 	}
