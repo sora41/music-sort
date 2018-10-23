@@ -12,10 +12,10 @@ import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
+//jid3
+public class RepositoryMusicFileMP3Jid3 implements IRepositoryMusicFile {
 
-public class RepositoryMusicFile implements IRepositoryMusicFile {
-
-	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryMusicFile.class.getName());
+	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryMusicFileMP3Jid3.class.getName());
 	
 	@Override
 	public MusicDto getDataToMusicFile(String pathFileName)

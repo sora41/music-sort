@@ -10,17 +10,13 @@ import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
-import repository.music.RepositoryMusicFile;
+import repository.music.RepositoryMusicFileMP3Jid3;
 
 /**
  * bandMaster file music
  */
 public class MusicFileBandMaster extends FileBandMaster {
-
-	/**
-	 * the IRepositoryMusicFile containe the music repository.
-	 */
-	private IRepositoryMusicFile repositoryMusic;
+	
 	/**
 	 * the loger from log4j
 	 */
@@ -33,7 +29,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted)
 			throws SecurityException, FileNotFoundException, IOException {
 		super(dirIn, dirOut, dirSorted);
-		repositoryMusic = new RepositoryMusicFile();
 	}
 
 	/**
@@ -46,6 +41,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private MusicDto doLoadDTO(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 		// extraction d'information du fiçhier mp3 dans le dto
+		IRepositoryMusicFile  repositoryMusic = new RepositoryMusicFileMP3Jid3();
 		MusicDto dto = repositoryMusic.getDataToMusicFile(pathFileName);
 
 		if (null == dto) {

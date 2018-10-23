@@ -12,8 +12,8 @@ import org.farng.mp3.TagException;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
 
-public class RepositoryMusicFileManual implements IRepositoryMusicFile {
-	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryMusicFileManual.class.getName());
+public class RepositoryMusicFileMP3Manual implements IRepositoryMusicFile {
+	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryMusicFileMP3Manual.class.getName());
 
 	@Override
 	public MusicDto getDataToMusicFile(String pathFileName)

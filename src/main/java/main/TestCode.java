@@ -10,8 +10,8 @@ import org.farng.mp3.TagException;
 import datatransfert.MusicDto;
 import repository.IRepositoryFile;
 import repository.IRepositoryMusicFile;
-import repository.music.RepositoryMusicFile;
-import repository.music.RepositoryMusicFileManual;
+import repository.music.RepositoryMusicFileMP3Jid3;
+import repository.music.RepositoryMusicFileMP3Manual;
 import repository.file.RepositoryNativeFile;
 import repository.file.RepositoryWalkingFile;
 import repository.file.RepositoyApacheFile;
@@ -47,7 +47,7 @@ public class TestCode {
 
 		MusicDto mp3;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
-		RepositoryMusicFile repoMusic = new RepositoryMusicFile();
+		RepositoryMusicFileMP3Jid3 repoMusic = new RepositoryMusicFileMP3Jid3();
 		ArrayList<String> namefiles;
 		try {
 			namefiles = repoFile.listeFilesOnDirectory(DirIn);
@@ -68,7 +68,7 @@ public class TestCode {
 	public void testLoadManualRepository(String DirIn) {
 		MusicDto mp3;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
-		IRepositoryMusicFile repoMusic = new RepositoryMusicFileManual();
+		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMP3Manual();
 		ArrayList<String> namefiles;
 		try {
 			namefiles = repoFile.listeFilesOnDirectory(DirIn);
