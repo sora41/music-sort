@@ -213,6 +213,7 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 					if (filters != null && filters.length > 0) {
 						String pathFileStr = path.toString();
 						boolean add = false;
+						// verfifie si au mois un des filtre en contenu dans le path de fichier 
 						for (int i = 0; i < filters.length; i++) {
 							if (pathFileStr.contains(filters[i])) {
 								add = true;

@@ -13,14 +13,14 @@ import repository.IRepositoryMusicFile;
 import repository.music.RepositoryMusicFile;
 
 /**
- * bandMaster file music 
+ * bandMaster file music
  */
 public class MusicFileBandMaster extends FileBandMaster {
 
 	/**
 	 * the IRepositoryMusicFile containe the music repository.
 	 */
-	private IRepositoryMusicFile repoMusic;
+	private IRepositoryMusicFile repositoryMusic;
 	/**
 	 * the loger from log4j
 	 */
@@ -33,7 +33,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted)
 			throws SecurityException, FileNotFoundException, IOException {
 		super(dirIn, dirOut, dirSorted);
-		repoMusic = new RepositoryMusicFile();
+		repositoryMusic = new RepositoryMusicFile();
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private MusicDto doLoadDTO(String pathFileName)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 		// extraction d'information du fiçhier mp3 dans le dto
-		MusicDto dto = repoMusic.getDataToMusicFile(pathFileName);
+		MusicDto dto = repositoryMusic.getDataToMusicFile(pathFileName);
 
 		if (null == dto) {
 
@@ -58,7 +58,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 	}
 
 	/**
-	 *  sort music file by author
+	 * sort music file by author
+	 * 
 	 * @param song
 	 * @throws IOException
 	 * @throws TagNotFoundException
@@ -83,14 +84,12 @@ public class MusicFileBandMaster extends FileBandMaster {
 			}
 			pathAutorDir = autorDir.getPath();
 			sortedTarget = pathAutorDir + File.separator + fileName;
-
 			managerFile.moveFile(pathFile, sortedTarget);
 
 		} else {
 			TagNotFoundException e = new TagNotFoundException("no artiste");
 			throw e;
 		}
-
 	}
 
 	/**
@@ -124,11 +123,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 						IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
 						throw e;
 					}
-
 				}
 				pathAlbumDir = albumDir.getPath();
 				sortedTarget = pathAlbumDir + File.separator + fileName;
-
 				managerFile.moveFile(pathFile, sortedTarget);
 			} else {
 				TagNotFoundException e = new TagNotFoundException("no album");
@@ -160,7 +157,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 					IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
 					throw e;
 				}
-
 			}
 			pathAlbumDir = albumDir.getPath();
 			sortedTarget = pathAlbumDir + File.separator + fileName;
@@ -170,7 +166,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			throw e;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param listeFichiersIn
@@ -196,6 +192,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			LOGGER4J.info("aucun fichier a traité ");
 		}
 	}
+
 	/**
 	 * 
 	 * @param fileName
@@ -241,13 +238,13 @@ public class MusicFileBandMaster extends FileBandMaster {
 	/** launch sort procedure */
 	public void runSortFile() throws IOException {
 		ArrayList<String> listeFichiersIn;
-		String [] filter = {"mp3"};
+		String[] filter = { "mp3" };
 		int tabSize = 0;
 		// etape 1 tester sur les repertoire suivant existe
 		// sinon les cree
 		if (validateDirectorys()) {
 			LOGGER4J.debug("Load dir" + dirIn);
-			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(),filter);
+			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(), filter);
 			LOGGER4J.debug("clean files not mp3");
 			sortListFileMp3(listeFichiersIn);
 		}
