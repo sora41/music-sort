@@ -139,7 +139,13 @@ public class TestCode {
 		RepositoyApacheFile raf = new RepositoyApacheFile();
 		afficheStringArray(raf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan,filters));
 	}
+	public void test_getFilterlisteFileRecursifNative(String dirtoScan) throws IOException {
+		String [] filters = {"mp3"};
+		RepositoryNativeFile rnf = new RepositoryNativeFile();
+		afficheStringArray(rnf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan,filters));
+	}
 
+	
 	public void runTest() throws IOException {
 		System.out.println("----------------testGetDtoMusique----------------------");
 		testGetDtoMusique(DIRECTORY_TEST_MP3);
@@ -164,7 +170,7 @@ public class TestCode {
 		 * 
 		 * System.out.println("-------------------test_move_file------------");
 		 * test_move_file();
-		 */
+		 
 
 		System.out.println("-------------------test_getlisteFileRecursifWalking------------");
 		test_getlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
@@ -174,8 +180,11 @@ public class TestCode {
 
 		System.out.println("-------------------test_getlisteFileRecursifApache------------");
 		test_getlisteFileRecursifApache(DIRECTORY_INIT_CLEAN);
-		
+		*/
 		System.out.println("-------------------test_getFilterlisteFileRecursifApache------------");
 		test_getFilterlisteFileRecursifApache(DIRECTORY_INIT_CLEAN);
+		
+		System.out.println("-------------------test_getFilterlisteFileRecursifNative------------");
+		test_getFilterlisteFileRecursifNative(DIRECTORY_INIT_CLEAN);
 	}
 }
