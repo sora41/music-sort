@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
 import bandMaster.MusicFileBandMaster;
 
 public class MainMusic {
@@ -47,8 +48,9 @@ public class MainMusic {
 
 	}
 
-	/** launch manual test deprecied (unit test incomming ) */
-	public static void runTest() throws IOException {
+	/** launch manual test deprecied (unit test incomming ) 
+	 * @throws Exception */
+	public static void runTest() throws Exception {
 		LOGGER4J.info("demarage des tests");
 		test.runTest();
 		LOGGER4J.info("fin des tests");
@@ -96,9 +98,9 @@ public class MainMusic {
 		LOGGER4J.info("demarage de l'application");
 		try {
 			initApplication();
-			runProcces();
-			//runTest();
-		} catch (SecurityException | IOException e) {
+			//runProcces();
+			runTest();
+		} catch (Exception e) {
 
 			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),
 					e.getStackTrace());

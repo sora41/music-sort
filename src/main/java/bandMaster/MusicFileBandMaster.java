@@ -37,9 +37,10 @@ public class MusicFileBandMaster extends FileBandMaster {
 	 * @param pathFileName
 	 *            file String path
 	 * @return dto object load or null
+	 * @throws Exception 
 	 */
 	private MusicDto doLoadDTO(String pathFileName)
-			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
+			throws Exception {
 		// extraction d'information du fiçhier mp3 dans le dto
 		IRepositoryMusicFile  repositoryMusic = new RepositoryMusicFileMP3Jid3();
 		MusicDto dto = repositoryMusic.getDataToMusicFile(pathFileName);
@@ -199,7 +200,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			musicDtoItem = doLoadDTO(fileName);
 			// tri artiste album
 			sortedByAuthorAndAlbum(musicDtoItem);
-		} catch (IOException | TagException | UnsupportedOperationException e) {
+		} catch (Exception e) {
 			LOGGER4J.error("Fichier : " + fileName + "-" + e.getMessage(), e.getClass().getName(), e.getStackTrace());
 			try {
 				managerFile.moveFile(fileName, dirError + File.separator + fileName);

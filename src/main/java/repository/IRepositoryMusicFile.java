@@ -10,7 +10,7 @@ import datatransfert.MusicDto;
 public interface IRepositoryMusicFile {
 
 	public abstract MusicDto getDataToMusicFile(String pathFileName)
-			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException;
+			throws Exception;
 
 	public abstract boolean saveDataToMusicFile(MusicDto data) throws Exception;
 
