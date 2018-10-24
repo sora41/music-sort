@@ -12,9 +12,11 @@ import repository.IRepositoryFile;
 import repository.IRepositoryMusicFile;
 import repository.music.RepositoryMusicFileMP3Jid3;
 import repository.music.RepositoryMusicFileMP3Manual;
+import repository.music.RepositoryMusicFileMp3JAudiotagger;
 import repository.file.RepositoryNativeFile;
 import repository.file.RepositoryWalkingFile;
 import repository.file.RepositoyApacheFile;
+import org.jaudiotagger.tag.TagNotFoundException;
 
 public class TestCode {
 
@@ -62,17 +64,17 @@ public class TestCode {
 
 		} catch (UnsupportedOperationException | IOException | TagException e) {
 
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}
 
-	public void testLoadDToOnMp3ManualRepository(String DirIn) {
+	public void testLoadDToOnMp3ManualRepository(String DirIn) throws Exception {
 		MusicDto mp3;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMP3Manual();
 		ArrayList<String> namefiles;
-		try {
+		
 			namefiles = repoFile.listeFilesOnDirectory(DirIn);
 			String path = namefiles.get(0);
 			// afficheStringArray(namefiles);
@@ -81,38 +83,32 @@ public class TestCode {
 			mp3 = repoMusic.getDataToMusicFile(path);
 			afficheMusicDto(mp3);
 
-		} catch (UnsupportedOperationException | IOException | TagException e) {
-
-			e.printStackTrace();
-		}
+		
 	}
 	
-	public void testLoadDtoOnWmaRepository(String DirIn) {
+	public void testLoadDtoOnWmaRepository(String DirIn) throws Exception {
 		MusicDto wma;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
-		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMP3Manual();
+		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMp3JAudiotagger();
 		ArrayList<String> namefiles;
-		try {
+		 
 			namefiles = repoFile.listeFilesOnDirectory(DirIn);
-			String path = namefiles.get(1);
+			String path = namefiles.get(0);
 			
 			System.out.println(path);
 
 			wma = repoMusic.getDataToMusicFile(path);
 			afficheMusicDto(wma);
 
-		} catch (UnsupportedOperationException | IOException | TagException e) {
-
-			e.printStackTrace();
-		}
+		
 	}
 	
-	public void testLoadDtoOnM4aRepository(String DirIn) {
+	public void testLoadDtoOnM4aRepository(String DirIn) throws Exception {
 		MusicDto m4a;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMP3Manual();
 		ArrayList<String> namefiles;
-		try {
+	
 			namefiles = repoFile.listeFilesOnDirectory(DirIn);
 			String path = namefiles.get(0);
 			
@@ -121,10 +117,7 @@ public class TestCode {
 			m4a = repoMusic.getDataToMusicFile(path);
 			afficheMusicDto(m4a);
 
-		} catch (UnsupportedOperationException | IOException | TagException e) {
-
-			e.printStackTrace();
-		}
+		
 	}
 
 	public void test_create_directory() throws IOException {
@@ -188,15 +181,15 @@ public class TestCode {
 	}
 
 	
-	public void runTest() throws IOException {
+	public void runTest() throws Exception {
 		System.out.println("----------------testLoadDToOnMP3Jid3Repository----------------------");
 		testLoadDToOnMP3Jid3Repository(DIRECTORY_TEST_MP3);
 
 		System.out.println("-------------------testLoadDToOnMp3ManualRepository------------");
 		testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_MP3);
 		
-		System.out.println("-------------------testLoadDToOnMp3ManualRepository------------");
-		testLoadDtoOnWmaRepository(DIRECTORY_TEST_WMA);
+		System.out.println("-------------------testLoadDtoOnWmaRepository------------");
+		testLoadDtoOnWmaRepository(DIRECTORY_TEST_MP3);
 		
 		/*System.out.println("-------------------testLoadDToOnMp3ManualRepository------------");
 		testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_M4A);*/
