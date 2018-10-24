@@ -26,10 +26,10 @@ public class RepositoryMusicFileMP3Jid3 implements IRepositoryMusicFile {
 			mp3File = new MP3File(pathFileName);
 
 			if (mp3File.hasID3v1Tag()) {
-				result = this.getID3DataV1(mp3File);
+				result = this.loadID3DataV1(mp3File);
 			} else {
 				if (mp3File.hasID3v2Tag()) {
-					result = this.getID3DataV2(mp3File);
+					result = this.loadID3DataV2(mp3File);
 				} else {
 					TagNotFoundException e = new TagNotFoundException(" ID3 v1 & v2 not suported ");
 					throw e;
@@ -45,7 +45,7 @@ public class RepositoryMusicFileMP3Jid3 implements IRepositoryMusicFile {
 		throw e;
 	}
 
-	private MusicDto getID3DataV1(MP3File mp3file)
+	private MusicDto loadID3DataV1(MP3File mp3file)
 			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
 
 		MusicDto songDto = new MusicDto();
@@ -64,7 +64,7 @@ public class RepositoryMusicFileMP3Jid3 implements IRepositoryMusicFile {
 		return songDto;
 	}
 
-	private MusicDto getID3DataV2(MP3File mp3file) {
+	private MusicDto loadID3DataV2(MP3File mp3file) {
 		MusicDto songDto = new MusicDto();
 
 		songDto.setAlbum(mp3file.getID3v2Tag().getAlbumTitle());
