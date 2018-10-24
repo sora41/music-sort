@@ -11,6 +11,7 @@ import org.farng.mp3.TagNotFoundException;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
 import repository.music.RepositoryMusicFileMP3Jid3;
+import repository.music.RepositoryMusicFileMp3JAudiotagger;
 
 /**
  * bandMaster file music
@@ -42,7 +43,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private MusicDto doLoadDTO(String pathFileName)
 			throws Exception {
 		// extraction d'information du fiçhier mp3 dans le dto
-		IRepositoryMusicFile  repositoryMusic = new RepositoryMusicFileMP3Jid3();
+		IRepositoryMusicFile  repositoryMusic = new RepositoryMusicFileMp3JAudiotagger();
 		MusicDto dto = repositoryMusic.getDataToMusicFile(pathFileName);
 
 		if (null == dto) {
