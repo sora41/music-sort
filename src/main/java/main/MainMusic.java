@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import bandMaster.MusicFileBandMaster;
 
-public class MainMp3 {
+public class MainMusic {
 
 	/**
 	 * the in music file directory
@@ -36,7 +36,7 @@ public class MainMp3 {
 	/**
 	 * the loger from log4j
 	 */
-	private static final Logger LOGGER4J = LogManager.getLogger(MainMp3.class.getName());
+	private static final Logger LOGGER4J = LogManager.getLogger(MainMusic.class.getName());
 
 	/**
 	 * init application sorter et les tests

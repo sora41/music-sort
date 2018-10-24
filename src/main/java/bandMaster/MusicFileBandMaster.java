@@ -167,7 +167,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	 * 
 	 * @param listeFichiersIn
 	 */
-	private void sortListFileMp3(ArrayList<String> listeFichiersIn) {
+	private void sortListMusicFile(ArrayList<String> listeFichiersIn) {
 		int tabSize = 0;
 		String fileNameitem = "";
 		boolean zeroFile = true;
@@ -180,7 +180,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 				for (int i = 0; i < tabSize; i++) {
 					fileNameitem = listeFichiersIn.get(i);
 					LOGGER4J.trace("sort" + i + "-" + (tabSize - 1));
-					sortFileMp3(fileNameitem);
+					sortMusicFile(fileNameitem);
 				}
 			}
 		}
@@ -193,7 +193,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	 * 
 	 * @param fileName
 	 */
-	private void sortFileMp3(String fileName) {
+	private void sortMusicFile(String fileName) {
 		MusicDto musicDtoItem;
 		try {
 			musicDtoItem = doLoadDTO(fileName);
@@ -242,7 +242,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			LOGGER4J.debug("Load dir" + dirIn);
 			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(), filter);
 			LOGGER4J.debug("clean files not mp3");
-			sortListFileMp3(listeFichiersIn);
+			sortListMusicFile(listeFichiersIn);
 		}
 	}
 }
