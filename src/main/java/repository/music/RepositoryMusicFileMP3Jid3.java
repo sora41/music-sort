@@ -5,17 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.farng.mp3.MP3File;
 import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
-//jid3
+
 public class RepositoryMusicFileMP3Jid3 implements IRepositoryMusicFile {
 
-	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryMusicFileMP3Jid3.class.getName());
 	
 	@Override
 	public MusicDto getDataToMusicFile(String pathFileName)

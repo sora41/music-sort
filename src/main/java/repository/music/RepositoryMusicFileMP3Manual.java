@@ -5,15 +5,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.farng.mp3.TagException;
 
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
 
 public class RepositoryMusicFileMP3Manual implements IRepositoryMusicFile {
-	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryMusicFileMP3Manual.class.getName());
 
 	@Override
 	public MusicDto getDataToMusicFile(String pathFileName)
@@ -22,8 +19,9 @@ public class RepositoryMusicFileMP3Manual implements IRepositoryMusicFile {
 		File song = new File(pathFileName);
 		FileInputStream file = new FileInputStream(song);
 		int size = -1;
-		if (song.canRead())
+		if (song.canRead()) {
 			size = (int) song.length();
+		}
 		try {
 			if (size > 0) {
 
