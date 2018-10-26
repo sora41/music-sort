@@ -14,7 +14,6 @@ import repository.music.RepositoryMusicFileMP3Jid3;
 import repository.music.RepositoryMusicFileMP3Manual;
 import repository.music.RepositoryMusicFileMp3JAudiotagger;
 import repository.music.RepositoryMusicFileWmaJAudiotagger;
-import repository.music.RepositoryMusicFileWmaManual;
 import repository.file.RepositoryNativeFile;
 import repository.file.RepositoryWalkingFile;
 import repository.file.RepositoyApacheFile;
@@ -49,7 +48,8 @@ public class TestCode {
 		}
 	}
 
-	public void testLoadDToOnMP3Jid3Repository(String DirIn) throws IOException, UnsupportedOperationException, TagException {
+	public void testLoadDToOnMP3Jid3Repository(String DirIn)
+			throws IOException, UnsupportedOperationException, TagException {
 
 		MusicDto mp3;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
@@ -86,14 +86,14 @@ public class TestCode {
 		afficheMusicDto(mp3);
 
 	}
+
 	public void testLoadDtoOnWmaRepository(String DirIn) throws Exception {
 		MusicDto wma;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileWmaJAudiotagger();
 		ArrayList<String> namefiles;
 		namefiles = repoFile.listeFilesOnDirectory(DirIn);
-		String path = namefiles.get(1);
-		System.out.println(path);
+		String path = namefiles.get(0);
 		wma = repoMusic.getDataToMusicFile(path);
 		afficheMusicDto(wma);
 
@@ -102,7 +102,7 @@ public class TestCode {
 	public void testLoadDtoOnM4aRepository(String DirIn) throws Exception {
 		MusicDto m4a;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
-		IRepositoryMusicFile repoMusic = new RepositoryMusicFileWmaManual();
+		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMp3JAudiotagger();
 		ArrayList<String> namefiles;
 		namefiles = repoFile.listeFilesOnDirectory(DirIn);
 		String path = namefiles.get(0);
@@ -177,47 +177,31 @@ public class TestCode {
 
 		System.out.println("-------------------testLoadDToOnMP3JAudiotaggerRepository------------");
 		testLoadDToOnMP3JAudiotaggerRepository(DIRECTORY_TEST_MP3);
-		
+
 		System.out.println("-------------------testLoadDtoOnWmaRepository------------");
 		testLoadDtoOnWmaRepository(DIRECTORY_TEST_WMA);
+/*
+		System.out.println("-------------------testLoadDToOnMp3ManualRepository------------");
+		testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_M4A);
+*/
+		/*System.out.println("-------------------test_forceMKDIR------------");
+		test_create_directory();
 
-		/*
-		 * System.out.println(
-		 * "-------------------testLoadDToOnMp3ManualRepository------------");
-		 * testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_M4A);
-		 */
+		System.out.println("-------------------test_move_directory------------");
+		test_move_directory();
 
-		/*
-		 * System.out.
-		 * println("-------------------test_delete_ recursif------------");
-		 * test_deletefileRecursif(DIRECTORY_TEST_CLEAN);
-		 */
+		System.out.println("-------------------test_move_file------------");
+		test_move_file();
+*/
+		System.out.println("-------------------test_getlisteFileRecursifWalking------------");
+		test_getlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
 
-		/*
-		 * System.out.println("-------------------test_forceMKDIR------------");
-		 * test_create_directory();
-		 */
-		/*
-		 * System.out.println(
-		 * "-------------------test_move_directory------------");
-		 * test_move_directory();
-		 * 
-		 * System.out.println("-------------------test_move_file------------");
-		 * test_move_file();
-		 * 
-		 * 
-		 * System.out.println(
-		 * "-------------------test_getlisteFileRecursifWalking------------");
-		 * test_getlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
-		 * 
-		 * System.out.println(
-		 * "-------------------test_getlisteFileRecursifNatif------------");
-		 * test_getlisteFileRecursifNatif(DIRECTORY_INIT_CLEAN);
-		 * 
-		 * System.out.println(
-		 * "-------------------test_getlisteFileRecursifApache------------");
-		 * test_getlisteFileRecursifApache(DIRECTORY_INIT_CLEAN);
-		 */
+		System.out.println("-------------------test_getlisteFileRecursifNatif------------");
+		test_getlisteFileRecursifNatif(DIRECTORY_INIT_CLEAN);
+
+		System.out.println("-------------------test_getlisteFileRecursifApache------------");
+		test_getlisteFileRecursifApache(DIRECTORY_INIT_CLEAN);
+
 		System.out.println("-------------------test_getFilterlisteFileRecursifApache------------");
 		test_getFilterlisteFileRecursifApache(DIRECTORY_INIT_CLEAN);
 

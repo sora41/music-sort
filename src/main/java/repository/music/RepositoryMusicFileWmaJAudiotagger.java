@@ -1,6 +1,5 @@
 package repository.music;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.logging.Level;
@@ -8,40 +7,35 @@ import java.util.logging.Logger;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.tag.TagNotFoundException;
 import org.jaudiotagger.tag.asf.AsfTag;
 
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
 
 public class RepositoryMusicFileWmaJAudiotagger implements IRepositoryMusicFile {
-	
-		
+
 	@Override
 	public MusicDto getDataToMusicFile(String pathFileName) throws Exception {
 		MusicDto wma = null;
 		File song = new File(pathFileName);
-		AudioFile audioFi = AudioFileIO.read(song);
-		
-		AsfTag tagWma =  (AsfTag) audioFi.getTag();
-		
-		System.out.println("taille tag"+tagWma.getFieldCount());
-		
-		
-		 /* wma  = null;
 		this.shutupLog();
-		// if (containTag(pathFileName)) {
-		mp3File = new MP3File(pathFileName);
-		if (mp3File.hasID3v1Tag()) {
-			result = this.getID3DataV1(mp3File);
+		AudioFile audioFi = AudioFileIO.read(song);
+		AsfTag tagWma = (AsfTag) audioFi.getTag();
+
+		if ((null != tagWma) && (tagWma.isEmpty() == false)) {
+			wma = new MusicDto();
+			wma.setAuthor(tagWma.getFirst("AUTHOR").toString());
+			wma.setAlbum(tagWma.getFirst("WM/AlbumTitle").toString());
+			wma.setFileName(song.getName());
+			wma.setGenre(tagWma.getFirst("WM/Genre").toString());
+			wma.setYears(tagWma.getFirst("WM/Year").toString());
+			wma.setPathFile(song.getPath());
+			wma.setTitleSong(tagWma.getFirst("TITLE").toString());
 		} else {
-			if (mp3File.hasID3v2Tag()) {
-				result = this.getID3DataV2(mp3File);
-			} else {
-				TagNotFoundException e = new TagNotFoundException(" ID3 v1 & v2 not suported ");
-				throw e;
-			}
+			TagNotFoundException e = new TagNotFoundException(" WMA no have Tag ");
+			throw e;
 		}
-		// }*/
 		return wma;
 	}
 
