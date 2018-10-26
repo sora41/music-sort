@@ -45,7 +45,6 @@ public class MainMusic {
 	public static void initApplication() throws SecurityException, FileNotFoundException, IOException {
 		musicSorter = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 		test = new TestCode();
-
 	}
 
 	/** launch manual test deprecied (unit test incomming ) 

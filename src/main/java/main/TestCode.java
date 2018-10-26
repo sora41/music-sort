@@ -13,6 +13,8 @@ import repository.IRepositoryMusicFile;
 import repository.music.RepositoryMusicFileMP3Jid3;
 import repository.music.RepositoryMusicFileMP3Manual;
 import repository.music.RepositoryMusicFileMp3JAudiotagger;
+import repository.music.RepositoryMusicFileWmaJAudiotagger;
+import repository.music.RepositoryMusicFileWmaManual;
 import repository.file.RepositoryNativeFile;
 import repository.file.RepositoryWalkingFile;
 import repository.file.RepositoyApacheFile;
@@ -73,13 +75,25 @@ public class TestCode {
 		afficheMusicDto(mp3);
 	}
 
-	public void testLoadDtoOnWmaRepository(String DirIn) throws Exception {
-		MusicDto wma;
+	public void testLoadDToOnMP3JAudiotaggerRepository(String DirIn) throws Exception {
+		MusicDto mp3;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMp3JAudiotagger();
 		ArrayList<String> namefiles;
 		namefiles = repoFile.listeFilesOnDirectory(DirIn);
 		String path = namefiles.get(0);
+		mp3 = repoMusic.getDataToMusicFile(path);
+		afficheMusicDto(mp3);
+
+	}
+	public void testLoadDtoOnWmaRepository(String DirIn) throws Exception {
+		MusicDto wma;
+		IRepositoryFile repoFile = new RepositoryNativeFile();
+		IRepositoryMusicFile repoMusic = new RepositoryMusicFileWmaJAudiotagger();
+		ArrayList<String> namefiles;
+		namefiles = repoFile.listeFilesOnDirectory(DirIn);
+		String path = namefiles.get(1);
+		System.out.println(path);
 		wma = repoMusic.getDataToMusicFile(path);
 		afficheMusicDto(wma);
 
@@ -88,7 +102,7 @@ public class TestCode {
 	public void testLoadDtoOnM4aRepository(String DirIn) throws Exception {
 		MusicDto m4a;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
-		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMP3Manual();
+		IRepositoryMusicFile repoMusic = new RepositoryMusicFileWmaManual();
 		ArrayList<String> namefiles;
 		namefiles = repoFile.listeFilesOnDirectory(DirIn);
 		String path = namefiles.get(0);
@@ -161,8 +175,11 @@ public class TestCode {
 		System.out.println("-------------------testLoadDToOnMp3ManualRepository------------");
 		testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_MP3);
 
+		System.out.println("-------------------testLoadDToOnMP3JAudiotaggerRepository------------");
+		testLoadDToOnMP3JAudiotaggerRepository(DIRECTORY_TEST_MP3);
+		
 		System.out.println("-------------------testLoadDtoOnWmaRepository------------");
-		testLoadDtoOnWmaRepository(DIRECTORY_TEST_MP3);
+		testLoadDtoOnWmaRepository(DIRECTORY_TEST_WMA);
 
 		/*
 		 * System.out.println(
