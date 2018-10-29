@@ -12,12 +12,13 @@ import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
 import repository.music.RepositoryMusicFileMP3Jid3;
 import repository.music.RepositoryMusicFileMp3JAudiotagger;
+import repository.music.RepositoryMusicFileWmaJAudiotagger;
 
 /**
  * bandMaster file music
  */
 public class MusicFileBandMaster extends FileBandMaster {
-	
+
 	/**
 	 * the loger from log4j
 	 */
@@ -32,18 +33,44 @@ public class MusicFileBandMaster extends FileBandMaster {
 		super(dirIn, dirOut, dirSorted);
 	}
 
+	private String ExtractExtention(String fileName) throws Exception {
+		String extention = "";
+		if ((fileName != null) && fileName.isEmpty() == false) {
+			if (fileName.contains(".")) {
+				int size = fileName.length();
+				extention = fileName.substring(size - 3);
+				 extention=extention.toLowerCase();
+			} else {
+				Exception eSansExtention = new Exception(fileName + " fichier sans extention");
+				throw eSansExtention;
+			}
+		} else {
+			Exception eChaineVide = new Exception("la chaine fileName est vide ");
+			throw eChaineVide;
+		}
+		return extention;
+	}
+
 	/**
 	 * load DtoMusic object by Path file
 	 * 
 	 * @param pathFileName
 	 *            file String path
 	 * @return dto object load or null
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	private MusicDto doLoadDTO(String pathFileName)
-			throws Exception {
-		// extraction d'information du fiçhier mp3 dans le dto
-		IRepositoryMusicFile  repositoryMusic = new RepositoryMusicFileMp3JAudiotagger();
+	private MusicDto doLoadDTO(String pathFileName) throws Exception {
+		// extraction d'information des fichier audio celons les extention dans le dto 
+		IRepositoryMusicFile repositoryMusic = null;
+		String extention = this.ExtractExtention(pathFileName);
+		
+		if (extention.equals("mp3")) {
+			repositoryMusic = new RepositoryMusicFileMp3JAudiotagger();
+		} else {
+			if (extention.equals("wma")) {
+				repositoryMusic = new RepositoryMusicFileWmaJAudiotagger();
+			}
+		}
 		MusicDto dto = repositoryMusic.getDataToMusicFile(pathFileName);
 
 		if (null == dto) {
@@ -236,14 +263,13 @@ public class MusicFileBandMaster extends FileBandMaster {
 	/** launch sort procedure */
 	public void runSortFile() throws IOException {
 		ArrayList<String> listeFichiersIn;
-		String[] filter = { "mp3" };
+		String[] filter = {  "wma","WMA","MP3","mp3" };
 		int tabSize = 0;
 		// etape 1 tester sur les repertoire suivant existe
 		// sinon les cree
 		if (validateDirectorys()) {
 			LOGGER4J.debug("Load dir" + dirIn);
 			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(), filter);
-			LOGGER4J.debug("clean files not mp3");
 			sortListMusicFile(listeFichiersIn);
 		}
 	}

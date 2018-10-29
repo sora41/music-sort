@@ -12,8 +12,7 @@ import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
 
 public class RepositoryMusicFileMp3JAudiotagger implements IRepositoryMusicFile {
-	
-	
+		
 	@Override
 	public MusicDto getDataToMusicFile(String pathFileName) throws Exception {
 		MusicDto result = null;
