@@ -8,6 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
+
+import constant.MusicExtention;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
 import repository.music.RepositoryMusicFileMP3Jid3;
@@ -39,7 +41,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			if (fileName.contains(".")) {
 				int size = fileName.length();
 				extention = fileName.substring(size - 3);
-				 extention=extention.toLowerCase();
+				extention = extention.toLowerCase();
 			} else {
 				Exception eSansExtention = new Exception(fileName + " fichier sans extention");
 				throw eSansExtention;
@@ -60,22 +62,26 @@ public class MusicFileBandMaster extends FileBandMaster {
 	 * @throws Exception
 	 */
 	private MusicDto doLoadDTO(String pathFileName) throws Exception {
-		// extraction d'information des fichier audio celons les extention dans le dto 
+		// extraction d'information des fichier audio celons les extention dans
+		// le dto
 		IRepositoryMusicFile repositoryMusic = null;
 		String extention = this.ExtractExtention(pathFileName);
-		
-		if (extention.equals("mp3")) {
+		MusicExtention enumExention = MusicExtention.valueOf(extention.toUpperCase());
+
+		if (enumExention == MusicExtention.MP3) {
 			repositoryMusic = new RepositoryMusicFileMp3JAudiotagger();
 		} else {
-			if (extention.equals("wma")) {
+			if (enumExention == MusicExtention.WMA)
 				repositoryMusic = new RepositoryMusicFileWmaJAudiotagger();
+			else {
+				Exception eextNotSuported = new Exception(" extention not suported " + extention);
+				throw eextNotSuported;
 			}
 		}
+
 		MusicDto dto = repositoryMusic.getDataToMusicFile(pathFileName);
-
 		if (null == dto) {
-
-			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
+			TagNotFoundException e = new TagNotFoundException("Tag not found ");
 			throw e;
 		} else {
 			return dto;
@@ -263,7 +269,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	/** launch sort procedure */
 	public void runSortFile() throws IOException {
 		ArrayList<String> listeFichiersIn;
-		String[] filter = {  "wma","WMA","MP3","mp3" };
+		MusicExtention[] filter = MusicExtention.values();
 		int tabSize = 0;
 		// etape 1 tester sur les repertoire suivant existe
 		// sinon les cree
