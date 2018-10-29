@@ -11,6 +11,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import constant.MusicExtention;
 import repository.IRepositoryFile;
 
 /**
@@ -55,11 +56,11 @@ public class RepositoyApacheFile implements IRepositoryFile {
 
 	@Override
 	public void copyFile(String orginalePathName, String finalPahtName) throws IOException {
-		LOGGER4J.trace("start copyFile "+orginalePathName);
+		LOGGER4J.trace("start copyFile " + orginalePathName);
 		File fileSrc = new File(orginalePathName);
 		File filedest = new File(finalPahtName);
 		FileUtils.copyFile(fileSrc, filedest);
-		LOGGER4J.trace("end copyFile"+finalPahtName);
+		LOGGER4J.trace("end copyFile" + finalPahtName);
 	}
 
 	@Override
@@ -113,14 +114,28 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		LOGGER4J.trace("end listeFilesOnDirectoryAndSubDirectory");
 		return nomFichiers;
 	}
+
 	@Override
-	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName,String [] filters) throws IOException {
+	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName, MusicExtention[] filters)
+			throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
 		ArrayList<String> nomFichiers = null;
 		File repertoire = new File(dirName);
 		Collection<File> files;
+		// converstion des filtre tableaux de string
+		int size = filters.length * 2;
+		String[] strFilters = new String[size];
+		int i = 0;
+		// rempli la liste des fitres avec les chaine minuscule et majsucule
+		for (MusicExtention musicExtention : filters) {
 
-		files = FileUtils.listFiles(repertoire, filters, true);
+			strFilters[i] = musicExtention.getValue();
+			strFilters[i + 1] = musicExtention.getValue().toUpperCase();
+
+			i = i + 2;
+		}
+
+		files = FileUtils.listFiles(repertoire, strFilters, true);
 
 		if ((null != files) && (files.size() > 0)) {
 			nomFichiers = new ArrayList<>();

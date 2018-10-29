@@ -19,6 +19,8 @@ import repository.file.RepositoryWalkingFile;
 import repository.file.RepositoyApacheFile;
 import org.jaudiotagger.tag.TagNotFoundException;
 
+import constant.MusicExtention;
+
 public class TestCode {
 
 	private static final String DIRECTORY_TEST_MP3 = "Music\\test\\mp3";
@@ -157,16 +159,24 @@ public class TestCode {
 	}
 
 	public void test_getFilterlisteFileRecursifApache(String dirtoScan) throws IOException {
-		String[] filters = { "mp3" };
+		MusicExtention[] filters = { MusicExtention.MP3,MusicExtention.WMA };
 		RepositoyApacheFile raf = new RepositoyApacheFile();
 		afficheStringArray(raf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan, filters));
 	}
 
 	public void test_getFilterlisteFileRecursifNative(String dirtoScan) throws IOException {
-		String[] filters = { "mp3" };
+		MusicExtention[] filters = { MusicExtention.MP3,MusicExtention.WMA };
 		RepositoryNativeFile rnf = new RepositoryNativeFile();
 		afficheStringArray(rnf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan, filters));
 	}
+	
+	public void test_getFilterlisteFileRecursifWalking(String dirtoScan) throws IOException {
+		MusicExtention[] filters = { MusicExtention.MP3,MusicExtention.WMA };
+		RepositoryWalkingFile rwf = new RepositoryWalkingFile();
+		afficheStringArray(rwf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan, filters));
+	}
+	
+	
 
 	public void runTest() throws Exception {
 		System.out.println("----------------testLoadDToOnMP3Jid3Repository----------------------");
@@ -207,5 +217,8 @@ public class TestCode {
 
 		System.out.println("-------------------test_getFilterlisteFileRecursifNative------------");
 		test_getFilterlisteFileRecursifNative(DIRECTORY_INIT_CLEAN);
+		
+		System.out.println("-------------------test_getFilterlisteFileRecursifWalking------------");
+		test_getFilterlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
 	}
 }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import constant.MusicExtention;
 import repository.IRepositoryFile;
 
 /**
@@ -182,8 +183,9 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 	}
 
 	@Override
-	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName, String[] filters)
+	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName, MusicExtention[] filters)
 			throws IOException {
+
 		ArrayList<String> finalPathFileList = null;
 		ArrayList<String> subPathFileList = null;
 		File directory = new File(dirName);
@@ -195,7 +197,8 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 			for (Path path : directoryStream) {
 				fileNameItem = path.getFileName().toString();
 				if (path.toFile().isDirectory()) {
-
+					// rapelle la fonction pour recupere la liste des repertoire
+					// du sous repertoire
 					subPathFileList = filesListFilterOnDirectoryAndSubDirectory(dirName + "\\" + fileNameItem, filters);
 
 					if ((null != subPathFileList)) {
@@ -213,12 +216,14 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 					if (filters != null && filters.length > 0) {
 						String pathFileStr = path.toString();
 						boolean add = false;
-						// verfifie si au mois un des filtre en contenu dans le path de fichier 
-						for (int i = 0; i < filters.length; i++) {
-							if (pathFileStr.contains(filters[i])) {
+						// parcour des filtre
+						for (MusicExtention musicExtention : filters) {
+							if ((pathFileStr.contains(musicExtention.getValue()))
+									|| (pathFileStr.contains(musicExtention.getValue().toUpperCase()))) {
 								add = true;
 							}
 						}
+
 						if (add == true)
 							finalPathFileList.add(pathFileStr);
 
@@ -233,6 +238,6 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 			throw eFileNotFound;
 		}
 		return finalPathFileList;
-	}
 
+	}
 }

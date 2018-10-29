@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import constant.MusicExtention;
 /** inteface de gestion de fichier */
 public interface IRepositoryFile {
 
@@ -29,6 +31,6 @@ public interface IRepositoryFile {
 	 * @return
 	 * @throws IOException
 	 */
-	public abstract ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName,String [] filters) throws IOException;
+	public abstract ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName,MusicExtention [] filters) throws IOException;
 
 }
