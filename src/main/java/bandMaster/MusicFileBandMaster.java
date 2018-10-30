@@ -6,15 +6,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.farng.mp3.TagException;
 import org.farng.mp3.TagNotFoundException;
 
 import constant.MusicExtention;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
-import repository.music.RepositoryMusicFileMP3Jid3;
-import repository.music.RepositoryMusicFileMp3JAudiotagger;
-import repository.music.RepositoryMusicFileWmaJAudiotagger;
+
 
 /**
  * bandMaster file music
@@ -67,7 +64,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 		IRepositoryMusicFile repositoryMusic = null;
 		String extention = this.ExtractExtention(pathFileName);
 		MusicExtention enumExention = MusicExtention.valueOf(extention.toUpperCase());
-
+		
+		Class<?> repoClass =Class.forName( enumExention.getRepoClass());
+		
+		repositoryMusic =  (IRepositoryMusicFile) repoClass.newInstance();
+		/*
 		if (enumExention == MusicExtention.MP3) {
 			repositoryMusic = new RepositoryMusicFileMp3JAudiotagger();
 		} else {
@@ -77,7 +78,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 				Exception eextNotSuported = new Exception(" extention not suported " + extention);
 				throw eextNotSuported;
 			}
-		}
+		}*/
 
 		MusicDto dto = repositoryMusic.getDataToMusicFile(pathFileName);
 		if (null == dto) {
