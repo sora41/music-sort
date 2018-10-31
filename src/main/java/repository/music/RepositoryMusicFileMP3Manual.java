@@ -22,7 +22,7 @@ public class RepositoryMusicFileMP3Manual implements IRepositoryMusicFile {
 			size = (int) song.length();
 		}
 		try {
-			if (size > 0) {
+			if (size > 0) { 
 
 				file.skip(size - 128);
 				byte[] last128 = new byte[128];
