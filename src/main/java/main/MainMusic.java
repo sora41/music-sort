@@ -5,9 +5,10 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
 import bandMaster.MusicFileBandMaster;
 
-public class MainMp3 {
+public class MainMusic {
 
 	/**
 	 * the in music file directory
@@ -36,7 +37,7 @@ public class MainMp3 {
 	/**
 	 * the loger from log4j
 	 */
-	private static final Logger LOGGER4J = LogManager.getLogger(MainMp3.class.getName());
+	private static final Logger LOGGER4J = LogManager.getLogger(MainMusic.class.getName());
 
 	/**
 	 * init application sorter et les tests
@@ -44,11 +45,11 @@ public class MainMp3 {
 	public static void initApplication() throws SecurityException, FileNotFoundException, IOException {
 		musicSorter = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 		test = new TestCode();
-
 	}
 
-	/** launch manual test deprecied (unit test incomming ) */
-	public static void runTest() throws IOException {
+	/** launch manual test deprecied (unit test incomming ) 
+	 * @throws Exception */
+	public static void runTest() throws Exception {
 		LOGGER4J.info("demarage des tests");
 		test.runTest();
 		LOGGER4J.info("fin des tests");
@@ -98,7 +99,7 @@ public class MainMp3 {
 			initApplication();
 			runProcces();
 			//runTest();
-		} catch (SecurityException | IOException e) {
+		} catch (Exception e) {
 
 			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),
 					e.getStackTrace());

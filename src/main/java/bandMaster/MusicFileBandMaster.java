@@ -6,21 +6,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.farng.mp3.TagException;
-import org.farng.mp3.TagNotFoundException;
+import org.jaudiotagger.tag.TagNotFoundException;
+
+import constant.MusicExtention;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
-import repository.music.RepositoryMusicFile;
+
 
 /**
- * orchestrateur de la gestion des fichiers MP3
+ * bandMaster file music
  */
 public class MusicFileBandMaster extends FileBandMaster {
 
-	/**
-	 * the IRepositoryMusicFile containe the music repository.
-	 */
-	private IRepositoryMusicFile repoMusic;
 	/**
 	 * the loger from log4j
 	 */
@@ -33,7 +30,24 @@ public class MusicFileBandMaster extends FileBandMaster {
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted)
 			throws SecurityException, FileNotFoundException, IOException {
 		super(dirIn, dirOut, dirSorted);
-		repoMusic = new RepositoryMusicFile();
+	}
+
+	private String ExtractExtention(String fileName) throws Exception {
+		String extention = "";
+		if ((fileName != null) && fileName.isEmpty() == false) {
+			if (fileName.contains(".")) {
+				int size = fileName.length();
+				extention = fileName.substring(size - 3);
+				extention = extention.toLowerCase();
+			} else {
+				Exception eSansExtention = new Exception(fileName + " fichier sans extention");
+				throw eSansExtention;
+			}
+		} else {
+			Exception eChaineVide = new Exception("la chaine fileName est vide ");
+			throw eChaineVide;
+		}
+		return extention;
 	}
 
 	/**
@@ -42,15 +56,22 @@ public class MusicFileBandMaster extends FileBandMaster {
 	 * @param pathFileName
 	 *            file String path
 	 * @return dto object load or null
+	 * @throws Exception
 	 */
-	private MusicDto doLoadDTO(String pathFileName)
-			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
-		// extraction d'information du fiçhier mp3 dans le dto
-		MusicDto dto = repoMusic.getDataToMusicFile(pathFileName);
-
+	private MusicDto doLoadDTO(String pathFileName) throws Exception {
+		// extraction d'information des fichier audio celons les extention dans
+		// le dto
+		IRepositoryMusicFile repositoryMusic = null;
+		String extention = this.ExtractExtention(pathFileName);
+		MusicExtention enumExention = MusicExtention.valueOf(extention.toUpperCase());
+		
+		Class<?> repoClass =Class.forName( enumExention.getRepoClass());
+		
+		repositoryMusic =  (IRepositoryMusicFile) repoClass.newInstance();
+	
+		MusicDto dto = repositoryMusic.getDataToMusicFile(pathFileName);
 		if (null == dto) {
-
-			TagNotFoundException e = new TagNotFoundException("ID3 not suported ");
+			TagNotFoundException e = new TagNotFoundException("Tag not found ");
 			throw e;
 		} else {
 			return dto;
@@ -59,6 +80,10 @@ public class MusicFileBandMaster extends FileBandMaster {
 
 	/**
 	 * sort music file by author
+	 * 
+	 * @param song
+	 * @throws IOException
+	 * @throws TagNotFoundException
 	 */
 	private void sortedByAutor(MusicDto song) throws IOException, TagNotFoundException {
 
@@ -80,14 +105,12 @@ public class MusicFileBandMaster extends FileBandMaster {
 			}
 			pathAutorDir = autorDir.getPath();
 			sortedTarget = pathAutorDir + File.separator + fileName;
-
 			managerFile.moveFile(pathFile, sortedTarget);
 
 		} else {
 			TagNotFoundException e = new TagNotFoundException("no artiste");
 			throw e;
 		}
-
 	}
 
 	/**
@@ -121,11 +144,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 						IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
 						throw e;
 					}
-
 				}
 				pathAlbumDir = albumDir.getPath();
 				sortedTarget = pathAlbumDir + File.separator + fileName;
-
 				managerFile.moveFile(pathFile, sortedTarget);
 			} else {
 				TagNotFoundException e = new TagNotFoundException("no album");
@@ -157,7 +178,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 					IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
 					throw e;
 				}
-
 			}
 			pathAlbumDir = albumDir.getPath();
 			sortedTarget = pathAlbumDir + File.separator + fileName;
@@ -168,51 +188,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 		}
 	}
 
-	private void loadMp3Id3(String pathFileName)
-			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
-
-		doLoadDTO(pathFileName);
-	}
-
-	/** move file not take in charge  */
-	private void rejectFileNotMp3(ArrayList<String> listeFichiersIn) {
-		int fileNumber = 0;
-		String fileNameItem = "";
-		String pathFileItem = "";
-		boolean isMp3 = false;
-		boolean containegitkeep = false;
-		if (null != listeFichiersIn) {
-			fileNumber = listeFichiersIn.size();
-			for (int i = fileNumber - 1; i >= 0; i--) {
-				fileNameItem = listeFichiersIn.get(i);
-				pathFileItem = dirIn + File.separator + fileNameItem;
-				isMp3 = fileNameItem.endsWith(".mp3");
-				containegitkeep = fileNameItem.contains(".gitkeep");
-				// ca fait quoi ca tu vois ce n'est pas asser clair
-				// si ce n'est pas un mp3 et pas gitkeep
-				// je les deplace dans le repertoire notsuported et je retire de
-				// la
-				// liste
-				if (!isMp3 && containegitkeep) {
-					// on ignore le gitkeep pour le deplacement mais pas dans la
-					// supresion de la liste
-					if (false == containegitkeep) {
-						try {
-							managerFile.moveFile(pathFileItem, dirNotSuported + File.separator + fileNameItem);
-						} catch (IOException e2) {
-
-							String erroMgs = "imposible de deplacer le Fichier " + fileNameItem + "du repertoir:"
-									+ dirIn + " vers le repertoire " + dirNotSuported;
-							LOGGER4J.error(erroMgs, e2.getMessage(), e2.getClass().getName(), e2.getStackTrace());
-						}
-					}
-					listeFichiersIn.remove(i);
-				}
-			}
-		}
-	}
-
-	private void sortListFileMp3(ArrayList<String> listeFichiersIn) {
+	/**
+	 * 
+	 * @param listeFichiersIn
+	 */
+	private void sortListMusicFile(ArrayList<String> listeFichiersIn) {
 		int tabSize = 0;
 		String fileNameitem = "";
 		boolean zeroFile = true;
@@ -225,7 +205,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 				for (int i = 0; i < tabSize; i++) {
 					fileNameitem = listeFichiersIn.get(i);
 					LOGGER4J.trace("sort" + i + "-" + (tabSize - 1));
-					sortFileMp3(fileNameitem);
+					sortMusicFile(fileNameitem);
 				}
 			}
 		}
@@ -234,13 +214,17 @@ public class MusicFileBandMaster extends FileBandMaster {
 		}
 	}
 
-	private void sortFileMp3(String fileName) {
+	/**
+	 * 
+	 * @param fileName
+	 */
+	private void sortMusicFile(String fileName) {
 		MusicDto musicDtoItem;
 		try {
 			musicDtoItem = doLoadDTO(fileName);
 			// tri artiste album
 			sortedByAuthorAndAlbum(musicDtoItem);
-		} catch (IOException | TagException | UnsupportedOperationException e) {
+		} catch (Exception e) {
 			LOGGER4J.error("Fichier : " + fileName + "-" + e.getMessage(), e.getClass().getName(), e.getStackTrace());
 			try {
 				managerFile.moveFile(fileName, dirError + File.separator + fileName);
@@ -275,16 +259,14 @@ public class MusicFileBandMaster extends FileBandMaster {
 	/** launch sort procedure */
 	public void runSortFile() throws IOException {
 		ArrayList<String> listeFichiersIn;
+		MusicExtention[] filter = MusicExtention.values();
 		int tabSize = 0;
 		// etape 1 tester sur les repertoire suivant existe
 		// sinon les cree
 		if (validateDirectorys()) {
 			LOGGER4J.debug("Load dir" + dirIn);
-			listeFichiersIn = managerFile.listeFilesOnDirectoryAndSubDirectory(dirIn.getPath());
-			LOGGER4J.debug("clean files not mp3");
-			// netoyer la liste de fichier pour ne garder que les fichier mp3
-			rejectFileNotMp3(listeFichiersIn);
-			sortListFileMp3(listeFichiersIn);
+			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(), filter);
+			sortListMusicFile(listeFichiersIn);
 		}
 	}
 }

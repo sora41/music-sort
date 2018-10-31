@@ -12,7 +12,7 @@ import repository.IRepositoryFile;
 import repository.file.RepositoryWalkingFile;
 import repository.file.RepositoyApacheFile;
 /**
- * orchestrateur de la gestion des fichiers 
+ *  bandMaster file music 
  * */
 public abstract class FileBandMaster {
 	/**
@@ -176,7 +176,7 @@ public abstract class FileBandMaster {
 		}
 	}
 	/**
-	 * function de trie des fichiers 
+	 *  run sort file
 	 * */
 	public abstract void runSortFile() throws IOException;
 }

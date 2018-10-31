@@ -7,11 +7,7 @@
 	<name>sortmymusic</name>
 	<description>sorterMusic</description>
 	<dependencies>
-		<dependency>
-			<groupId>net.sf.javamusictag</groupId>
-			<artifactId>jid3lib</artifactId>
-			<version>0.5.4</version>
-		</dependency>
+		
 
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -42,6 +38,11 @@
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
 			<version>2.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org</groupId>
+			<artifactId>jaudiotagger</artifactId>
+			<version>2.0.3</version>
 		</dependency>
 	</dependencies>
 </project>

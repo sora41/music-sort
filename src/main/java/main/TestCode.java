@@ -5,20 +5,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.commons.io.FileUtils;
-import org.farng.mp3.TagException;
+
 
 import datatransfert.MusicDto;
 import repository.IRepositoryFile;
 import repository.IRepositoryMusicFile;
-import repository.music.RepositoryMusicFile;
-import repository.music.RepositoryMusicFileManual;
+import repository.music.RepositoryMusicFileMP3Manual;
+import repository.music.RepositoryMusicFileMp3JAudiotagger;
+import repository.music.RepositoryMusicFileWmaJAudiotagger;
 import repository.file.RepositoryNativeFile;
 import repository.file.RepositoryWalkingFile;
 import repository.file.RepositoyApacheFile;
+import org.jaudiotagger.tag.TagNotFoundException;
+
+import constant.MusicExtention;
 
 public class TestCode {
 
-	private static final String DIRECTORY_TEST_MP3 = "Music\\test\\filesmp3";
+	private static final String DIRECTORY_TEST_MP3 = "Music\\test\\mp3";
+	private static final String DIRECTORY_TEST_WMA = "Music\\test\\wma";
+	private static final String DIRECTORY_TEST_M4A = "Music\\test\\m4a";
 	private static final String DIRECTORY_TEST_CLEAN = "Music\\test\\dircleaner";
 	private static final String DIRECTORY_INIT_CLEAN = "Music\\test\\initfile";
 	private static final String DIRECTORY_TEST_APACHE = "Music\\test\\apache";
@@ -42,47 +48,53 @@ public class TestCode {
 			System.out.println("index : " + i + " " + strings.get(i));
 		}
 	}
-
-	public void testGetDtoMusique(String DirIn) {
-
+	
+	public void testLoadDToOnMp3ManualRepository(String DirIn) throws Exception {
 		MusicDto mp3;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
-		RepositoryMusicFile repoMusic = new RepositoryMusicFile();
+		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMP3Manual();
 		ArrayList<String> namefiles;
-		try {
-			namefiles = repoFile.listeFilesOnDirectory(DirIn);
-			String path =  namefiles.get(0);
-			// afficheStringArray(namefiles);
-			System.out.println(path);
 
-			mp3 = repoMusic.getDataToMusicFile(path);
-			afficheMusicDto(mp3);
+		namefiles = repoFile.listeFilesOnDirectory(DirIn);
+		String path = namefiles.get(0);
+		mp3 = repoMusic.getDataToMusicFile(path);
+		afficheMusicDto(mp3);
+	}
 
-		} catch (UnsupportedOperationException | IOException | TagException e) {
-
-			e.printStackTrace();
-		}
+	public void testLoadDToOnMP3JAudiotaggerRepository(String DirIn) throws Exception {
+		MusicDto mp3;
+		IRepositoryFile repoFile = new RepositoryNativeFile();
+		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMp3JAudiotagger();
+		ArrayList<String> namefiles;
+		namefiles = repoFile.listeFilesOnDirectory(DirIn);
+		String path = namefiles.get(0);
+		mp3 = repoMusic.getDataToMusicFile(path);
+		afficheMusicDto(mp3);
 
 	}
 
-	public void testLoadManualRepository(String DirIn) {
-		MusicDto mp3;
+	public void testLoadDtoOnWmaRepository(String DirIn) throws Exception {
+		MusicDto wma;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
-		IRepositoryMusicFile repoMusic = new RepositoryMusicFileManual();
+		IRepositoryMusicFile repoMusic = new RepositoryMusicFileWmaJAudiotagger();
 		ArrayList<String> namefiles;
-		try {
-			namefiles = repoFile.listeFilesOnDirectory(DirIn);
-			String path = namefiles.get(0);
-			// afficheStringArray(namefiles);
-			System.out.println(path);
+		namefiles = repoFile.listeFilesOnDirectory(DirIn);
+		String path = namefiles.get(0);
+		wma = repoMusic.getDataToMusicFile(path);
+		afficheMusicDto(wma);
 
-			mp3 = repoMusic.getDataToMusicFile(path);
-			afficheMusicDto(mp3);
+	}
 
-		} catch (UnsupportedOperationException | IOException | TagException e) {
+	public void testLoadDtoOnM4aRepository(String DirIn) throws Exception {
+		MusicDto m4a;
+		IRepositoryFile repoFile = new RepositoryNativeFile();
+		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMp3JAudiotagger();
+		ArrayList<String> namefiles;
+		namefiles = repoFile.listeFilesOnDirectory(DirIn);
+		String path = namefiles.get(0);
+		m4a = repoMusic.getDataToMusicFile(path);
+		afficheMusicDto(m4a);
 
-			e.printStackTrace();
-		}
 	}
 
 	public void test_create_directory() throws IOException {
@@ -94,11 +106,7 @@ public class TestCode {
 		for (String fileStr : dest.list()) {
 			System.out.println(fileStr);
 		}
-		;
 		Collection<File> files;
-		// FileUtils.moveDirectory(file, dest);
-		// FileUtils.cleanDirectory(dest);
-		String[] extention = { "" };
 		files = FileUtils.listFiles(dest, null, true);
 		System.out.println(files.size());
 		for (File file2 : files) {
@@ -134,32 +142,49 @@ public class TestCode {
 		afficheStringArray(raf.listeFilesOnDirectoryAndSubDirectory(dirtoScan));
 	}
 
-	public void runTest() throws IOException {
-		System.out.println("----------------testGetDtoMusique----------------------");
-		testGetDtoMusique(DIRECTORY_TEST_MP3);
+	public void test_getFilterlisteFileRecursifApache(String dirtoScan) throws IOException {
+		MusicExtention[] filters = { MusicExtention.MP3,MusicExtention.WMA };
+		RepositoyApacheFile raf = new RepositoyApacheFile();
+		afficheStringArray(raf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan, filters));
+	}
 
-		System.out.println("-------------------testLoadManualRepository------------");
-		testLoadManualRepository(DIRECTORY_TEST_MP3);
+	public void test_getFilterlisteFileRecursifNative(String dirtoScan) throws IOException {
+		MusicExtention[] filters = { MusicExtention.MP3,MusicExtention.WMA };
+		RepositoryNativeFile rnf = new RepositoryNativeFile();
+		afficheStringArray(rnf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan, filters));
+	}
+	
+	public void test_getFilterlisteFileRecursifWalking(String dirtoScan) throws IOException {
+		MusicExtention[] filters = { MusicExtention.MP3,MusicExtention.WMA };
+		RepositoryWalkingFile rwf = new RepositoryWalkingFile();
+		afficheStringArray(rwf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan, filters));
+	}
+	
+	
 
-		/*
-		 * System.out.
-		 * println("-------------------test_delete_ recursif------------");
-		 * test_deletefileRecursif(DIRECTORY_TEST_CLEAN);
-		 */
+	public void runTest() throws Exception {
+		
+		System.out.println("-------------------testLoadDToOnMp3ManualRepository------------");
+		testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_MP3);
 
-		/*
-		 * System.out.println("-------------------test_forceMKDIR------------");
-		 * test_create_directory();
-		 */
-		/*
-		 * System.out.println(
-		 * "-------------------test_move_directory------------");
-		 * test_move_directory();
-		 * 
-		 * System.out.println("-------------------test_move_file------------");
-		 * test_move_file();
-		 */
+		System.out.println("-------------------testLoadDToOnMP3JAudiotaggerRepository------------");
+		testLoadDToOnMP3JAudiotaggerRepository(DIRECTORY_TEST_MP3);
 
+		System.out.println("-------------------testLoadDtoOnWmaRepository------------");
+		testLoadDtoOnWmaRepository(DIRECTORY_TEST_WMA);
+/*
+		System.out.println("-------------------testLoadDToOnMp3ManualRepository------------");
+		testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_M4A);
+*/
+		/*System.out.println("-------------------test_forceMKDIR------------");
+		test_create_directory();
+
+		System.out.println("-------------------test_move_directory------------");
+		test_move_directory();
+
+		System.out.println("-------------------test_move_file------------");
+		test_move_file();
+*/
 		System.out.println("-------------------test_getlisteFileRecursifWalking------------");
 		test_getlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
 
@@ -168,5 +193,14 @@ public class TestCode {
 
 		System.out.println("-------------------test_getlisteFileRecursifApache------------");
 		test_getlisteFileRecursifApache(DIRECTORY_INIT_CLEAN);
+
+		System.out.println("-------------------test_getFilterlisteFileRecursifApache------------");
+		test_getFilterlisteFileRecursifApache(DIRECTORY_INIT_CLEAN);
+
+		System.out.println("-------------------test_getFilterlisteFileRecursifNative------------");
+		test_getFilterlisteFileRecursifNative(DIRECTORY_INIT_CLEAN);
+		
+		System.out.println("-------------------test_getFilterlisteFileRecursifWalking------------");
+		test_getFilterlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
 	}
 }

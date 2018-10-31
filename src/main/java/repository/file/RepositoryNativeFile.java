@@ -8,9 +8,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import constant.MusicExtention;
 import repository.IRepositoryFile;
 
 public class RepositoryNativeFile implements IRepositoryFile {
@@ -45,9 +48,9 @@ public class RepositoryNativeFile implements IRepositoryFile {
 		ArrayList<String> fileList;
 
 		file = new File(pathFileName);
-		boolean isDir = file.isDirectory();
+		boolean isDiretory = file.isDirectory();
 
-		if (isDir == true) {
+		if (isDiretory == true) {
 			fileList = listeFilesOnDirectory(pathFileName);
 
 			int taille = fileList.size();
@@ -75,8 +78,8 @@ public class RepositoryNativeFile implements IRepositoryFile {
 		LOGGER4J.trace("lancement clean sur le repertoire " + pathFileName);
 		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
 		String pahtItem;
-		int taille = fileList.size();
-		LOGGER4J.trace("contient" + taille);
+		int size = fileList.size();
+		LOGGER4J.trace("contient" + size);
 		for (int i = 0; i < fileList.size(); i++) {
 			pahtItem = pathFileName + File.separator + fileList.get(i);
 			recursiveDelete(pahtItem);
@@ -112,11 +115,11 @@ public class RepositoryNativeFile implements IRepositoryFile {
 	}
 
 	@Override
-	public boolean validateDirectory(File dir) {
+	public boolean validateDirectory(File directory) {
 		boolean resultas = false;
-		if (dir != null)
-			if (dir.exists())
-				if (dir.isDirectory())
+		if (directory != null)
+			if (directory.exists())
+				if (directory.isDirectory())
 					resultas = true;
 		return resultas;
 	}
@@ -125,17 +128,17 @@ public class RepositoryNativeFile implements IRepositoryFile {
 	public ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException {
 
 		ArrayList<String> nomFichiers = null;
-		File repertoire = new File(dirName);
+		File directory = new File(dirName);
 
-		if (repertoire.exists()) {
+		if (directory.exists()) {
 			nomFichiers = new ArrayList<>();
-			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath());
+			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory.toPath());
 			for (Path path : directoryStream) {
 				nomFichiers.add(path.toString());
 			}
 		} else {
 			FileNotFoundException e = new FileNotFoundException(
-					"repertoire: " + repertoire.getAbsolutePath() + " introuvable");
+					"repertoire: " + directory.getAbsolutePath() + " introuvable");
 			throw e;
 		}
 		return nomFichiers;
@@ -143,23 +146,23 @@ public class RepositoryNativeFile implements IRepositoryFile {
 
 	@Override
 	public ArrayList<String> listeFilesOnDirectoryAndSubDirectory(String dirName) throws IOException {
-		ArrayList<String> nomFichiers = null;
-		ArrayList<String> nomFichiersTempo = null;
-		File repertoire = new File(dirName);
+		ArrayList<String> finalPathFileList = null;
+		ArrayList<String> subPathFileList = null;
+		File directory = new File(dirName);
 		String fileNameItem;
-		System.out.println(dirName);
-		if (repertoire.exists()) {
-			nomFichiers = new ArrayList<>();
-			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath());
+
+		if (directory.exists()) {
+			finalPathFileList = new ArrayList<>();
+			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory.toPath());
 			for (Path path : directoryStream) {
 				fileNameItem = path.getFileName().toString();
 				if (path.toFile().isDirectory()) {
-					nomFichiersTempo = listeFilesOnDirectoryAndSubDirectory(dirName + "\\" + fileNameItem);
+					subPathFileList = listeFilesOnDirectoryAndSubDirectory(dirName + "\\" + fileNameItem);
 
-					if ((null != nomFichiersTempo)) {
-						if (nomFichiersTempo.size() > 0) {
+					if ((null != subPathFileList)) {
+						if (subPathFileList.size() > 0) {
 
-							if (nomFichiers.addAll(nomFichiersTempo) == false) {
+							if (finalPathFileList.addAll(subPathFileList) == false) {
 								IOException eCollectionSet = new IOException(
 										"erro affection apelle recurisif sur le fichier" + fileNameItem
 												+ "dans le repertoire" + dirName);
@@ -169,15 +172,71 @@ public class RepositoryNativeFile implements IRepositoryFile {
 					}
 
 				} else {
-					nomFichiers.add(path.toString());
+					finalPathFileList.add(path.toString());
 				}
 			}
 		} else {
 			FileNotFoundException eFileNotFound = new FileNotFoundException(
-					"repertoire: " + repertoire.getAbsolutePath() + " introuvable");
+					"repertoire: " + directory.getAbsolutePath() + " introuvable");
 			throw eFileNotFound;
 		}
-		return nomFichiers;
+		return finalPathFileList;
 	}
 
+	@Override
+	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName, MusicExtention[] filters)
+			throws IOException {
+
+		ArrayList<String> finalPathFileList = null;
+		ArrayList<String> subPathFileList = null;
+		File directory = new File(dirName);
+		String fileNameItem;
+
+		if (directory.exists()) {
+			finalPathFileList = new ArrayList<>();
+			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory.toPath());
+			for (Path path : directoryStream) {
+				fileNameItem = path.getFileName().toString();
+				if (path.toFile().isDirectory()) {
+					// rapelle la fonction pour recupere la liste des repertoire du sous repertoire 
+					subPathFileList = filesListFilterOnDirectoryAndSubDirectory(dirName + "\\" + fileNameItem, filters);
+
+					if ((null != subPathFileList)) {
+						if (subPathFileList.size() > 0) {
+							if (finalPathFileList.addAll(subPathFileList) == false) {
+								IOException eCollectionSet = new IOException(
+										"erro affection apelle recurisif sur le fichier" + fileNameItem
+												+ "dans le repertoire" + dirName);
+								throw eCollectionSet;
+							}
+						}
+					}
+				} else {
+					
+					if (filters != null && filters.length > 0) {
+						String pathFileStr = path.toString();
+						boolean add = false;
+						// parcour des filtre 
+						for (MusicExtention musicExtention : filters) {
+							if ((pathFileStr.contains(musicExtention.getValue()))||(pathFileStr.contains(musicExtention.getValue().toUpperCase()))) {
+								add = true;
+							}
+						}
+						
+						if (add == true)
+							finalPathFileList.add(pathFileStr);
+							
+					} else {
+						finalPathFileList.add(path.toString());
+					}
+				}
+			}
+		} else {
+			FileNotFoundException eFileNotFound = new FileNotFoundException(
+					"repertoire: " + directory.getAbsolutePath() + " introuvable");
+			throw eFileNotFound;
+		}
+		return finalPathFileList;
+
+	}
 }

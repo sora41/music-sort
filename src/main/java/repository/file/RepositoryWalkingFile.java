@@ -16,12 +16,13 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import constant.MusicExtention;
 import repository.IRepositoryFile;
 
 /**
  * repository file implemented with lib java.nio.file new walking methode
  */
-public class RepositoryWalkingFile  implements IRepositoryFile {
+public class RepositoryWalkingFile implements IRepositoryFile {
 
 	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryWalkingFile.class.getName());
 
@@ -157,7 +158,7 @@ public class RepositoryWalkingFile  implements IRepositoryFile {
 			for (Path path : directoryStream) {
 				fileNameItem = path.getFileName().toString();
 				if (path.toFile().isDirectory()) {
-					nomFichiersTempo = listeFilesOnDirectoryAndSubDirectory(dirName +"\\"+fileNameItem);
+					nomFichiersTempo = listeFilesOnDirectoryAndSubDirectory(dirName + "\\" + fileNameItem);
 					if ((null != nomFichiersTempo)) {
 						if (nomFichiersTempo.size() > 0) {
 							if (nomFichiers.addAll(nomFichiersTempo) == false) {
@@ -181,4 +182,62 @@ public class RepositoryWalkingFile  implements IRepositoryFile {
 		return nomFichiers;
 	}
 
+	@Override
+	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName, MusicExtention[] filters)
+			throws IOException {
+
+		ArrayList<String> finalPathFileList = null;
+		ArrayList<String> subPathFileList = null;
+		File directory = new File(dirName);
+		String fileNameItem;
+
+		if (directory.exists()) {
+			finalPathFileList = new ArrayList<>();
+			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory.toPath());
+			for (Path path : directoryStream) {
+				fileNameItem = path.getFileName().toString();
+				if (path.toFile().isDirectory()) {
+					// rapelle la fonction pour recupere la liste des repertoire
+					// du sous repertoire
+					subPathFileList = filesListFilterOnDirectoryAndSubDirectory(dirName + "\\" + fileNameItem, filters);
+
+					if ((null != subPathFileList)) {
+						if (subPathFileList.size() > 0) {
+							if (finalPathFileList.addAll(subPathFileList) == false) {
+								IOException eCollectionSet = new IOException(
+										"erro affection apelle recurisif sur le fichier" + fileNameItem
+												+ "dans le repertoire" + dirName);
+								throw eCollectionSet;
+							}
+						}
+					}
+				} else {
+
+					if (filters != null && filters.length > 0) {
+						String pathFileStr = path.toString();
+						boolean add = false;
+						// parcour des filtre
+						for (MusicExtention musicExtention : filters) {
+							if ((pathFileStr.contains(musicExtention.getValue()))
+									|| (pathFileStr.contains(musicExtention.getValue().toUpperCase()))) {
+								add = true;
+							}
+						}
+
+						if (add == true)
+							finalPathFileList.add(pathFileStr);
+
+					} else {
+						finalPathFileList.add(path.toString());
+					}
+				}
+			}
+		} else {
+			FileNotFoundException eFileNotFound = new FileNotFoundException(
+					"repertoire: " + directory.getAbsolutePath() + " introuvable");
+			throw eFileNotFound;
+		}
+		return finalPathFileList;
+
+	}
 }
