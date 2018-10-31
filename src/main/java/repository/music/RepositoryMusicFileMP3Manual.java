@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.farng.mp3.TagException;
 
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
@@ -14,7 +13,7 @@ public class RepositoryMusicFileMP3Manual implements IRepositoryMusicFile {
 
 	@Override
 	public MusicDto getDataToMusicFile(String pathFileName)
-			throws IOException, TagException, FileNotFoundException, UnsupportedOperationException {
+			throws IOException, FileNotFoundException, UnsupportedOperationException {
 		MusicDto dto = new MusicDto();
 		File song = new File(pathFileName);
 		FileInputStream file = new FileInputStream(song);

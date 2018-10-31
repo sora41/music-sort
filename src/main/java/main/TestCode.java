@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.commons.io.FileUtils;
-import org.farng.mp3.TagException;
+
 
 import datatransfert.MusicDto;
 import repository.IRepositoryFile;
 import repository.IRepositoryMusicFile;
-import repository.music.RepositoryMusicFileMP3Jid3;
 import repository.music.RepositoryMusicFileMP3Manual;
 import repository.music.RepositoryMusicFileMp3JAudiotagger;
 import repository.music.RepositoryMusicFileWmaJAudiotagger;
@@ -49,22 +48,7 @@ public class TestCode {
 			System.out.println("index : " + i + " " + strings.get(i));
 		}
 	}
-
-	public void testLoadDToOnMP3Jid3Repository(String DirIn)
-			throws IOException, UnsupportedOperationException, TagException {
-
-		MusicDto mp3;
-		IRepositoryFile repoFile = new RepositoryNativeFile();
-		RepositoryMusicFileMP3Jid3 repoMusic = new RepositoryMusicFileMP3Jid3();
-		ArrayList<String> namefiles;
-		namefiles = repoFile.listeFilesOnDirectory(DirIn);
-		String path = namefiles.get(0);
-		System.out.println(path);
-		mp3 = repoMusic.getDataToMusicFile(path);
-		afficheMusicDto(mp3);
-
-	}
-
+	
 	public void testLoadDToOnMp3ManualRepository(String DirIn) throws Exception {
 		MusicDto mp3;
 		IRepositoryFile repoFile = new RepositoryNativeFile();
@@ -179,9 +163,7 @@ public class TestCode {
 	
 
 	public void runTest() throws Exception {
-		System.out.println("----------------testLoadDToOnMP3Jid3Repository----------------------");
-		testLoadDToOnMP3Jid3Repository(DIRECTORY_TEST_MP3);
-
+		
 		System.out.println("-------------------testLoadDToOnMp3ManualRepository------------");
 		testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_MP3);
 
