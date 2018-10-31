@@ -13,10 +13,9 @@ import repository.IRepositoryMusicFile;
 import repository.music.RepositoryMusicFileMP3Manual;
 import repository.music.RepositoryMusicFileMp3JAudiotagger;
 import repository.music.RepositoryMusicFileWmaJAudiotagger;
-import repository.file.RepositoryNativeFile;
 import repository.file.RepositoryWalkingFile;
 import repository.file.RepositoyApacheFile;
-import org.jaudiotagger.tag.TagNotFoundException;
+
 
 import constant.MusicExtention;
 
@@ -48,10 +47,11 @@ public class TestCode {
 			System.out.println("index : " + i + " " + strings.get(i));
 		}
 	}
-	
+
+
 	public void testLoadDToOnMp3ManualRepository(String DirIn) throws Exception {
 		MusicDto mp3;
-		IRepositoryFile repoFile = new RepositoryNativeFile();
+		IRepositoryFile repoFile = new RepositoryWalkingFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMP3Manual();
 		ArrayList<String> namefiles;
 
@@ -63,7 +63,7 @@ public class TestCode {
 
 	public void testLoadDToOnMP3JAudiotaggerRepository(String DirIn) throws Exception {
 		MusicDto mp3;
-		IRepositoryFile repoFile = new RepositoryNativeFile();
+		IRepositoryFile repoFile = new RepositoryWalkingFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMp3JAudiotagger();
 		ArrayList<String> namefiles;
 		namefiles = repoFile.listeFilesOnDirectory(DirIn);
@@ -75,7 +75,7 @@ public class TestCode {
 
 	public void testLoadDtoOnWmaRepository(String DirIn) throws Exception {
 		MusicDto wma;
-		IRepositoryFile repoFile = new RepositoryNativeFile();
+		IRepositoryFile repoFile = new RepositoryWalkingFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileWmaJAudiotagger();
 		ArrayList<String> namefiles;
 		namefiles = repoFile.listeFilesOnDirectory(DirIn);
@@ -87,7 +87,7 @@ public class TestCode {
 
 	public void testLoadDtoOnM4aRepository(String DirIn) throws Exception {
 		MusicDto m4a;
-		IRepositoryFile repoFile = new RepositoryNativeFile();
+		IRepositoryFile repoFile = new RepositoryWalkingFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMp3JAudiotagger();
 		ArrayList<String> namefiles;
 		namefiles = repoFile.listeFilesOnDirectory(DirIn);
@@ -98,7 +98,6 @@ public class TestCode {
 	}
 
 	public void test_create_directory() throws IOException {
-
 		File file = new File(DIRECTORY_TEST_APACHE);
 		File dest = new File(DIRECTORY_TEST_DES);
 
@@ -132,10 +131,6 @@ public class TestCode {
 		afficheStringArray(rwf.listeFilesOnDirectoryAndSubDirectory(dirtoScan));
 	}
 
-	public void test_getlisteFileRecursifNatif(String dirtoScan) throws IOException {
-		RepositoryNativeFile rnf = new RepositoryNativeFile();
-		afficheStringArray(rnf.listeFilesOnDirectoryAndSubDirectory(dirtoScan));
-	}
 
 	public void test_getlisteFileRecursifApache(String dirtoScan) throws IOException {
 		RepositoyApacheFile raf = new RepositoyApacheFile();
@@ -148,11 +143,7 @@ public class TestCode {
 		afficheStringArray(raf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan, filters));
 	}
 
-	public void test_getFilterlisteFileRecursifNative(String dirtoScan) throws IOException {
-		MusicExtention[] filters = { MusicExtention.MP3,MusicExtention.WMA };
-		RepositoryNativeFile rnf = new RepositoryNativeFile();
-		afficheStringArray(rnf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan, filters));
-	}
+	
 	
 	public void test_getFilterlisteFileRecursifWalking(String dirtoScan) throws IOException {
 		MusicExtention[] filters = { MusicExtention.MP3,MusicExtention.WMA };
@@ -188,17 +179,12 @@ public class TestCode {
 		System.out.println("-------------------test_getlisteFileRecursifWalking------------");
 		test_getlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
 
-		System.out.println("-------------------test_getlisteFileRecursifNatif------------");
-		test_getlisteFileRecursifNatif(DIRECTORY_INIT_CLEAN);
-
 		System.out.println("-------------------test_getlisteFileRecursifApache------------");
 		test_getlisteFileRecursifApache(DIRECTORY_INIT_CLEAN);
 
 		System.out.println("-------------------test_getFilterlisteFileRecursifApache------------");
 		test_getFilterlisteFileRecursifApache(DIRECTORY_INIT_CLEAN);
 
-		System.out.println("-------------------test_getFilterlisteFileRecursifNative------------");
-		test_getFilterlisteFileRecursifNative(DIRECTORY_INIT_CLEAN);
 		
 		System.out.println("-------------------test_getFilterlisteFileRecursifWalking------------");
 		test_getFilterlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
