@@ -68,18 +68,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		Class<?> repoClass =Class.forName( enumExention.getRepoClass());
 		
 		repositoryMusic =  (IRepositoryMusicFile) repoClass.newInstance();
-		/*
-		if (enumExention == MusicExtention.MP3) {
-			repositoryMusic = new RepositoryMusicFileMp3JAudiotagger();
-		} else {
-			if (enumExention == MusicExtention.WMA)
-				repositoryMusic = new RepositoryMusicFileWmaJAudiotagger();
-			else {
-				Exception eextNotSuported = new Exception(" extention not suported " + extention);
-				throw eextNotSuported;
-			}
-		}*/
-
+	
 		MusicDto dto = repositoryMusic.getDataToMusicFile(pathFileName);
 		if (null == dto) {
 			TagNotFoundException e = new TagNotFoundException("Tag not found ");
