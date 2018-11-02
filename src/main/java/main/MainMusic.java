@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
+
 import bandMaster.MusicFileBandMaster;
 
 public class MainMusic {
@@ -31,7 +32,7 @@ public class MainMusic {
 	 */
 	private static MusicFileBandMaster musicSorter;
 	/**
-	 * the application tester object deprecied (unit test incomming )
+	 * the application tester object deprecated (unit test incoming )
 	 */
 	private static TestCode test;
 	/**

@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import org.apache.commons.io.FileUtils;
-
-
 import datatransfert.MusicDto;
 import repository.IRepositoryFile;
 import repository.IRepositoryMusicFile;
@@ -15,8 +13,6 @@ import repository.music.RepositoryMusicFileMp3JAudiotagger;
 import repository.music.RepositoryMusicFileWmaJAudiotagger;
 import repository.file.RepositoryWalkingFile;
 import repository.file.RepositoyApacheFile;
-
-
 import constant.MusicExtention;
 
 public class TestCode {
@@ -47,7 +43,6 @@ public class TestCode {
 			System.out.println("index : " + i + " " + strings.get(i));
 		}
 	}
-
 
 	public void testLoadDToOnMp3ManualRepository(String DirIn) throws Exception {
 		MusicDto mp3;
@@ -131,30 +126,25 @@ public class TestCode {
 		afficheStringArray(rwf.listeFilesOnDirectoryAndSubDirectory(dirtoScan));
 	}
 
-
 	public void test_getlisteFileRecursifApache(String dirtoScan) throws IOException {
 		RepositoyApacheFile raf = new RepositoyApacheFile();
 		afficheStringArray(raf.listeFilesOnDirectoryAndSubDirectory(dirtoScan));
 	}
 
 	public void test_getFilterlisteFileRecursifApache(String dirtoScan) throws IOException {
-		MusicExtention[] filters = { MusicExtention.MP3,MusicExtention.WMA };
+		MusicExtention[] filters = { MusicExtention.MP3, MusicExtention.WMA };
 		RepositoyApacheFile raf = new RepositoyApacheFile();
 		afficheStringArray(raf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan, filters));
 	}
 
-	
-	
 	public void test_getFilterlisteFileRecursifWalking(String dirtoScan) throws IOException {
-		MusicExtention[] filters = { MusicExtention.MP3,MusicExtention.WMA };
+		MusicExtention[] filters = { MusicExtention.MP3, MusicExtention.WMA };
 		RepositoryWalkingFile rwf = new RepositoryWalkingFile();
 		afficheStringArray(rwf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan, filters));
 	}
-	
-	
 
 	public void runTest() throws Exception {
-		
+
 		System.out.println("-------------------testLoadDToOnMp3ManualRepository------------");
 		testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_MP3);
 
@@ -163,19 +153,22 @@ public class TestCode {
 
 		System.out.println("-------------------testLoadDtoOnWmaRepository------------");
 		testLoadDtoOnWmaRepository(DIRECTORY_TEST_WMA);
-/*
-		System.out.println("-------------------testLoadDToOnMp3ManualRepository------------");
-		testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_M4A);
-*/
-		/*System.out.println("-------------------test_forceMKDIR------------");
-		test_create_directory();
-
-		System.out.println("-------------------test_move_directory------------");
-		test_move_directory();
-
-		System.out.println("-------------------test_move_file------------");
-		test_move_file();
-*/
+		/*
+		 * System.out.println(
+		 * "-------------------testLoadDToOnMp3ManualRepository------------");
+		 * testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_M4A);
+		 */
+		/*
+		 * System.out.println("-------------------test_forceMKDIR------------");
+		 * test_create_directory();
+		 * 
+		 * System.out.println(
+		 * "-------------------test_move_directory------------");
+		 * test_move_directory();
+		 * 
+		 * System.out.println("-------------------test_move_file------------");
+		 * test_move_file();
+		 */
 		System.out.println("-------------------test_getlisteFileRecursifWalking------------");
 		test_getlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
 
@@ -185,7 +178,6 @@ public class TestCode {
 		System.out.println("-------------------test_getFilterlisteFileRecursifApache------------");
 		test_getFilterlisteFileRecursifApache(DIRECTORY_INIT_CLEAN);
 
-		
 		System.out.println("-------------------test_getFilterlisteFileRecursifWalking------------");
 		test_getFilterlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
 	}
