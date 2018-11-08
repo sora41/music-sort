@@ -224,14 +224,14 @@ public class MusicFileBandMaster extends FileBandMaster {
 			musicDtoItem = doLoadDTO(fileName);
 			// tri artiste album
 			sortedByAuthorAndAlbum(musicDtoItem);
-		} catch (Exception e) {
-			LOGGER4J.error("Fichier : " + fileName + "-" + e.getMessage(), e.getClass().getName(), e.getStackTrace());
+		} catch (Exception sortException) {
+			LOGGER4J.error("Fichier : " + fileName + "-" + sortException.getMessage(), sortException.getClass().getName(), sortException.getStackTrace());
 			try {
 				managerFile.moveFile(fileName, dirError + File.separator + fileName);
-			} catch (IOException e2) {
+			} catch (IOException moveException) {
 				String erroMgs = "imposible de deplacer le Fichier " + fileName + "du repertoir:" + dirIn
 						+ " vers le repertoire " + dirNotSuported;
-				LOGGER4J.error(erroMgs + "-" + e2.getMessage(), e2.getClass().getName(), e2.getStackTrace());
+				LOGGER4J.error(erroMgs + "-" + moveException.getMessage(), moveException.getClass().getName(), moveException.getStackTrace());
 			}
 		}
 	}
