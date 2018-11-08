@@ -11,7 +11,7 @@ import repository.IRepositoryMusicFile;
 
 public class RepositoryMusicFileMP3Manual implements IRepositoryMusicFile {
 
-	@Override
+
 	public MusicDto getDataToMusicFile(String pathFileName)
 			throws IOException, FileNotFoundException, UnsupportedOperationException {
 		MusicDto dto = new MusicDto();
@@ -22,7 +22,7 @@ public class RepositoryMusicFileMP3Manual implements IRepositoryMusicFile {
 			size = (int) song.length();
 		}
 		try {
-			if (size > 0) { 
+			if (size > 0) {
 
 				file.skip(size - 128);
 				byte[] last128 = new byte[128];
@@ -51,7 +51,7 @@ public class RepositoryMusicFileMP3Manual implements IRepositoryMusicFile {
 		return dto;
 	}
 
-	@Override
+
 	public boolean saveDataToMusicFile(MusicDto data) throws Exception {
 		Exception e = new Exception("fonction non implementer");
 		throw e;

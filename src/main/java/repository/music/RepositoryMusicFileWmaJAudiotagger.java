@@ -1,7 +1,6 @@
 package repository.music;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,7 +14,6 @@ import repository.IRepositoryMusicFile;
 
 public class RepositoryMusicFileWmaJAudiotagger implements IRepositoryMusicFile {
 
-	@Override
 	public MusicDto getDataToMusicFile(String pathFileName) throws Exception {
 		MusicDto wma = null;
 		File song = new File(pathFileName);
@@ -39,7 +37,6 @@ public class RepositoryMusicFileWmaJAudiotagger implements IRepositoryMusicFile 
 		return wma;
 	}
 
-	@Override
 	public boolean saveDataToMusicFile(MusicDto data) throws Exception {
 		Exception e = new Exception("fonction non implementer");
 		throw e;
