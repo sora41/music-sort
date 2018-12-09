@@ -11,21 +11,22 @@ import org.apache.logging.log4j.Logger;
 import repository.IRepositoryFile;
 import repository.file.RepositoryWalkingFile;
 import repository.file.RepositoyApacheFile;
+
 /**
- *  bandMaster file music 
- * */
+ * bandMaster file music
+ */
 public abstract class FileBandMaster {
 	/**
 	 * the loger from log4j
 	 */
 	private static final Logger LOGGER4J = LogManager.getLogger(FileBandMaster.class.getName());
 	/**
-	 * nom du repertoire de sorti des fichier non suporté par l'application 
-	 * */
+	 * nom du repertoire de sorti des fichier non suporté par l'application
+	 */
 	private static final String DIR_NOT_SUPORTED = "NotSuported";
 	/**
-	 * nom du repertoire de sorti erreur 
-	 * */
+	 * nom du repertoire de sorti erreur
+	 */
 	private static final String DIR_ERROR = "Erro";
 	/**
 	 * repertoire d'entre des musique a trie
@@ -44,7 +45,8 @@ public abstract class FileBandMaster {
 	 **/
 	protected File dirNotSuported;
 	/**
-	 * repertoire de sorti des fichier en erreur dans la couche metier de l'application 
+	 * repertoire de sorti des fichier en erreur dans la couche metier de
+	 * l'application
 	 **/
 	protected File dirError;
 	/**
@@ -146,20 +148,20 @@ public abstract class FileBandMaster {
 		String newPahtFileItem = "";
 		LOGGER4J.debug("initalisation  " + backDir);
 		// verfie si le repertoire back existe
-		if (managerFile.validateDirectory(back) == true) {
+		if (managerFile.validateDirectory(back)) {
 			listeFichiersBack = managerFile.listeFilesOnDirectoryAndSubDirectory(back.getPath());
 			// verifie si la liste de fichier existe et si elle contient des
 			// elements
-			if (null != listeFichiersBack && listeFichiersBack.size() > 0) {
+			if (null != listeFichiersBack && !listeFichiersBack.isEmpty()) {
 				for (int i = 0; i < listeFichiersBack.size(); i++) {
 					// recuperation du nom du fichier
 					fileNameitem = listeFichiersBack.get(i);
-					// creation de la string path de destination 
-					newPahtFileItem = fileNameitem.substring(backDir.length()+1);
+					// creation de la string path de destination
+					newPahtFileItem = fileNameitem.substring(backDir.length() + 1);
 					// ignore gitkeep
-					if (newPahtFileItem.contains(".gitkeep") == false) {
+					if (!newPahtFileItem.contains(".gitkeep")) {
 						try {
-							managerFile.copyFile(fileNameitem,  dirIn.getPath() + File.separator +newPahtFileItem);
+							managerFile.copyFile(fileNameitem, dirIn.getPath() + File.separator + newPahtFileItem);
 						} catch (IOException e) {
 							LOGGER4J.error("imposible de deplacer le Fichier " + fileNameitem + "du repertoir:" + dirIn
 									+ " vers le repertoire " + dirOut);
@@ -169,13 +171,13 @@ public abstract class FileBandMaster {
 				}
 			}
 		} else {
-			FileNotFoundException e = new FileNotFoundException(
-					"repertoire: " + back.getAbsolutePath() + " introuvable");
-			throw e;
+
+			throw new FileNotFoundException("repertoire: " + back.getAbsolutePath() + " introuvable");
 		}
 	}
+
 	/**
-	 *  run sort file
-	 * */
+	 * run sort file
+	 */
 	public abstract void runSortFile() throws IOException;
 }

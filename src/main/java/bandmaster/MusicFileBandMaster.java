@@ -12,7 +12,6 @@ import constant.MusicExtention;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
 
-
 /**
  * bandMaster file music
  */
@@ -27,25 +26,22 @@ public class MusicFileBandMaster extends FileBandMaster {
 	 * Creates a new MusicFileBandMaster object with diretory In ,diretory out
 	 * and diretory sorted set . initliatise tne RepositoryMusiqueFile
 	 */
-	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted)
-			throws SecurityException, FileNotFoundException, IOException {
+	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) throws IOException {
 		super(dirIn, dirOut, dirSorted);
 	}
 
 	private String ExtractExtention(String fileName) throws Exception {
 		String extention = "";
-		if ((fileName != null) && fileName.isEmpty() == false) {
+		if ((fileName != null) && !fileName.isEmpty()) {
 			if (fileName.contains(".")) {
 				int size = fileName.length();
 				extention = fileName.substring(size - 3);
 				extention = extention.toLowerCase();
 			} else {
-				Exception eSansExtention = new Exception(fileName + " fichier sans extention");
-				throw eSansExtention;
+				throw new Exception(fileName + " fichier sans extention");
 			}
 		} else {
-			Exception eChaineVide = new Exception("la chaine fileName est vide ");
-			throw eChaineVide;
+			throw new Exception("la chaine fileName est vide ");
 		}
 		return extention;
 	}
@@ -64,15 +60,14 @@ public class MusicFileBandMaster extends FileBandMaster {
 		IRepositoryMusicFile repositoryMusic = null;
 		String extention = this.ExtractExtention(pathFileName);
 		MusicExtention enumExention = MusicExtention.valueOf(extention.toUpperCase());
-		
-		Class<?> repoClass =Class.forName( enumExention.getRepoClass());
-		
-		repositoryMusic =  (IRepositoryMusicFile) repoClass.newInstance();
-	
+
+		Class<?> repoClass = Class.forName(enumExention.getRepoClass());
+
+		repositoryMusic = (IRepositoryMusicFile) repoClass.newInstance();
+
 		MusicDto dto = repositoryMusic.getDataToMusicFile(pathFileName);
 		if (null == dto) {
-			TagNotFoundException e = new TagNotFoundException("Tag not found ");
-			throw e;
+			throw new TagNotFoundException("Tag not found ");
 		} else {
 			return dto;
 		}
@@ -99,8 +94,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 			autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
 			if (!managerFile.validateDirectory(autorDir)) {
 				if (!autorDir.mkdir()) {
-					IOException e = new IOException("echec creation repertoire " + autorDir.getPath());
-					throw e;
+					throw new IOException("echec creation repertoire " + autorDir.getPath());
 				}
 			}
 			pathAutorDir = autorDir.getPath();
@@ -133,16 +127,14 @@ public class MusicFileBandMaster extends FileBandMaster {
 				autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
 				if (!managerFile.validateDirectory(autorDir)) {
 					if (!autorDir.mkdir()) {
-						IOException e = new IOException("echec creation repertoire " + autorDir.getPath());
-						throw e;
+						throw new IOException("echec creation repertoire " + autorDir.getPath());
 					}
 				}
 
 				albumDir = new File(dirSorted.getPath() + File.separator + songAuthor + File.separator + songAlbum);
 				if (!managerFile.validateDirectory(albumDir)) {
 					if (!albumDir.mkdir()) {
-						IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
-						throw e;
+						throw  new IOException("echec creation repertoire " + albumDir.getPath());
 					}
 				}
 				pathAlbumDir = albumDir.getPath();
@@ -175,16 +167,15 @@ public class MusicFileBandMaster extends FileBandMaster {
 			albumDir = new File(dirSorted.getPath() + File.separator + songAlbum);
 			if (!managerFile.validateDirectory(albumDir)) {
 				if (!albumDir.mkdir()) {
-					IOException e = new IOException("echec creation repertoire " + albumDir.getPath());
-					throw e;
+
+					throw new IOException("echec creation repertoire " + albumDir.getPath());
 				}
 			}
 			pathAlbumDir = albumDir.getPath();
 			sortedTarget = pathAlbumDir + File.separator + fileName;
 			managerFile.moveFile(pathFile, sortedTarget);
 		} else {
-			TagNotFoundException e = new TagNotFoundException("no album");
-			throw e;
+			throw new TagNotFoundException("no album");
 		}
 	}
 
@@ -209,7 +200,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 				}
 			}
 		}
-		if (zeroFile == true) {
+		if (zeroFile) {
 			LOGGER4J.info("aucun fichier a traité ");
 		}
 	}
@@ -225,13 +216,15 @@ public class MusicFileBandMaster extends FileBandMaster {
 			// tri artiste album
 			sortedByAuthorAndAlbum(musicDtoItem);
 		} catch (Exception sortException) {
-			LOGGER4J.error("Fichier : " + fileName + "-" + sortException.getMessage(), sortException.getClass().getName(), sortException.getStackTrace());
+			LOGGER4J.error("Fichier : " + fileName + "-" + sortException.getMessage(),
+					sortException.getClass().getName(), sortException.getStackTrace());
 			try {
 				managerFile.moveFile(fileName, dirError + File.separator + fileName);
 			} catch (IOException moveException) {
 				String erroMgs = "imposible de deplacer le Fichier " + fileName + "du repertoir:" + dirIn
 						+ " vers le repertoire " + dirNotSuported;
-				LOGGER4J.error(erroMgs + "-" + moveException.getMessage(), moveException.getClass().getName(), moveException.getStackTrace());
+				LOGGER4J.error(erroMgs + "-" + moveException.getMessage(), moveException.getClass().getName(),
+						moveException.getStackTrace());
 			}
 		}
 	}
@@ -260,7 +253,6 @@ public class MusicFileBandMaster extends FileBandMaster {
 	public void runSortFile() throws IOException {
 		ArrayList<String> listeFichiersIn;
 		MusicExtention[] filter = MusicExtention.values();
-		int tabSize = 0;
 		// etape 1 tester sur les repertoire suivant existe
 		// sinon les cree
 		if (validateDirectorys()) {
