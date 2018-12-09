@@ -20,7 +20,7 @@ public enum MusicExtention {
 	public String getRepoClass() {
 		return this.repoClass;
 	}
-
+	@Override
 	public String toString() {
 		return this.value;
 	}

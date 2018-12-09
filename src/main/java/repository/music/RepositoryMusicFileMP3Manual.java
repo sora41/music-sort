@@ -24,7 +24,7 @@ public class RepositoryMusicFileMP3Manual implements IRepositoryMusicFile {
 		try {
 			if (size > 0) {
 
-				file.skip(size - 128);
+				file.skip(size - 128L);
 				byte[] last128 = new byte[128];
 				file.read(last128);
 				String id3 = new String(last128);
@@ -38,12 +38,10 @@ public class RepositoryMusicFileMP3Manual implements IRepositoryMusicFile {
 					dto.setPathFile(pathFileName);
 
 				} else {
-					IOException e = new IOException(" does not contain" + " ID3 information.");
-					throw e;
+					throw  new IOException(" does not contain" + " ID3 information.");
 				}
 			} else {
-				IOException e = new IOException("Size file zero");
-				throw e;
+				throw new IOException("Size file zero");
 			}
 		} finally {
 			file.close();
@@ -53,8 +51,8 @@ public class RepositoryMusicFileMP3Manual implements IRepositoryMusicFile {
 
 
 	public boolean saveDataToMusicFile(MusicDto data) throws Exception {
-		Exception e = new Exception("fonction non implementer");
-		throw e;
+		
+		throw new Exception("fonction non implementer");
 	}
 
 }
