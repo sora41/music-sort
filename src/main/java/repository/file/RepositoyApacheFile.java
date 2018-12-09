@@ -83,7 +83,7 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		files = FileUtils.listFiles(repertoire, null, false);
 
 		if ((null != files) && (files.size() > 0)) {
-			nomFichiers = new ArrayList<>();
+			nomFichiers = new ArrayList<String>();
 			for (File fileItem : files) {
 
 				nomFichiers.add(fileItem.getPath());
