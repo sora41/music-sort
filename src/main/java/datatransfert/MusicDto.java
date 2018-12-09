@@ -30,11 +30,16 @@ public class MusicDto {
 	/**
 	 * edition years
 	 */
-	private String Years;
+	private String years;
 	/**
 	 *  musical genre 
 	 */
 	private String genre;
+	
+	/**
+	 *  musical Custom 1 
+	 */
+	private String custom1;
 
 	public String getFileName() {
 		return fileName;
@@ -77,11 +82,11 @@ public class MusicDto {
 	}
 
 	public String getYears() {
-		return Years;
+		return years;
 	}
 
 	public void setYears(String years) {
-		Years = years;
+		this.years = years;
 	}
 
 	public String getGenre() {
@@ -90,6 +95,14 @@ public class MusicDto {
 
 	public void setGenre(String genre) {
 		this.genre = genre;
+	}
+
+	public String getCustom1() {
+		return custom1;
+	}
+
+	public void setCustom1(String custom1) {
+		this.custom1 = custom1;
 	}
 	
 	

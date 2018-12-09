@@ -78,7 +78,7 @@ public class MainMusic {
 	/**
 	 * clean directory use by application
 	 */
-	public static void ResetDirectory() throws IOException {
+	public static void resetDirectory() throws IOException {
 		LOGGER4J.info("demarage Reset");
 		musicSorter.resetDirectories();
 		LOGGER4J.info("fin Reset");
@@ -88,10 +88,12 @@ public class MainMusic {
 	 * launch the sort operations
 	 */
 	public static void runProcces() throws IOException {
-		ResetDirectory();
+		resetDirectory();
 		initDirectory();
 		launchSort();
 	}
+	
+	
 
 	/** Main */
 	public static void main(String[] args) {

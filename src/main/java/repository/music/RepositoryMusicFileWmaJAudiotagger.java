@@ -30,6 +30,7 @@ public class RepositoryMusicFileWmaJAudiotagger implements IRepositoryMusicFile 
 			wma.setYears(tagWma.getFirst("WM/Year").toString());
 			wma.setPathFile(song.getPath());
 			wma.setTitleSong(tagWma.getFirst("TITLE").toString());
+			wma.setCustom1(tagWma.getFirst("CUSTOM1"));
 		} else {
 			TagNotFoundException e = new TagNotFoundException(" WMA no have Tag ");
 			throw e;
