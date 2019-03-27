@@ -21,7 +21,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 	 * the loger from log4j
 	 */
 	private static final Logger LOGGER4J = LogManager.getLogger(MusicFileBandMaster.class.getName());
-
+	
+	private static final String ECHEC_CREATE_DIR = "echec creation repertoire" ;
 	/**
 	 * Creates a new MusicFileBandMaster object with diretory In ,diretory out
 	 * and diretory sorted set . initliatise tne RepositoryMusiqueFile
@@ -89,11 +90,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String sortedTarget = "";
 		String pathAutorDir = "";
 
-		if ((songAuthor != "") && (!songAuthor.isEmpty())) {
+		if ((songAuthor != null) && (!songAuthor.isEmpty())) {
 
 			autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
 			if (!managerFile.validateDirectory(autorDir) && !autorDir.mkdir()) {
-				throw new IOException("echec creation repertoire " + autorDir.getPath());
+				throw new IOException(ECHEC_CREATE_DIR + autorDir.getPath());
 			}
 			pathAutorDir = autorDir.getPath();
 			sortedTarget = pathAutorDir + File.separator + fileName;
@@ -118,17 +119,17 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String sortedTarget = "";
 		String pathAlbumDir = "";
 
-		if ((songAuthor != "") && (!songAuthor.isEmpty())) {
-			if ((songAlbum != "") && (!songAlbum.isEmpty())) {
+		if ((songAuthor != null) && (!songAuthor.isEmpty())) {
+			if ((songAlbum != null) && (!songAlbum.isEmpty())) {
 				LOGGER4J.trace(songAuthor + "-" + songAlbum + "-" + fileName);
 				autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
 				if (!managerFile.validateDirectory(autorDir) && !autorDir.mkdir()) {
-					throw new IOException("echec creation repertoire " + autorDir.getPath());
+					throw new IOException(ECHEC_CREATE_DIR + autorDir.getPath());
 				}
 
 				albumDir = new File(dirSorted.getPath() + File.separator + songAuthor + File.separator + songAlbum);
 				if (!managerFile.validateDirectory(albumDir) && !albumDir.mkdir()) {
-					throw new IOException("echec creation repertoire " + albumDir.getPath());
+					throw new IOException(ECHEC_CREATE_DIR + albumDir.getPath());
 				}
 				pathAlbumDir = albumDir.getPath();
 				sortedTarget = pathAlbumDir + File.separator + fileName;
@@ -153,7 +154,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String sortedTarget = "";
 		String pathAlbumDir = "";
 
-		if ((songAlbum != "") && (!songAlbum.isEmpty())) {
+		if ((songAlbum != null) && (!songAlbum.isEmpty())) {
 
 			albumDir = new File(dirSorted.getPath() + File.separator + songAlbum);
 			if (!managerFile.validateDirectory(albumDir) && !albumDir.mkdir()) {
