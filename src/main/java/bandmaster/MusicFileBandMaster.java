@@ -58,6 +58,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private MusicDto doLoadDTO(String pathFileName) throws Exception {
 		// extraction d'information des fichier audio celons les extention dans
 		// le dto
+		//todo a reprendre avec un design pattern Factory 
 		IRepositoryMusicFile repositoryMusic = null;
 		String extention = this.extractExtention(pathFileName);
 		MusicExtention enumExention = MusicExtention.valueOf(extention.toUpperCase());
