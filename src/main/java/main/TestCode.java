@@ -143,8 +143,7 @@ public class TestCode {
 		afficheStringArray(rwf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan, filters));
 	}
 
-	public void runTest() throws Exception {
-
+	public void testDirectory() throws Exception {
 		System.out.println("-------------------testLoadDToOnMp3ManualRepository------------");
 		testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_MP3);
 
@@ -153,22 +152,9 @@ public class TestCode {
 
 		System.out.println("-------------------testLoadDtoOnWmaRepository------------");
 		testLoadDtoOnWmaRepository(DIRECTORY_TEST_WMA);
-		/*
-		 * System.out.println(
-		 * "-------------------testLoadDToOnMp3ManualRepository------------");
-		 * testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_M4A);
-		 */
-		/*
-		 * System.out.println("-------------------test_forceMKDIR------------");
-		 * test_create_directory();
-		 * 
-		 * System.out.println(
-		 * "-------------------test_move_directory------------");
-		 * test_move_directory();
-		 * 
-		 * System.out.println("-------------------test_move_file------------");
-		 * test_move_file();
-		 */
+	}
+
+	public void testListFileRecursif() throws Exception {
 		System.out.println("-------------------test_getlisteFileRecursifWalking------------");
 		testGetlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
 
@@ -180,5 +166,29 @@ public class TestCode {
 
 		System.out.println("-------------------test_getFilterlisteFileRecursifWalking------------");
 		testGetFilterlisteFileRecursifWalking(DIRECTORY_INIT_CLEAN);
+	}
+
+	public void testLoadDTOMusic() throws Exception {
+		System.out.println("-------------------testLoadDToOnMp3ManualRepository------------");
+		testLoadDToOnMp3ManualRepository(DIRECTORY_TEST_M4A);
+
+	}
+
+	public void runTest() throws Exception {
+
+		testDirectory();
+		//testLoadDTOMusic();
+		/*
+		 * System.out.println("-------------------test_forceMKDIR------------");
+		 * test_create_directory();
+		 * 
+		 * System.out.println(
+		 * "-------------------test_move_directory------------");
+		 * test_move_directory();
+		 * 
+		 * System.out.println("-------------------test_move_file------------");
+		 * test_move_file();
+		 */
+		testListFileRecursif();
 	}
 }
