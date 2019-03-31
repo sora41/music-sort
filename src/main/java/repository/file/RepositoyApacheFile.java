@@ -21,7 +21,7 @@ public class RepositoyApacheFile implements IRepositoryFile {
 
 	private static final Logger LOGGER4J = LogManager.getLogger(RepositoyApacheFile.class.getName());
 
-	public void delete(String pathFileName) throws FileNotFoundException, IOException {
+	public void delete(String pathFileName) throws IOException {
 		LOGGER4J.trace("start delete " + pathFileName);
 		File fileToDelete = new File(pathFileName);
 		FileUtils.forceDelete(fileToDelete);
@@ -119,10 +119,8 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		int i = 0;
 		// rempli la liste des fitres avec les chaine minuscule et majsucule
 		for (MusicExtention musicExtention : filters) {
-
 			strFilters[i] = musicExtention.getValue();
 			strFilters[i + 1] = musicExtention.getValue().toUpperCase();
-
 			i = i + 2;
 		}
 
