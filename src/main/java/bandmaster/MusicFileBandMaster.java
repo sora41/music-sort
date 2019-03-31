@@ -1,9 +1,9 @@
 package bandmaster;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jaudiotagger.tag.TagNotFoundException;
@@ -11,6 +11,8 @@ import org.jaudiotagger.tag.TagNotFoundException;
 import constant.MusicExtention;
 import datatransfert.MusicDto;
 import repository.IRepositoryMusicFile;
+import repository.builder.BuilderMusicRepository;
+
 
 /**
  * bandMaster file music
@@ -21,8 +23,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 	 * the loger from log4j
 	 */
 	private static final Logger LOGGER4J = LogManager.getLogger(MusicFileBandMaster.class.getName());
-	
-	private static final String ECHEC_CREATE_DIR = "echec creation repertoire" ;
+
+	private static final String ECHEC_CREATE_DIR = "echec creation repertoire";
+
 	/**
 	 * Creates a new MusicFileBandMaster object with diretory In ,diretory out
 	 * and diretory sorted set . initliatise tne RepositoryMusiqueFile
@@ -58,14 +61,9 @@ public class MusicFileBandMaster extends FileBandMaster {
 	private MusicDto doLoadDTO(String pathFileName) throws Exception {
 		// extraction d'information des fichier audio celons les extention dans
 		// le dto
-		//todo a reprendre avec un design pattern Factory 
-		IRepositoryMusicFile repositoryMusic = null;
 		String extention = this.extractExtention(pathFileName);
-		MusicExtention enumExention = MusicExtention.valueOf(extention.toUpperCase());
-
-		Class<?> repoClass = Class.forName(enumExention.getRepoClass());
-
-		repositoryMusic = (IRepositoryMusicFile) repoClass.newInstance();
+		MusicExtention enumExention = MusicExtention.valueOf(extention.toUpperCase());		
+		IRepositoryMusicFile repositoryMusic =  new BuilderMusicRepository().buildMusicRepository(enumExention);
 
 		MusicDto dto = repositoryMusic.getDataToMusicFile(pathFileName);
 		if (null == dto) {
