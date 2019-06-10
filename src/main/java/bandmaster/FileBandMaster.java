@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import repository.IRepositoryFile;
-import repository.file.RepositoyApacheFile;
+import repository.file.RepositoryApacheFile;
 
 /**
  * bandMaster file music
@@ -59,7 +59,7 @@ public abstract class FileBandMaster {
 		this.dirError = new File(dirOut + File.separator + DIR_ERROR);
 		this.dirNotSuported = new File(dirOut + File.separator + DIR_NOT_SUPORTED);
 		this.dirSorted = new File(dirSorted);
-		this.managerFile = new RepositoyApacheFile();
+		this.managerFile = new RepositoryApacheFile();
 	}
 
 	public File getDirIn() {

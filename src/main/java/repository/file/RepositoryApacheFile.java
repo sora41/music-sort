@@ -17,9 +17,9 @@ import repository.IRepositoryFile;
 /**
  * repository file implemented with lib apacheIO
  */
-public class RepositoyApacheFile implements IRepositoryFile {
+public class RepositoryApacheFile implements IRepositoryFile {
 
-	private static final Logger LOGGER4J = LogManager.getLogger(RepositoyApacheFile.class.getName());
+	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryApacheFile.class.getName());
 
 	public void delete(String pathFileName) throws IOException {
 		LOGGER4J.trace("start delete " + pathFileName);

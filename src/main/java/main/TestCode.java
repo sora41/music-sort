@@ -12,7 +12,7 @@ import repository.music.RepositoryMusicFileMP3Manual;
 import repository.music.RepositoryMusicFileMp3JAudiotagger;
 import repository.music.RepositoryMusicFileWmaJAudiotagger;
 import repository.file.RepositoryWalkingFile;
-import repository.file.RepositoyApacheFile;
+import repository.file.RepositoryApacheFile;
 import constant.MusicExtention;
 
 public class TestCode {
@@ -127,13 +127,13 @@ public class TestCode {
 	}
 
 	public void testGetlisteFileRecursifApache(String dirtoScan) throws IOException {
-		RepositoyApacheFile raf = new RepositoyApacheFile();
+		RepositoryApacheFile raf = new RepositoryApacheFile();
 		afficheStringArray(raf.listeFilesOnDirectoryAndSubDirectory(dirtoScan));
 	}
 
 	public void testGetFilterlisteFileRecursifApache(String dirtoScan) throws IOException {
 		MusicExtention[] filters = { MusicExtention.MP3, MusicExtention.WMA };
-		RepositoyApacheFile raf = new RepositoyApacheFile();
+		RepositoryApacheFile raf = new RepositoryApacheFile();
 		afficheStringArray(raf.filesListFilterOnDirectoryAndSubDirectory(dirtoScan, filters));
 	}
 
