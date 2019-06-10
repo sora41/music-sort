@@ -9,7 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import repository.IRepositoryFile;
-import repository.file.RepositoryWalkingFile;
 import repository.file.RepositoyApacheFile;
 
 /**
@@ -136,28 +135,57 @@ public abstract class FileBandMaster {
 		managerFile.cleanDirectory(this.dirSorted.getPath());
 	}
 
+	private void copyListFileOnDIR(String strDir, ArrayList<String> listFiles) {
+		
+		String fileNameitem = "";
+		String newPahtFileItem = "";
+
+		if (null != listFiles && !listFiles.isEmpty()) {
+
+			for (int i = 0; i < listFiles.size(); i++) {
+				// recuperation du nom du fichier
+				fileNameitem = listFiles.get(i);
+				// creation de la string path de destination
+				newPahtFileItem = fileNameitem.substring(strDir.length() + 1);
+				// ignore gitkeep
+				if (!newPahtFileItem.contains(".gitkeep")) {
+					try {
+						managerFile.copyFile(fileNameitem, dirIn.getPath() + File.separator + newPahtFileItem);
+					} catch (IOException e) {
+						LOGGER4J.error("imposible de deplacer le Fichier " + fileNameitem + "du repertoir:" + dirIn
+								+ " vers le repertoire " + dirOut);
+						LOGGER4J.error("error" + e.getMessage());
+					}
+				}
+			}
+		}
+
+	}
+	
 	/**
 	 * 
 	 * initialise le repertoire d'entré de l'application en copiant les fichier
 	 * un a un du repertoire back ver le repertoire inMusic
 	 */
-	public void initDirectorieIn(String backDir) throws IOException {
-		File back = new File(backDir);
+	public void initDirectorieIn(String strBackDir) throws IOException {
+		File back = new File(strBackDir);
 		ArrayList<String> listeFichiersBack;
 		String fileNameitem = "";
 		String newPahtFileItem = "";
-		LOGGER4J.debug("initalisation  " + backDir);
+		LOGGER4J.debug("initalisation  " + strBackDir);
 		// verfie si le repertoire back existe
 		if (managerFile.validateDirectory(back)) {
 			listeFichiersBack = managerFile.listeFilesOnDirectoryAndSubDirectory(back.getPath());
 			// verifie si la liste de fichier existe et si elle contient des
 			// elements
-			if (null != listeFichiersBack && !listeFichiersBack.isEmpty()) {
+			this.copyListFileOnDIR(strBackDir, listeFichiersBack);
+			/*if (null != listeFichiersBack && !listeFichiersBack.isEmpty()) {
+				
 				for (int i = 0; i < listeFichiersBack.size(); i++) {
 					// recuperation du nom du fichier
 					fileNameitem = listeFichiersBack.get(i);
 					// creation de la string path de destination
-					newPahtFileItem = fileNameitem.substring(backDir.length() + 1);
+					newPahtFileItem = fileNameitem.substring(strBackDir.length() + 1);
 					// ignore gitkeep
 					if (!newPahtFileItem.contains(".gitkeep")) {
 						try {
@@ -169,7 +197,7 @@ public abstract class FileBandMaster {
 						}
 					}
 				}
-			}
+			}*/
 		} else {
 
 			throw new FileNotFoundException("repertoire: " + back.getAbsolutePath() + " introuvable");
