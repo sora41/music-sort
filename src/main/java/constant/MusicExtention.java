@@ -1,7 +1,7 @@
 package constant;
 
 public enum MusicExtention {
-	MP3("mp3"), WMA("wma");
+	MP3("mp3"), WMA("wma"),NO_EXTENTION("no_extention");
 
 	private String value = "";
 
