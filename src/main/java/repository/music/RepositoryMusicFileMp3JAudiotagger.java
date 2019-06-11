@@ -21,7 +21,7 @@ public class RepositoryMusicFileMp3JAudiotagger implements IRepositoryMusicFile 
 		MusicDto result = null;
 		MP3File mp3File = null;
 		this.shutupLog();
-		// if (containTag(pathFileName)) {
+		
 		mp3File = new MP3File(pathFileName);
 		if (mp3File.hasID3v1Tag()) {
 			result = this.getID3DataV1(mp3File);
@@ -33,7 +33,7 @@ public class RepositoryMusicFileMp3JAudiotagger implements IRepositoryMusicFile 
 				throw e;
 			}
 		}
-		// }
+		
 		return result;
 	}
 
@@ -67,7 +67,7 @@ public class RepositoryMusicFileMp3JAudiotagger implements IRepositoryMusicFile 
 		songDto.setTitleSong(mp3File.getID3v1Tag().getFirstTitle());
 		songDto.setYears(mp3File.getID3v1Tag().getFirstYear());
 		songDto.setGenre(mp3File.getID3v1Tag().getFirstGenre());
-		//songDto.setCustom1(mp3File.getID3v1Tag().);
+		
 		return songDto;
 	}
 
