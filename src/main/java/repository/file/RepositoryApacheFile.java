@@ -64,6 +64,7 @@ public class RepositoryApacheFile implements IRepositoryFile {
 		if (dir != null)
 			if (dir.exists() && dir.isDirectory()) {
 				resultas = true;
+				LOGGER4J.debug("check validateDirectory true on "+dir.getName());
 			}
 		LOGGER4J.trace("end validateDirectory");
 		return resultas;
