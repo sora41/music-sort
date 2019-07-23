@@ -46,8 +46,11 @@ public class MainMusic {
 		test = new TestCode();
 	}
 
-	/** launch manual test deprecied (unit test incomming ) 
-	 * @throws Exception */
+	/**
+	 * launch manual test deprecied (unit test incomming )
+	 * 
+	 * @throws Exception
+	 */
 	public static void runTest() throws Exception {
 		LOGGER4J.info("demarage des tests");
 		test.runTest();
@@ -85,21 +88,21 @@ public class MainMusic {
 	/**
 	 * launch the sort operations
 	 */
-	public static void runProcces() throws IOException {
-		resetDirectory();
-		initDirectory();
+	public static void runProccesWithReset(boolean reset) throws IOException {
+		if (reset) {
+			resetDirectory();
+			initDirectory();
+		}
 		launchSort();
 	}
-	
-	
 
 	/** Main */
 	public static void main(String[] args) {
 		LOGGER4J.info("demarage de l'application");
 		try {
 			initApplication();
-			runProcces();
-			//runTest();
+			runProccesWithReset(true);
+			// runTest();
 		} catch (Exception e) {
 
 			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),
