@@ -179,25 +179,6 @@ public abstract class FileBandMaster {
 			// verifie si la liste de fichier existe et si elle contient des
 			// elements
 			this.copyListFileOnDIR(strBackDir, listeFichiersBack);
-			/*if (null != listeFichiersBack && !listeFichiersBack.isEmpty()) {
-				
-				for (int i = 0; i < listeFichiersBack.size(); i++) {
-					// recuperation du nom du fichier
-					fileNameitem = listeFichiersBack.get(i);
-					// creation de la string path de destination
-					newPahtFileItem = fileNameitem.substring(strBackDir.length() + 1);
-					// ignore gitkeep
-					if (!newPahtFileItem.contains(".gitkeep")) {
-						try {
-							managerFile.copyFile(fileNameitem, dirIn.getPath() + File.separator + newPahtFileItem);
-						} catch (IOException e) {
-							LOGGER4J.error("imposible de deplacer le Fichier " + fileNameitem + "du repertoir:" + dirIn
-									+ " vers le repertoire " + dirOut);
-							LOGGER4J.error("error" + e.getMessage());
-						}
-					}
-				}
-			}*/
 		} else {
 
 			throw new FileNotFoundException("repertoire: " + back.getAbsolutePath() + " introuvable");
