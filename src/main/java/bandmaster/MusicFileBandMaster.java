@@ -222,6 +222,10 @@ public class MusicFileBandMaster extends FileBandMaster {
 		String formatResult = "";
 		// supresion espace devan et deriere
 		formatResult = raw.trim();
+		
+		// replacement des é en e
+		formatResult = formatResult.replaceAll("é", "e");
+		formatResult = formatResult.replaceAll("è", "e");
 		// tout en maj
 		formatResult = formatResult.toUpperCase();
 		// remplace les double espace par un simple
@@ -236,6 +240,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 		formatResult = formatResult.replaceAll("/", "");
 		// supresion des '
 		formatResult = formatResult.replaceAll("'", "");
+		
+		
 		return formatResult;
 	}
 
