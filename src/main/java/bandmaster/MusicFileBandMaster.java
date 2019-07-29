@@ -220,7 +220,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 	/** format string use for create directori */
 	private String applyFormatRuleGenerale(String raw) {
 		String formatResult = "";
-		// supresion espace debans et deriere
+		// supresion espace devan et deriere
 		formatResult = raw.trim();
 		// tout en maj
 		formatResult = formatResult.toUpperCase();
@@ -234,6 +234,8 @@ public class MusicFileBandMaster extends FileBandMaster {
 		formatResult = formatResult.replaceAll("\"", "");
 		// supresion des slash \
 		formatResult = formatResult.replaceAll("/", "");
+		// supresion des '
+		formatResult = formatResult.replaceAll("'", "");
 		return formatResult;
 	}
 
