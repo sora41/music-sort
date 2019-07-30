@@ -254,6 +254,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 		if (validateDirectorys()) {
 			LOGGER4J.debug("Load dir" + dirIn);
 			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(), filter);
+			//1 convertir mes information en DTO
+			//2 ensuite cree des ordre de tri grace a des object sorter 
+			//3 lancer tout ces odre et solicité la couche repository file 
+			
+			// aujourdhui tout est imbriquer des cette fonction 
 			sortListMusicFile(listeFichiersIn);
 		}
 	}
