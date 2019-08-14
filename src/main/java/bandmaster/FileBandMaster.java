@@ -167,11 +167,9 @@ public abstract class FileBandMaster {
 	 * initialise le repertoire d'entré de l'application en copiant les fichier
 	 * un a un du repertoire back ver le repertoire inMusic
 	 */
-	public void initDirectorieIn(String strBackDir) throws IOException {
+	public void initDirectoryIn(String strBackDir) throws IOException {
 		File back = new File(strBackDir);
 		ArrayList<String> listeFichiersBack;
-		String fileNameitem = "";
-		String newPahtFileItem = "";
 		LOGGER4J.debug("initalisation  " + strBackDir);
 		// verfie si le repertoire back existe
 		if (managerFile.validateDirectory(back)) {
