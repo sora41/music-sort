@@ -50,7 +50,7 @@ public class MainThreadMusic {
 	public static void runProccesWithReset(boolean reset) throws IOException {
 		if (reset) {
 			musicControl.resetDirectory();
-			musicControl.initApplication();
+			musicControl.initDirectory();
 		}
 		musicControl.launchSort();
 	}
