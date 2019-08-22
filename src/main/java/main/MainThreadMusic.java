@@ -60,9 +60,9 @@ public class MainThreadMusic {
 		LOGGER4J.info("demarage de l'application");
 		try {
 			
-			//mainFrame = new FrameMusic();
-			initApplication();
-			runProccesWithReset(true);
+			MusicFrame mainFrame = new MusicFrame();
+			//initApplication();
+			//runProccesWithReset(true);
 			// runTest();
 			
 		} catch (Exception e) {
