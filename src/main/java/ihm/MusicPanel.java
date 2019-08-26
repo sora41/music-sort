@@ -28,7 +28,7 @@ public class MusicPanel extends JPanel {
 	private static final Logger LOGGER4J = LogManager.getLogger(MusicPanel.class.getName());
 
 	private ControlerSortMusic musicControl;
-	private Thread t;
+	private Thread musicSorterThread;
 
 	public MusicPanel() {
 
@@ -64,22 +64,12 @@ public class MusicPanel extends JPanel {
 	class ButtonLoadListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
 			JButton loadButton;
-			LOGGER4J.info("clic sur load");
-			try {
-
-				t = new Thread(new MusicThread());
-				t.start();
-			  	loadButton =(JButton) ae.getSource();
-			  	loadButton.setEnabled(false);
-			} catch (Exception ex) {
-
-				LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", ex.getClass(), ex.getMessage(),
-						ex.getStackTrace());
-				LOGGER4J.fatal("message :" + ex.getMessage());
-				LOGGER4J.fatal("Eclass :" + ex.getClass().getName());
-
-			}
-
+			LOGGER4J.info("Debut clic sur load");
+			musicSorterThread = new Thread(new MusicThread());
+			musicSorterThread.start();
+			loadButton = (JButton) ae.getSource();
+			loadButton.setEnabled(false);
+			LOGGER4J.info(" Fin clic sur load");
 		}
 	}
 
