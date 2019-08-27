@@ -10,6 +10,8 @@ import org.jaudiotagger.tag.TagNotFoundException;
 
 import constant.MusicExtention;
 import datatransfert.MusicDto;
+import observer.Observable;
+import observer.Observateur;
 import repository.IRepositoryMusicFile;
 import repository.builder.BuilderMusicRepository;
 
@@ -17,7 +19,7 @@ import repository.builder.BuilderMusicRepository;
 /**
  * bandMaster file music
  */
-public class MusicFileBandMaster extends FileBandMaster {
+public class MusicFileBandMaster extends FileBandMaster implements Observable {
 
 	/**
 	 * the loger from log4j
@@ -33,6 +35,11 @@ public class MusicFileBandMaster extends FileBandMaster {
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) throws IOException {
 		super(dirIn, dirOut, dirSorted);
 	}
+	
+	/**
+	 * 
+	 */
+	private ArrayList<Observateur> listObservers = new ArrayList<Observateur>();
 
 	private String extractExtention(String fileName) throws Exception {
 		String extention = "";
@@ -185,6 +192,7 @@ public class MusicFileBandMaster extends FileBandMaster {
 					fileNameitem = listeFichiersIn.get(i);
 					LOGGER4J.trace("sort" + i + "-" + (tabSize - 1));
 					sortMusicFile(fileNameitem);
+					updateObservateur(i, tabSize-1);
 				}
 			}
 		}
@@ -256,5 +264,21 @@ public class MusicFileBandMaster extends FileBandMaster {
 			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(), filter);
 			sortListMusicFile(listeFichiersIn);
 		}
+	}
+
+	public void addObservateur(Observateur obs) {
+		this.listObservers.add(obs);
+		
+	}
+
+	public void updateObservateur(int enCours , int fin ) {
+		for (Observateur obs : this.listObservers) {
+			obs.update(enCours,fin);
+		}	
+	}
+
+	public void delObservateur() {
+		this.listObservers = new ArrayList<Observateur>();
+		
 	}
 }

@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import main.ControlerSortMusic;
 import main.MainThreadMusic;
+import observer.Observateur;
 
 public class MusicPanel extends JPanel {
 
@@ -22,6 +24,8 @@ public class MusicPanel extends JPanel {
 	private JButton loadFilebutton = new JButton("load");
 	private JFileChooser musicFileChooser = new JFileChooser();
 	private GridLayout fileLayout = new GridLayout();
+	private JLabel enCoursLabel = new JLabel(); 
+	private JLabel nbMaxLabel = new JLabel(); 
 	/**
 	 * the loger from log4j
 	 */
@@ -35,12 +39,23 @@ public class MusicPanel extends JPanel {
 		this.setLayout(fileLayout);
 		loadFilebutton.addActionListener(new ButtonLoadListener());
 		this.add(loadFilebutton);
+		this.add(nbMaxLabel);
+		this.add(enCoursLabel);
 		// this.add(musicFileChooser);
 		musicControl = new ControlerSortMusic();
 
 		try {
 
 			musicControl.initApplication();
+			musicControl.getMusicSorter().addObservateur(new Observateur() {
+				
+				public void update(int enCours, int fin) {
+					loadFilebutton.setEnabled(true);
+					enCoursLabel.setText(String.valueOf(enCours));
+					nbMaxLabel.setText(String.valueOf(fin));
+					
+				}
+			});
 
 		} catch (Exception e) {
 
@@ -65,6 +80,8 @@ public class MusicPanel extends JPanel {
 		public void actionPerformed(ActionEvent ae) {
 			JButton loadButton;
 			LOGGER4J.info("Debut clic sur load");
+			nbMaxLabel.setText("0");
+			enCoursLabel.setText("0");
 			musicSorterThread = new Thread(new MusicThread());
 			musicSorterThread.start();
 			loadButton = (JButton) ae.getSource();

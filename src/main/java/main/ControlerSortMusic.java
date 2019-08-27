@@ -30,7 +30,6 @@ public class ControlerSortMusic {
 	 * the music Sorter
 	 */
 	private MusicFileBandMaster musicSorter;
-
 	/**
 	 * the loger from log4j
 	 */
@@ -42,6 +41,11 @@ public class ControlerSortMusic {
 	public void initApplication() throws SecurityException, FileNotFoundException, IOException {
 		musicSorter = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 	}
+	
+	public MusicFileBandMaster getMusicSorter() {
+		return musicSorter;
+	}
+	
 
 	/**
 	 * init the directory in the function move all files in back directory to
