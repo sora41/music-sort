@@ -1,5 +1,6 @@
 package ihm;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,8 +26,19 @@ public class MusicPanel extends JPanel {
 	private JButton loadFilebutton = new JButton("load");
 	private JFileChooser musicFileChooser = new JFileChooser();
 	private GridLayout fileLayout = new GridLayout();
-	private JLabel enCoursLabel = new JLabel(); 
-	private JLabel nbMaxLabel = new JLabel(); 
+	private JLabel dirOutLabel = new JLabel();
+	private JLabel dirOutValueLabel = new JLabel();
+	private JLabel dirInValueLabel = new JLabel();
+	private JLabel dirInLabel = new JLabel();
+	private JLabel dirBackLabel = new JLabel();
+	private JLabel dirBackValueLabel = new JLabel();
+	private JProgressBar sortedBar = new JProgressBar();
+	//private BorderLayout mainBorder = new BorderLayout();
+	private JPanel panelCenter = new JPanel();
+	//private JPanel panelNord = new JPanel();
+	//private JPanel panelSouth = new JPanel();
+	//private JPanel panelEast = new JPanel();
+	//private JPanel panelWest = new JPanel();
 	/**
 	 * the loger from log4j
 	 */
@@ -37,23 +50,45 @@ public class MusicPanel extends JPanel {
 	public MusicPanel() {
 
 		this.setLayout(fileLayout);
+		
+		
+		
 		loadFilebutton.addActionListener(new ButtonLoadListener());
-		this.add(loadFilebutton);
-		this.add(nbMaxLabel);
-		this.add(enCoursLabel);
+		this.add(loadFilebutton,BorderLayout.WEST);
+		this.add(panelCenter,BorderLayout.CENTER);
+		panelCenter.add(dirOutLabel,BorderLayout.CENTER);
+		panelCenter.add(dirOutValueLabel,BorderLayout.CENTER);
+		panelCenter.add(dirBackLabel,BorderLayout.CENTER);
+		panelCenter.add(dirBackValueLabel,BorderLayout.CENTER);
+		panelCenter.add(dirInLabel,BorderLayout.CENTER);
+		panelCenter.add(dirInValueLabel,BorderLayout.CENTER);
+		this.add(sortedBar,BorderLayout.SOUTH);
 		// this.add(musicFileChooser);
 		musicControl = new ControlerSortMusic();
-
+		
+		dirBackLabel.setText("repertoire Back ");
+		dirInLabel.setText("repertoire In");
+		dirOutLabel.setText("repertoire Out ");
+		
+		dirOutValueLabel.setText(musicControl.getDIRECTORY_OUT());
+		dirInLabel.setText(musicControl.getDIRECTORY_IN());
+		dirBackLabel.setText(musicControl.getDIRECTORY_BACK());
+		
 		try {
 
 			musicControl.initApplication();
 			musicControl.getMusicSorter().addObservateur(new Observateur() {
-				
+
 				public void update(int enCours, int fin) {
-					loadFilebutton.setEnabled(true);
-					enCoursLabel.setText(String.valueOf(enCours));
-					nbMaxLabel.setText(String.valueOf(fin));
+
+					//enCoursLabel.setText(String.valueOf(enCours));
+					//nbMaxLabel.setText(String.valueOf(fin));
+					sortedBar.setMaximum(fin);
+					sortedBar.setValue(enCours);
 					
+					if (enCours == fin) {
+						loadFilebutton.setEnabled(true);
+					}
 				}
 			});
 
@@ -80,8 +115,9 @@ public class MusicPanel extends JPanel {
 		public void actionPerformed(ActionEvent ae) {
 			JButton loadButton;
 			LOGGER4J.info("Debut clic sur load");
-			nbMaxLabel.setText("0");
-			enCoursLabel.setText("0");
+			//nbMaxLabel.setText("0");
+			//enCoursLabel.setText("0");
+			sortedBar.setValue(0);
 			musicSorterThread = new Thread(new MusicThread());
 			musicSorterThread.start();
 			loadButton = (JButton) ae.getSource();

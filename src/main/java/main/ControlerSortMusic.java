@@ -13,19 +13,19 @@ public class ControlerSortMusic {
 	/**
 	 * the in music file directory
 	 */
-	private final String DIRECTORY_IN = "Music\\inMusic";
+	private String DIRECTORY_IN = "Music\\inMusic";
 	/**
 	 * the out music file directory
 	 */
-	private final String DIRECTORY_OUT = "Music\\outMusic";
+	private String DIRECTORY_OUT = "Music\\outMusic";
 	/**
 	 * the sorted music file directory
 	 */
-	private final String DIRECTORY_SORT = "Music\\sortedMusic";
+	private String DIRECTORY_SORT = "Music\\sortedMusic";
 	/**
 	 * the back music file directory use on test to provide the in music file
 	 */
-	private final String DIRECTORY_BACK = "Music\\back";
+	private String DIRECTORY_BACK = "Music\\back";
 	/**
 	 * the music Sorter
 	 */
@@ -41,11 +41,42 @@ public class ControlerSortMusic {
 	public void initApplication() throws SecurityException, FileNotFoundException, IOException {
 		musicSorter = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
 	}
-	
+
+	public String getDIRECTORY_IN() {
+		return DIRECTORY_IN;
+	}
+
+	public void setDIRECTORY_IN(String dIRECTORY_IN) {
+		DIRECTORY_IN = dIRECTORY_IN;
+	}
+
+	public String getDIRECTORY_OUT() {
+		return DIRECTORY_OUT;
+	}
+
+	public void setDIRECTORY_OUT(String dIRECTORY_OUT) {
+		DIRECTORY_OUT = dIRECTORY_OUT;
+	}
+
+	public String getDIRECTORY_SORT() {
+		return DIRECTORY_SORT;
+	}
+
+	public void setDIRECTORY_SORT(String dIRECTORY_SORT) {
+		DIRECTORY_SORT = dIRECTORY_SORT;
+	}
+
+	public String getDIRECTORY_BACK() {
+		return DIRECTORY_BACK;
+	}
+
+	public void setDIRECTORY_BACK(String dIRECTORY_BACK) {
+		DIRECTORY_BACK = dIRECTORY_BACK;
+	}
+
 	public MusicFileBandMaster getMusicSorter() {
 		return musicSorter;
 	}
-	
 
 	/**
 	 * init the directory in the function move all files in back directory to
