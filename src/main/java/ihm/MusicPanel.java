@@ -23,9 +23,12 @@ import observer.Observateur;
 public class MusicPanel extends JPanel {
 
 	// private JPanel loadFilePanel = new JPanel();
-	private JButton loadFilebutton = new JButton("load");
+	private JButton startSortButton = new JButton("Start Sort");
 	private JFileChooser musicFileChooser = new JFileChooser();
-	private GridLayout fileLayout = new GridLayout();
+	// ligne/colone
+	private GridLayout gridLayout = new GridLayout(4,0);
+	private GridLayout Line1Layout = new GridLayout(0,1);
+	private GridLayout Line2Layout = new GridLayout(0,1);
 	private JLabel dirOutLabel = new JLabel();
 	private JLabel dirOutValueLabel = new JLabel();
 	private JLabel dirInValueLabel = new JLabel();
@@ -33,8 +36,12 @@ public class MusicPanel extends JPanel {
 	private JLabel dirBackLabel = new JLabel();
 	private JLabel dirBackValueLabel = new JLabel();
 	private JProgressBar sortedBar = new JProgressBar();
+	private JLabel chargementLabel = new JLabel();
 	//private BorderLayout mainBorder = new BorderLayout();
-	private JPanel panelCenter = new JPanel();
+	private JPanel linePanel1 = new JPanel();
+	private JPanel linePanel2 = new JPanel();
+	private JPanel linePanel3 = new JPanel();
+	private JPanel linePanel4 = new JPanel();
 	//private JPanel panelNord = new JPanel();
 	//private JPanel panelSouth = new JPanel();
 	//private JPanel panelEast = new JPanel();
@@ -49,30 +56,36 @@ public class MusicPanel extends JPanel {
 
 	public MusicPanel() {
 
-		this.setLayout(fileLayout);
+		this.setLayout(gridLayout);
+
+		
+		startSortButton.addActionListener(new ButtonLoadListener());
+		
+		this.add(linePanel1);
+		this.add(linePanel2);
+		this.add(linePanel3);
+		this.add(linePanel4);
 		
 		
-		
-		loadFilebutton.addActionListener(new ButtonLoadListener());
-		this.add(loadFilebutton,BorderLayout.WEST);
-		this.add(panelCenter,BorderLayout.CENTER);
-		panelCenter.add(dirOutLabel,BorderLayout.CENTER);
-		panelCenter.add(dirOutValueLabel,BorderLayout.CENTER);
-		panelCenter.add(dirBackLabel,BorderLayout.CENTER);
-		panelCenter.add(dirBackValueLabel,BorderLayout.CENTER);
-		panelCenter.add(dirInLabel,BorderLayout.CENTER);
-		panelCenter.add(dirInValueLabel,BorderLayout.CENTER);
-		this.add(sortedBar,BorderLayout.SOUTH);
+		linePanel1.add(dirBackLabel);
+		linePanel1.add(dirBackValueLabel);
+		linePanel2.add(dirInLabel);
+		linePanel2.add(dirInValueLabel);
+		linePanel3.add(dirOutLabel);
+		linePanel3.add(dirOutValueLabel);
+		linePanel4.add(startSortButton);
+		linePanel4.add(sortedBar);
 		// this.add(musicFileChooser);
+		chargementLabel.setText("0");
 		musicControl = new ControlerSortMusic();
 		
-		dirBackLabel.setText("repertoire Back ");
-		dirInLabel.setText("repertoire In");
-		dirOutLabel.setText("repertoire Out ");
+		dirBackLabel.setText("repertoire Back :");
+		dirInLabel.setText("repertoire In :");
+		dirOutLabel.setText("repertoire Out :");
 		
 		dirOutValueLabel.setText(musicControl.getDIRECTORY_OUT());
-		dirInLabel.setText(musicControl.getDIRECTORY_IN());
-		dirBackLabel.setText(musicControl.getDIRECTORY_BACK());
+		dirInValueLabel.setText(musicControl.getDIRECTORY_IN());
+		dirBackValueLabel.setText(musicControl.getDIRECTORY_BACK());
 		
 		try {
 
@@ -81,17 +94,15 @@ public class MusicPanel extends JPanel {
 
 				public void update(int enCours, int fin) {
 
-					//enCoursLabel.setText(String.valueOf(enCours));
-					//nbMaxLabel.setText(String.valueOf(fin));
+					chargementLabel.setText(String.valueOf(enCours));
 					sortedBar.setMaximum(fin);
 					sortedBar.setValue(enCours);
 					
 					if (enCours == fin) {
-						loadFilebutton.setEnabled(true);
+						startSortButton.setEnabled(true);
 					}
 				}
 			});
-
 		} catch (Exception e) {
 
 			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),
@@ -100,7 +111,6 @@ public class MusicPanel extends JPanel {
 			LOGGER4J.fatal("Eclass :" + e.getClass().getName());
 
 		}
-
 	}
 
 	public void runProccesWithReset(boolean reset) throws IOException {
@@ -115,8 +125,7 @@ public class MusicPanel extends JPanel {
 		public void actionPerformed(ActionEvent ae) {
 			JButton loadButton;
 			LOGGER4J.info("Debut clic sur load");
-			//nbMaxLabel.setText("0");
-			//enCoursLabel.setText("0");
+			chargementLabel.setText("0");
 			sortedBar.setValue(0);
 			musicSorterThread = new Thread(new MusicThread());
 			musicSorterThread.start();
