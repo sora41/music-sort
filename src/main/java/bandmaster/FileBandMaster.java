@@ -56,7 +56,13 @@ public abstract class FileBandMaster {
 	public FileBandMaster(String dirIn, String dirOut, String dirSorted) {
 		this.dirIn = new File(dirIn);
 		this.dirOut = new File(dirOut);
-		this.dirError = new File(dirOut + File.separator + DIR_ERROR);
+		
+		StringBuilder fileNameErro = new StringBuilder(dirOut);
+		fileNameErro.append(File.separator);
+		fileNameErro.append(DIR_ERROR);
+		
+		this.dirError = new File(fileNameErro.toString());
+		//this.dirError = new File(dirOut + File.separator + DIR_ERROR);
 		this.dirNotSuported = new File(dirOut + File.separator + DIR_NOT_SUPORTED);
 		this.dirSorted = new File(dirSorted);
 		this.managerFile = new RepositoryApacheFile();

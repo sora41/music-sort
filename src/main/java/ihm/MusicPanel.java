@@ -158,7 +158,7 @@ public class MusicPanel extends JPanel {
 
 			} catch (Exception ex) {
 
-				LOGGER4J.fatal("l'thread c'est arrete de maniere inatendu ", ex.getClass(), ex.getMessage(),
+				LOGGER4J.fatal("le thread c'est arrete de maniere inatendu ", ex.getClass(), ex.getMessage(),
 						ex.getStackTrace());
 				LOGGER4J.fatal("message :" + ex.getMessage());
 				LOGGER4J.fatal("Eclass :" + ex.getClass().getName());
