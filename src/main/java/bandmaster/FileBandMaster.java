@@ -1,4 +1,4 @@
-package bandmaster;
+package bandMaster;
 
 import java.io.File;
 import java.io.FileNotFoundException;
