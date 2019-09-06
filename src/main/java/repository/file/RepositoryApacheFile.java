@@ -17,19 +17,17 @@ import repository.IRepositoryFile;
 /**
  * repository file implemented with lib apacheIO
  */
-public class RepositoyApacheFile implements IRepositoryFile {
+public class RepositoryApacheFile implements IRepositoryFile {
 
-	private static final Logger LOGGER4J = LogManager.getLogger(RepositoyApacheFile.class.getName());
+	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryApacheFile.class.getName());
 
-	@Override
-	public void delete(String pathFileName) throws FileNotFoundException, IOException {
+	public void delete(String pathFileName) throws IOException {
 		LOGGER4J.trace("start delete " + pathFileName);
 		File fileToDelete = new File(pathFileName);
 		FileUtils.forceDelete(fileToDelete);
 		LOGGER4J.trace("end delete " + pathFileName);
 	}
 
-	@Override
 	public void recursiveDelete(String pathFileName) throws IOException {
 		LOGGER4J.trace("start recursiveDelete " + pathFileName);
 		File fileToDelete = new File(pathFileName);
@@ -37,7 +35,6 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		LOGGER4J.trace("end recursiveDelete " + pathFileName);
 	}
 
-	@Override
 	public void cleanDirectory(String pathFileName) throws IOException {
 		LOGGER4J.trace("start cleanDirectory" + pathFileName);
 		File fileToClean = new File(pathFileName);
@@ -45,7 +42,6 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		LOGGER4J.trace("end cleanDirectory");
 	}
 
-	@Override
 	public void moveFile(String orginalePathName, String finalPahtName) throws IOException {
 		LOGGER4J.trace("Start moveFile");
 		File file = new File(orginalePathName);
@@ -54,7 +50,6 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		LOGGER4J.trace("end moveFile");
 	}
 
-	@Override
 	public void copyFile(String orginalePathName, String finalPahtName) throws IOException {
 		LOGGER4J.trace("start copyFile " + orginalePathName);
 		File fileSrc = new File(orginalePathName);
@@ -63,19 +58,18 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		LOGGER4J.trace("end copyFile" + finalPahtName);
 	}
 
-	@Override
 	public boolean validateDirectory(File dir) {
 		LOGGER4J.trace("start validateDirectory");
 		boolean resultas = false;
 		if (dir != null)
-			if (dir.exists())
-				if (dir.isDirectory())
-					resultas = true;
+			if (dir.exists() && dir.isDirectory()) {
+				resultas = true;
+				LOGGER4J.debug("check validateDirectory true on "+dir.getName());
+			}
 		LOGGER4J.trace("end validateDirectory");
 		return resultas;
 	}
 
-	@Override
 	public ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectory");
 		ArrayList<String> nomFichiers = null;
@@ -84,8 +78,8 @@ public class RepositoyApacheFile implements IRepositoryFile {
 
 		files = FileUtils.listFiles(repertoire, null, false);
 
-		if ((null != files) && (files.size() > 0)) {
-			nomFichiers = new ArrayList<>();
+		if ((null != files) && (!files.isEmpty())) {
+			nomFichiers = new ArrayList<String>();
 			for (File fileItem : files) {
 
 				nomFichiers.add(fileItem.getPath());
@@ -95,7 +89,6 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		return nomFichiers;
 	}
 
-	@Override
 	public ArrayList<String> listeFilesOnDirectoryAndSubDirectory(String dirName) throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
 		ArrayList<String> nomFichiers = null;
@@ -104,8 +97,8 @@ public class RepositoyApacheFile implements IRepositoryFile {
 
 		files = FileUtils.listFiles(repertoire, null, true);
 
-		if ((null != files) && (files.size() > 0)) {
-			nomFichiers = new ArrayList<>();
+		if ((null != files) && (!files.isEmpty())) {
+			nomFichiers = new ArrayList<String>();
 			for (File fileItem : files) {
 
 				nomFichiers.add(fileItem.getPath());
@@ -115,7 +108,6 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		return nomFichiers;
 	}
 
-	@Override
 	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName, MusicExtention[] filters)
 			throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
@@ -128,17 +120,15 @@ public class RepositoyApacheFile implements IRepositoryFile {
 		int i = 0;
 		// rempli la liste des fitres avec les chaine minuscule et majsucule
 		for (MusicExtention musicExtention : filters) {
-
 			strFilters[i] = musicExtention.getValue();
 			strFilters[i + 1] = musicExtention.getValue().toUpperCase();
-
 			i = i + 2;
 		}
 
 		files = FileUtils.listFiles(repertoire, strFilters, true);
 
-		if ((null != files) && (files.size() > 0)) {
-			nomFichiers = new ArrayList<>();
+		if ((null != files) && (!files.isEmpty())) {
+			nomFichiers = new ArrayList<String>();
 			for (File fileItem : files) {
 
 				nomFichiers.add(fileItem.getPath());

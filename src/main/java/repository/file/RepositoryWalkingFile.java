@@ -26,19 +26,21 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 
 	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryWalkingFile.class.getName());
 
-	@Override
+	private static final String SUPRESION = "supresion ";
+	private static final String ECHEC = " echec ";
+	private static final String REUSSI = " reussi ";
+
 	public void delete(String pathFileName) throws IOException {
-		LOGGER4J.trace("supresion " + pathFileName);
+		LOGGER4J.trace(SUPRESION + pathFileName);
 		Path directory = Paths.get(pathFileName);
 
 		if (Files.deleteIfExists(directory)) {
-			LOGGER4J.trace("supresion " + pathFileName + " reussi");
+			LOGGER4J.trace(SUPRESION + pathFileName + REUSSI);
 		} else {
-			LOGGER4J.trace("supresion " + pathFileName + " echec");
+			LOGGER4J.trace(SUPRESION + pathFileName + ECHEC);
 		}
 	}
 
-	@Override
 	public void cleanDirectory(String pathFileName) throws IOException {
 		LOGGER4J.trace("start cleanDirectory" + pathFileName);
 		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
@@ -50,7 +52,6 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 		LOGGER4J.trace("end cleanDirectory");
 	}
 
-	@Override
 	public void recursiveDelete(String pathFileName) throws IOException {
 		LOGGER4J.trace("start recursiveDelete" + pathFileName);
 		Path directory = Paths.get(pathFileName);
@@ -61,7 +62,7 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 			@Override
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 				LOGGER4J.trace("start FileVisitResult" + file.toString());
-				if (file.endsWith(".gitkeep") == false) {
+				if (!file.endsWith(".gitkeep")) {
 					LOGGER4J.trace("on gitkeep == false");
 					Files.delete(file);
 				}
@@ -81,7 +82,6 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 		LOGGER4J.trace("end recursiveDelete");
 	}
 
-	@Override
 	public void moveFile(String orginalePathName, String finalPahtName) throws IOException {
 		LOGGER4J.trace("Start move");
 		File originsfile = new File(orginalePathName);
@@ -96,12 +96,11 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 		LOGGER4J.trace("end move");
 	}
 
-	@Override
-	public void copyFile(String OrginalePathName, String FinalPahtName) throws IOException {
+	public void copyFile(String orginalePathName, String finalPahtName) throws IOException {
 		LOGGER4J.trace("Start copy");
-		File originsfile = new File(OrginalePathName);
+		File originsfile = new File(orginalePathName);
 		if (originsfile.exists()) {
-			File finalFile = new File(FinalPahtName);
+			File finalFile = new File(finalPahtName);
 
 			Path patheOrginsFile = originsfile.toPath();
 			Path pathFinalFile = finalFile.toPath();
@@ -111,19 +110,17 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 		LOGGER4J.trace("end copy");
 	}
 
-	@Override
 	public boolean validateDirectory(File dir) {
 		LOGGER4J.trace("start validateDirectory");
 		boolean resultas = false;
 		if (dir != null)
-			if (dir.exists())
-				if (dir.isDirectory())
-					resultas = true;
+			if (dir.exists() && dir.isDirectory()) {
+				resultas = true;
+			}
 		LOGGER4J.trace("end validateDirectory");
 		return resultas;
 	}
 
-	@Override
 	public ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectory");
 		ArrayList<String> nomFichiers = null;
@@ -131,29 +128,26 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 
 		if (repertoire.exists()) {
 			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath());
-			nomFichiers = new ArrayList<>();
+			nomFichiers = new ArrayList<String>();
 			for (Path path : directoryStream) {
 				nomFichiers.add(path.toString());
 			}
 		} else {
-			FileNotFoundException e = new FileNotFoundException(
-					"repertoire: " + repertoire.getAbsolutePath() + " introuvable");
-			throw e;
+			throw new FileNotFoundException("repertoire: " + repertoire.getAbsolutePath() + " introuvable");
 		}
 		LOGGER4J.trace("end listeFilesOnDirectory");
 		return nomFichiers;
 	}
 
-	@Override
 	public ArrayList<String> listeFilesOnDirectoryAndSubDirectory(String dirName) throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
 		ArrayList<String> nomFichiers = null;
 		ArrayList<String> nomFichiersTempo = null;
 		File repertoire = new File(dirName);
 		String fileNameItem;
-		System.out.println(dirName);
+		
 		if (repertoire.exists()) {
-			nomFichiers = new ArrayList<>();
+			nomFichiers = new ArrayList<String>();
 			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(repertoire.toPath());
 			for (Path path : directoryStream) {
 				fileNameItem = path.getFileName().toString();
@@ -182,7 +176,6 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 		return nomFichiers;
 	}
 
-	@Override
 	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName, MusicExtention[] filters)
 			throws IOException {
 
@@ -192,7 +185,7 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 		String fileNameItem;
 
 		if (directory.exists()) {
-			finalPathFileList = new ArrayList<>();
+			finalPathFileList = new ArrayList<String>();
 			DirectoryStream<Path> directoryStream = Files.newDirectoryStream(directory.toPath());
 			for (Path path : directoryStream) {
 				fileNameItem = path.getFileName().toString();
@@ -224,8 +217,9 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 							}
 						}
 
-						if (add == true)
+						if (add) {
 							finalPathFileList.add(pathFileStr);
+						}
 
 					} else {
 						finalPathFileList.add(path.toString());
@@ -233,9 +227,7 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 				}
 			}
 		} else {
-			FileNotFoundException eFileNotFound = new FileNotFoundException(
-					"repertoire: " + directory.getAbsolutePath() + " introuvable");
-			throw eFileNotFound;
+			throw new FileNotFoundException("repertoire: " + directory.getAbsolutePath() + " introuvable");
 		}
 		return finalPathFileList;
 
