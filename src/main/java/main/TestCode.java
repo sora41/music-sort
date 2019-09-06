@@ -4,16 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.apache.commons.io.FileUtils;
+
+import constant.MusicExtention;
 import datatransfert.MusicDto;
 import repository.IRepositoryFile;
 import repository.IRepositoryMusicFile;
+import repository.file.RepositoryApacheFile;
+import repository.file.RepositoryWalkingFile;
 import repository.music.RepositoryMusicFileMP3Manual;
 import repository.music.RepositoryMusicFileMp3JAudiotagger;
 import repository.music.RepositoryMusicFileWmaJAudiotagger;
-import repository.file.RepositoryWalkingFile;
-import repository.file.RepositoryApacheFile;
-import constant.MusicExtention;
 
 public class TestCode {
 
