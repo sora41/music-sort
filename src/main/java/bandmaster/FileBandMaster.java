@@ -56,16 +56,19 @@ public abstract class FileBandMaster {
 	public FileBandMaster(String dirIn, String dirOut, String dirSorted) {
 		this.dirIn = new File(dirIn);
 		this.dirOut = new File(dirOut);
-		
-		StringBuilder fileNameErro = new StringBuilder(dirOut);
-		fileNameErro.append(File.separator);
-		fileNameErro.append(DIR_ERROR);
-		
-		this.dirError = new File(fileNameErro.toString());
-		//this.dirError = new File(dirOut + File.separator + DIR_ERROR);
-		this.dirNotSuported = new File(dirOut + File.separator + DIR_NOT_SUPORTED);
+
+		this.dirError = new File(BuildNameFile(dirOut, DIR_ERROR));
+		this.dirNotSuported = new File(BuildNameFile(dirOut, DIR_NOT_SUPORTED));
+
 		this.dirSorted = new File(dirSorted);
 		this.managerFile = new RepositoryApacheFile();
+	}
+
+	private String BuildNameFile(String dirNameContainer, String lastDirName) {
+		StringBuilder fileName = new StringBuilder(dirNameContainer);
+		fileName.append(File.separator);
+		fileName.append(lastDirName);
+		return fileName.toString();
 	}
 
 	public File getDirIn() {
@@ -142,7 +145,7 @@ public abstract class FileBandMaster {
 	}
 
 	private void copyListFileOnDIR(String strDir, ArrayList<String> listFiles) {
-		
+
 		String fileNameitem = "";
 		String newPahtFileItem = "";
 
@@ -156,27 +159,38 @@ public abstract class FileBandMaster {
 				// ignore gitkeep
 				if (!newPahtFileItem.contains(".gitkeep")) {
 					try {
-						managerFile.copyFile(fileNameitem, dirIn.getPath() + File.separator + newPahtFileItem);
+						managerFile.copyFile(fileNameitem, BuildNameFile(dirIn.getPath(), newPahtFileItem));
 					} catch (IOException e) {
-						LOGGER4J.error("imposible de deplacer le Fichier " + fileNameitem + "du repertoir:" + dirIn
-								+ " vers le repertoire " + dirOut);
-						LOGGER4J.error("error" + e.getMessage());
+						StringBuilder exceptionString = new StringBuilder("imposible de deplacer le Fichier ");
+						exceptionString.append(fileNameitem);
+						exceptionString.append(" introuvable");
+						exceptionString.append("du repertoir:");
+						exceptionString.append(dirIn);
+						exceptionString.append(" vers le repertoire ");
+						exceptionString.append(dirOut);
+
+						LOGGER4J.error(exceptionString.toString());
+						StringBuilder exceptionString2 = new StringBuilder(("error"));
+						exceptionString2.append(e.getMessage());
+						LOGGER4J.error(exceptionString2.toString());
 					}
 				}
 			}
 		}
-
 	}
-	
+
 	/**
 	 * 
-	 * initialise le repertoire d'entré de l'application en copiant les fichier
-	 * un a un du repertoire back ver le repertoire inMusic
+	 * initialise le repertoire d'entré de l'application en copiant les fichier un a
+	 * un du repertoire back ver le repertoire inMusic
 	 */
 	public void initDirectoryIn(String strBackDir) throws IOException {
 		File back = new File(strBackDir);
 		ArrayList<String> listeFichiersBack;
-		LOGGER4J.debug("initalisation  " + strBackDir);
+		StringBuilder logString = new StringBuilder("initalisation : ");
+		logString.append(strBackDir);
+
+		LOGGER4J.debug(logString);
 		// verfie si le repertoire back existe
 		if (managerFile.validateDirectory(back)) {
 			listeFichiersBack = managerFile.listeFilesOnDirectoryAndSubDirectory(back.getPath());
@@ -184,8 +198,11 @@ public abstract class FileBandMaster {
 			// elements
 			this.copyListFileOnDIR(strBackDir, listeFichiersBack);
 		} else {
+			StringBuilder exceptionString = new StringBuilder("repertoire: ");
+			exceptionString.append(back.getAbsolutePath());
+			exceptionString.append(" introuvable");
 
-			throw new FileNotFoundException("repertoire: " + back.getAbsolutePath() + " introuvable");
+			throw new FileNotFoundException(exceptionString.toString());
 		}
 	}
 

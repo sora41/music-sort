@@ -15,7 +15,6 @@ import observer.Observateur;
 import repository.IRepositoryMusicFile;
 import repository.builder.BuilderMusicRepository;
 
-
 /**
  * bandMaster file music
  */
@@ -27,15 +26,16 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 	private static final Logger LOGGER4J = LogManager.getLogger(MusicFileBandMaster.class.getName());
 
 	private static final String ECHEC_CREATE_DIR = "echec creation repertoire";
+	private static final String LOG_FILE_SEPARATOR ="-";
 
 	/**
-	 * Creates a new MusicFileBandMaster object with diretory In ,diretory out
-	 * and diretory sorted set . initliatise tne RepositoryMusiqueFile
+	 * Creates a new MusicFileBandMaster object with diretory In ,diretory out and
+	 * diretory sorted set . initliatise tne RepositoryMusiqueFile
 	 */
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) throws IOException {
 		super(dirIn, dirOut, dirSorted);
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -49,7 +49,9 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 				extention = fileName.substring(size - 3);
 				extention = extention.toLowerCase();
 			} else {
-				throw new Exception(fileName + " fichier sans extention");
+				StringBuilder exceptionString = new StringBuilder(fileName);
+				exceptionString.append(" fichier sans extention");
+				throw new Exception(exceptionString.toString());
 			}
 		} else {
 			throw new Exception("la chaine fileName est vide ");
@@ -60,8 +62,7 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 	/**
 	 * load DtoMusic object by Path file
 	 * 
-	 * @param pathFileName
-	 *            file String path
+	 * @param pathFileName file String path
 	 * @return dto object load or null
 	 * @throws Exception
 	 */
@@ -69,8 +70,8 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 		// extraction d'information des fichier audio celons les extention dans
 		// le dto
 		String extention = this.extractExtention(pathFileName);
-		MusicExtention enumExention = MusicExtention.valueOf(extention.toUpperCase());		
-		IRepositoryMusicFile repositoryMusic =  new BuilderMusicRepository().buildMusicRepository(enumExention);
+		MusicExtention enumExention = MusicExtention.valueOf(extention.toUpperCase());
+		IRepositoryMusicFile repositoryMusic = new BuilderMusicRepository().buildMusicRepository(enumExention);
 
 		MusicDto dto = repositoryMusic.getDataToMusicFile(pathFileName);
 		if (null == dto) {
@@ -116,8 +117,8 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 	 */
 	private void sortedByAuthorAndAlbum(MusicDto song) throws IOException, TagNotFoundException {
 
-		File autorDir = null;
-		File albumDir = null;
+		File autorDir;
+		File albumDir;
 		String songAuthor = applyFormatRuleGenerale(song.getAuthor());
 		String songAlbum = applyFormatRuleGenerale(song.getAlbum());
 		String fileName = song.getFileName();
@@ -127,7 +128,15 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 
 		if ((songAuthor != null) && (!songAuthor.isEmpty())) {
 			if ((songAlbum != null) && (!songAlbum.isEmpty())) {
-				LOGGER4J.trace(songAuthor + "-" + songAlbum + "-" + fileName);
+				
+				StringBuilder tracerLogger = new StringBuilder(songAuthor);
+				tracerLogger.append(LOG_FILE_SEPARATOR);
+				tracerLogger.append(songAlbum);
+				tracerLogger.append(LOG_FILE_SEPARATOR);
+				tracerLogger.append(fileName);
+				
+				LOGGER4J.trace(tracerLogger.toString());
+				
 				autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
 				if (!managerFile.validateDirectory(autorDir) && !autorDir.mkdir()) {
 					throw new IOException(ECHEC_CREATE_DIR + autorDir.getPath());
@@ -137,6 +146,7 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 				if (!managerFile.validateDirectory(albumDir) && !albumDir.mkdir()) {
 					throw new IOException(ECHEC_CREATE_DIR + albumDir.getPath());
 				}
+				
 				pathAlbumDir = albumDir.getPath();
 				sortedTarget = pathAlbumDir + File.separator + fileName;
 				managerFile.moveFile(pathFile, sortedTarget);
@@ -190,9 +200,9 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 				LOGGER4J.trace("contains files : ", tabSize);
 				for (int i = 0; i < tabSize; i++) {
 					fileNameitem = listeFichiersIn.get(i);
-					LOGGER4J.trace("sort" + i + "-" + (tabSize - 1));
+					LOGGER4J.trace("sort" + i + LOG_FILE_SEPARATOR + (tabSize - 1));
 					sortMusicFile(fileNameitem);
-					updateObservateur(i, tabSize-1);
+					updateObservateur(i, tabSize - 1);
 				}
 			}
 		}
@@ -219,7 +229,7 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 			} catch (IOException moveException) {
 				String erroMgs = "imposible de deplacer le Fichier " + fileName + "du repertoir:" + dirIn
 						+ " vers le repertoire " + dirNotSuported;
-				LOGGER4J.error(erroMgs + "-" + moveException.getMessage(), moveException.getClass().getName(),
+				LOGGER4J.error(erroMgs + LOG_FILE_SEPARATOR + moveException.getMessage(), moveException.getClass().getName(),
 						moveException.getStackTrace());
 			}
 		}
@@ -230,7 +240,7 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 		String formatResult = "";
 		// supresion espace devan et deriere
 		formatResult = raw.trim();
-		
+
 		// replacement des é en e
 		formatResult = formatResult.replaceAll("é", "e");
 		formatResult = formatResult.replaceAll("è", "e");
@@ -248,8 +258,7 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 		formatResult = formatResult.replaceAll("/", "");
 		// supresion des '
 		formatResult = formatResult.replaceAll("'", "");
-		
-		
+
 		return formatResult;
 	}
 
@@ -268,17 +277,17 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 
 	public void addObservateur(Observateur obs) {
 		this.listObservers.add(obs);
-		
+
 	}
 
-	public void updateObservateur(int enCours , int fin ) {
+	public void updateObservateur(int enCours, int fin) {
 		for (Observateur obs : this.listObservers) {
-			obs.update(enCours,fin);
-		}	
+			obs.update(enCours, fin);
+		}
 	}
 
 	public void delObservateur() {
 		this.listObservers = new ArrayList<Observateur>();
-		
+
 	}
 }
