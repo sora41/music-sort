@@ -26,26 +26,24 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 	private static final Logger LOGGER4J = LogManager.getLogger(MusicFileBandMaster.class.getName());
 
 	private static final String ECHEC_CREATE_DIR = "echec creation repertoire";
-	private static final String LOG_FILE_SEPARATOR ="-";
-	private static final String NO_EXTENTION_FILE =" fichier sans extention";
-	private static final String EMPTHY_STRING ="";
-	private static final String UNDERSCORE ="_";
-	private static final String NO_ARTISTE ="no artiste";
-	private static final String NO_ALBUM ="no album";
+	private static final String LOG_FILE_SEPARATOR = "-";
+	private static final String NO_EXTENTION_FILE = " fichier sans extention";
+	private static final String EMPTHY_STRING = "";
+	private static final String UNDERSCORE = "_";
+	private static final String NO_ARTISTE = "no artiste";
+	private static final String NO_ALBUM = "no album";
 	/**
 	 * 
 	 */
 	private ArrayList<Observateur> listObservers = new ArrayList<Observateur>();
-	
+
 	/**
-	 * Creates a new MusicFileBandMaster object with diretory In ,diretory out and
-	 * diretory sorted set . initliatise tne RepositoryMusiqueFile
+	 * Creates a new MusicFileBandMaster object with diretory In ,diretory out
+	 * and diretory sorted set . initliatise tne RepositoryMusiqueFile
 	 */
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) throws IOException {
 		super(dirIn, dirOut, dirSorted);
 	}
-
-
 
 	private String extractExtention(String fileName) throws Exception {
 		String extention = "";
@@ -68,7 +66,8 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 	/**
 	 * load DtoMusic object by Path file
 	 * 
-	 * @param pathFileName file String path
+	 * @param pathFileName
+	 *            file String path
 	 * @return dto object load or null
 	 * @throws Exception
 	 */
@@ -104,21 +103,16 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 		String pathAutorDir = "";
 
 		if ((songAuthor != null) && (!songAuthor.isEmpty())) {
-			
-			//autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
-			//StringBuilder autorFileNameDir = new StringBuilder(dirSorted.getPath());
-			
-			autorDir = new File(BuildNameFile(dirSorted.getPath(),songAuthor ));
+
+			autorDir = new File(buildNameFile(dirSorted.getPath(), songAuthor));
 			pathAutorDir = autorDir.getPath();
 			if (!managerFile.validateDirectory(autorDir) && !autorDir.mkdir()) {
 				StringBuilder ioExecptionChaine = new StringBuilder(ECHEC_CREATE_DIR);
 				ioExecptionChaine.append(pathAutorDir);
-				throw new IOException( ioExecptionChaine.toString());
-				//throw new IOException(ECHEC_CREATE_DIR + autorDir.getPath());
+				throw new IOException(ioExecptionChaine.toString());
 			}
-			
-			//sortedTarget = pathAutorDir + File.separator + fileName;
-			sortedTarget = BuildNameFile(pathAutorDir,fileName );
+
+			sortedTarget = buildNameFile(pathAutorDir, fileName);
 			managerFile.moveFile(pathFile, sortedTarget);
 
 		} else {
@@ -143,37 +137,31 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 
 		if ((songAuthor != null) && (!songAuthor.isEmpty())) {
 			if ((songAlbum != null) && (!songAlbum.isEmpty())) {
-				
+
 				StringBuilder tracerLogger = new StringBuilder(songAuthor);
 				tracerLogger.append(LOG_FILE_SEPARATOR);
 				tracerLogger.append(songAlbum);
 				tracerLogger.append(LOG_FILE_SEPARATOR);
 				tracerLogger.append(fileName);
-				
+
 				LOGGER4J.trace(tracerLogger.toString());
-				
-				//autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
-				pathAutorDir = BuildNameFile(dirSorted.getPath(), songAuthor);
+
+				pathAutorDir = buildNameFile(dirSorted.getPath(), songAuthor);
 				autorDir = new File(pathAutorDir);
 				if (!managerFile.validateDirectory(autorDir) && !autorDir.mkdir()) {
 					StringBuilder ioExecptionChaine = new StringBuilder(ECHEC_CREATE_DIR);
 					ioExecptionChaine.append(pathAutorDir);
-					throw new IOException( ioExecptionChaine.toString());
-					//throw new IOException(ECHEC_CREATE_DIR + pathAutorDir);
+					throw new IOException(ioExecptionChaine.toString());
 				}
-				pathAlbumDir = BuildNameFile(pathAutorDir, songAlbum);
-				//albumDir = new File(pathAutorDir + File.separator + songAlbum);
+				pathAlbumDir = buildNameFile(pathAutorDir, songAlbum);
 				albumDir = new File(pathAlbumDir);
 				if (!managerFile.validateDirectory(albumDir) && !albumDir.mkdir()) {
 					StringBuilder ioExecptionChaine = new StringBuilder(ECHEC_CREATE_DIR);
 					ioExecptionChaine.append(pathAlbumDir);
-					throw new IOException( ioExecptionChaine.toString());
-					//throw new IOException(ECHEC_CREATE_DIR + albumDir.getPath());
+					throw new IOException(ioExecptionChaine.toString());
 				}
-				
-				
-				//sortedTarget = pathAlbumDir + File.separator + fileName;
-				sortedTarget = BuildNameFile(pathAlbumDir, fileName);
+
+				sortedTarget = buildNameFile(pathAlbumDir, fileName);
 				managerFile.moveFile(pathFile, sortedTarget);
 			} else {
 				throw new TagNotFoundException(NO_ALBUM);
@@ -196,13 +184,20 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 		String pathAlbumDir = "";
 
 		if ((songAlbum != null) && (!songAlbum.isEmpty())) {
+			pathAlbumDir = buildNameFile(dirSorted.getPath(), songAlbum);
+			albumDir = new File(pathAlbumDir);
+			// albumDir = new File(dirSorted.getPath() + File.separator +
+			// songAlbum);
 
-			albumDir = new File(dirSorted.getPath() + File.separator + songAlbum);
 			if (!managerFile.validateDirectory(albumDir) && !albumDir.mkdir()) {
 				throw new IOException("echec creation repertoire " + albumDir.getPath());
 			}
-			pathAlbumDir = albumDir.getPath();
-			sortedTarget = pathAlbumDir + File.separator + fileName;
+
+			sortedTarget = buildNameFile(pathAlbumDir, fileName); // pathAlbumDir
+																	// +
+																	// File.separator
+																	// +
+																	// fileName;
 			managerFile.moveFile(pathFile, sortedTarget);
 		} else {
 			throw new TagNotFoundException(NO_ALBUM);
@@ -225,7 +220,15 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 				LOGGER4J.trace("contains files : ", tabSize);
 				for (int i = 0; i < tabSize; i++) {
 					fileNameitem = listeFichiersIn.get(i);
-					LOGGER4J.trace("sort" + i + LOG_FILE_SEPARATOR + (tabSize - 1));
+
+					StringBuilder logMgs = new StringBuilder("sort");
+					logMgs.append(i);
+					logMgs.append(LOG_FILE_SEPARATOR);
+					logMgs.append(tabSize - 1);
+					// LOGGER4J.trace("sort" + i + LOG_FILE_SEPARATOR + (tabSize
+					// - 1));
+
+					LOGGER4J.trace(logMgs.toString());
 					sortMusicFile(fileNameitem);
 					updateObservateur(i, tabSize - 1);
 				}
@@ -247,15 +250,36 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 			// tri artiste album
 			sortedByAuthorAndAlbum(musicDtoItem);
 		} catch (Exception sortException) {
-			LOGGER4J.error("Fichier : " + fileName + "-" + sortException.getMessage(),
-					sortException.getClass().getName(), sortException.getStackTrace());
+			;
+
+			StringBuilder logMsg = new StringBuilder("Fichier : ");
+			logMsg.append(fileName);
+			logMsg.append(LOG_FILE_SEPARATOR);
+			logMsg.append(sortException.getMessage());
+
+			LOGGER4J.error(logMsg.toString(), sortException.getClass().getName(), sortException.getStackTrace());
+			// LOGGER4J.error("Fichier : " + fileName + "-" +
+			// sortException.getMessage(),
+			// sortException.getClass().getName(),
+			// sortException.getStackTrace());
 			try {
-				managerFile.moveFile(fileName, dirError + File.separator + fileName);
+				// managerFile.moveFile(fileName, dirError + File.separator +
+				// fileName);
+				managerFile.moveFile(fileName, buildNameFile(dirError.getPath(), fileName));
 			} catch (IOException moveException) {
-				String erroMgs = "imposible de deplacer le Fichier " + fileName + "du repertoir:" + dirIn
-						+ " vers le repertoire " + dirNotSuported;
-				LOGGER4J.error(erroMgs + LOG_FILE_SEPARATOR + moveException.getMessage(), moveException.getClass().getName(),
-						moveException.getStackTrace());
+				// String erroMgs = "imposible de deplacer le Fichier " +
+				// fileName + "du repertoir:" + dirIn
+				// + " vers le repertoire " + dirNotSuported;
+				StringBuilder erroMsg = new StringBuilder("imposible de deplacer le Fichier ");
+				erroMsg.append(fileName);
+				erroMsg.append("du repertoir:");
+				erroMsg.append(dirIn);
+				erroMsg.append(" vers le repertoire ");
+				erroMsg.append(dirNotSuported);
+				erroMsg.append(LOG_FILE_SEPARATOR);
+				erroMsg.append(moveException.getMessage());
+
+				LOGGER4J.error(erroMsg.toString(), moveException.getClass().getName(), moveException.getStackTrace());
 			}
 		}
 	}

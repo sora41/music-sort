@@ -57,14 +57,14 @@ public abstract class FileBandMaster {
 		this.dirIn = new File(dirIn);
 		this.dirOut = new File(dirOut);
 
-		this.dirError = new File(BuildNameFile(dirOut, DIR_ERROR));
-		this.dirNotSuported = new File(BuildNameFile(dirOut, DIR_NOT_SUPORTED));
+		this.dirError = new File(buildNameFile(dirOut, DIR_ERROR));
+		this.dirNotSuported = new File(buildNameFile(dirOut, DIR_NOT_SUPORTED));
 
 		this.dirSorted = new File(dirSorted);
 		this.managerFile = new RepositoryApacheFile();
 	}
 
-	protected String BuildNameFile(String dirNameContainer, String lastDirName) {
+	protected String buildNameFile(String dirNameContainer, String lastDirName) {
 		StringBuilder fileName = new StringBuilder(dirNameContainer);
 		fileName.append(File.separator);
 		fileName.append(lastDirName);
@@ -159,7 +159,7 @@ public abstract class FileBandMaster {
 				// ignore gitkeep
 				if (!newPahtFileItem.contains(".gitkeep")) {
 					try {
-						managerFile.copyFile(fileNameitem, BuildNameFile(dirIn.getPath(), newPahtFileItem));
+						managerFile.copyFile(fileNameitem, buildNameFile(dirIn.getPath(), newPahtFileItem));
 					} catch (IOException e) {
 						StringBuilder exceptionString = new StringBuilder("imposible de deplacer le Fichier ");
 						exceptionString.append(fileNameitem);
