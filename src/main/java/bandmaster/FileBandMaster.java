@@ -64,7 +64,7 @@ public abstract class FileBandMaster {
 		this.managerFile = new RepositoryApacheFile();
 	}
 
-	private String BuildNameFile(String dirNameContainer, String lastDirName) {
+	protected String BuildNameFile(String dirNameContainer, String lastDirName) {
 		StringBuilder fileName = new StringBuilder(dirNameContainer);
 		fileName.append(File.separator);
 		fileName.append(lastDirName);

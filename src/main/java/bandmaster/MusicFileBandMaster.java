@@ -27,7 +27,16 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 
 	private static final String ECHEC_CREATE_DIR = "echec creation repertoire";
 	private static final String LOG_FILE_SEPARATOR ="-";
-
+	private static final String NO_EXTENTION_FILE =" fichier sans extention";
+	private static final String EMPTHY_STRING ="";
+	private static final String UNDERSCORE ="_";
+	private static final String NO_ARTISTE ="no artiste";
+	private static final String NO_ALBUM ="no album";
+	/**
+	 * 
+	 */
+	private ArrayList<Observateur> listObservers = new ArrayList<Observateur>();
+	
 	/**
 	 * Creates a new MusicFileBandMaster object with diretory In ,diretory out and
 	 * diretory sorted set . initliatise tne RepositoryMusiqueFile
@@ -36,10 +45,7 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 		super(dirIn, dirOut, dirSorted);
 	}
 
-	/**
-	 * 
-	 */
-	private ArrayList<Observateur> listObservers = new ArrayList<Observateur>();
+
 
 	private String extractExtention(String fileName) throws Exception {
 		String extention = "";
@@ -50,7 +56,7 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 				extention = extention.toLowerCase();
 			} else {
 				StringBuilder exceptionString = new StringBuilder(fileName);
-				exceptionString.append(" fichier sans extention");
+				exceptionString.append(NO_EXTENTION_FILE);
 				throw new Exception(exceptionString.toString());
 			}
 		} else {
@@ -98,17 +104,25 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 		String pathAutorDir = "";
 
 		if ((songAuthor != null) && (!songAuthor.isEmpty())) {
-
-			autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
-			if (!managerFile.validateDirectory(autorDir) && !autorDir.mkdir()) {
-				throw new IOException(ECHEC_CREATE_DIR + autorDir.getPath());
-			}
+			
+			//autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
+			//StringBuilder autorFileNameDir = new StringBuilder(dirSorted.getPath());
+			
+			autorDir = new File(BuildNameFile(dirSorted.getPath(),songAuthor ));
 			pathAutorDir = autorDir.getPath();
-			sortedTarget = pathAutorDir + File.separator + fileName;
+			if (!managerFile.validateDirectory(autorDir) && !autorDir.mkdir()) {
+				StringBuilder ioExecptionChaine = new StringBuilder(ECHEC_CREATE_DIR);
+				ioExecptionChaine.append(pathAutorDir);
+				throw new IOException( ioExecptionChaine.toString());
+				//throw new IOException(ECHEC_CREATE_DIR + autorDir.getPath());
+			}
+			
+			//sortedTarget = pathAutorDir + File.separator + fileName;
+			sortedTarget = BuildNameFile(pathAutorDir,fileName );
 			managerFile.moveFile(pathFile, sortedTarget);
 
 		} else {
-			throw new TagNotFoundException("no artiste");
+			throw new TagNotFoundException(NO_ARTISTE);
 		}
 	}
 
@@ -125,6 +139,7 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 		String pathFile = song.getPathFile();
 		String sortedTarget = "";
 		String pathAlbumDir = "";
+		String pathAutorDir;
 
 		if ((songAuthor != null) && (!songAuthor.isEmpty())) {
 			if ((songAlbum != null) && (!songAlbum.isEmpty())) {
@@ -137,24 +152,34 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 				
 				LOGGER4J.trace(tracerLogger.toString());
 				
-				autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
+				//autorDir = new File(dirSorted.getPath() + File.separator + songAuthor);
+				pathAutorDir = BuildNameFile(dirSorted.getPath(), songAuthor);
+				autorDir = new File(pathAutorDir);
 				if (!managerFile.validateDirectory(autorDir) && !autorDir.mkdir()) {
-					throw new IOException(ECHEC_CREATE_DIR + autorDir.getPath());
+					StringBuilder ioExecptionChaine = new StringBuilder(ECHEC_CREATE_DIR);
+					ioExecptionChaine.append(pathAutorDir);
+					throw new IOException( ioExecptionChaine.toString());
+					//throw new IOException(ECHEC_CREATE_DIR + pathAutorDir);
 				}
-
-				albumDir = new File(dirSorted.getPath() + File.separator + songAuthor + File.separator + songAlbum);
+				pathAlbumDir = BuildNameFile(pathAutorDir, songAlbum);
+				//albumDir = new File(pathAutorDir + File.separator + songAlbum);
+				albumDir = new File(pathAlbumDir);
 				if (!managerFile.validateDirectory(albumDir) && !albumDir.mkdir()) {
-					throw new IOException(ECHEC_CREATE_DIR + albumDir.getPath());
+					StringBuilder ioExecptionChaine = new StringBuilder(ECHEC_CREATE_DIR);
+					ioExecptionChaine.append(pathAlbumDir);
+					throw new IOException( ioExecptionChaine.toString());
+					//throw new IOException(ECHEC_CREATE_DIR + albumDir.getPath());
 				}
 				
-				pathAlbumDir = albumDir.getPath();
-				sortedTarget = pathAlbumDir + File.separator + fileName;
+				
+				//sortedTarget = pathAlbumDir + File.separator + fileName;
+				sortedTarget = BuildNameFile(pathAlbumDir, fileName);
 				managerFile.moveFile(pathFile, sortedTarget);
 			} else {
-				throw new TagNotFoundException("no album");
+				throw new TagNotFoundException(NO_ALBUM);
 			}
 		} else {
-			throw new TagNotFoundException("no artiste");
+			throw new TagNotFoundException(NO_ARTISTE);
 		}
 	}
 
@@ -180,7 +205,7 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 			sortedTarget = pathAlbumDir + File.separator + fileName;
 			managerFile.moveFile(pathFile, sortedTarget);
 		} else {
-			throw new TagNotFoundException("no album");
+			throw new TagNotFoundException(NO_ALBUM);
 		}
 	}
 
@@ -247,17 +272,17 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 		// tout en maj
 		formatResult = formatResult.toUpperCase();
 		// remplace les double espace par un simple
-		formatResult = formatResult.replaceAll("  ", "_");
+		formatResult = formatResult.replaceAll("  ", UNDERSCORE);
 		// remplace les simple espace par un underscore
-		formatResult = formatResult.replaceAll(" ", "_");
+		formatResult = formatResult.replaceAll(" ", UNDERSCORE);
 		// remplace un tiret par un underscore
-		formatResult = formatResult.replaceAll("-", "_");
+		formatResult = formatResult.replaceAll("-", UNDERSCORE);
 		// supresion les guillement
-		formatResult = formatResult.replaceAll("\"", "");
+		formatResult = formatResult.replaceAll("\"", EMPTHY_STRING);
 		// supresion des slash \
-		formatResult = formatResult.replaceAll("/", "");
+		formatResult = formatResult.replaceAll("/", EMPTHY_STRING);
 		// supresion des '
-		formatResult = formatResult.replaceAll("'", "");
+		formatResult = formatResult.replaceAll("'", EMPTHY_STRING);
 
 		return formatResult;
 	}

@@ -3,6 +3,12 @@ package ihm;
 import javax.swing.JFrame;
 
 public class MusicFrame extends JFrame {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private MusicPanel musicPanel = new MusicPanel();
 
 	public MusicFrame()
