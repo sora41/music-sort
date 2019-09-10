@@ -2,11 +2,13 @@ package main;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import bandmaster.MusicFileBandMaster;
+import constant.MusicExtention;
 
 public class ControlerSortMusic {
 
@@ -101,8 +103,17 @@ public class ControlerSortMusic {
 	 * clean directory use by application
 	 */
 	public void resetDirectory() throws IOException {
-		LOGGER4J.info("demarage Reset");
+		LOGGER4J.info("demarage resetDirectory");
 		musicSorter.resetDirectories();
-		LOGGER4J.info("fin Reset");
+		LOGGER4J.info("fin resetDirectory");
+	}
+
+	public int getCountFileDirIn() throws IOException {
+		LOGGER4J.info("demarage getCountFileDirIn");
+		
+		MusicExtention[] filter = MusicExtention.values();
+		 int countfiles =musicSorter.getCountFileDirIn(filter);
+		LOGGER4J.info("fin getCountFileDirIn");
+		return countfiles;
 	}
 }

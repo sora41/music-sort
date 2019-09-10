@@ -62,7 +62,7 @@ public class RepositoryApacheFile implements IRepositoryFile {
 		if (dir != null)
 			if (dir.exists() && dir.isDirectory()) {
 				resultas = true;
-				LOGGER4J.debug("check validateDirectory true on "+dir.getName());
+				LOGGER4J.debug("check validateDirectory true on " + dir.getName());
 			}
 		LOGGER4J.trace("end validateDirectory");
 		return resultas;
@@ -109,20 +109,59 @@ public class RepositoryApacheFile implements IRepositoryFile {
 	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName, MusicExtention[] filters)
 			throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
-		ArrayList<String> nomFichiers = null;
+		ArrayList<String> nomFichiers = new ArrayList<String>();
 		File repertoire = new File(dirName);
+		String[] strFilters = null;
 		Collection<File> files;
 		// converstion des filtre tableaux de string
-		int size = filters.length * 2;
-		String[] strFilters = new String[size];
-		int i = 0;
-		// rempli la liste des fitres avec les chaine minuscule et majsucule
-		for (MusicExtention musicExtention : filters) {
-			strFilters[i] = musicExtention.getValue();
-			strFilters[i + 1] = musicExtention.getValue().toUpperCase();
-			i = i + 2;
+		if (filters != null) {
+			int size = filters.length * 2;
+			strFilters = new String[size];
+
+			int i = 0;
+			// rempli la liste des fitres avec les chaine minuscule et majsucule
+			for (MusicExtention musicExtention : filters) {
+				strFilters[i] = musicExtention.getValue();
+				strFilters[i + 1] = musicExtention.getValue().toUpperCase();
+				i = i + 2;
+			}
 		}
 
+		files = FileUtils.listFiles(repertoire, strFilters, true);
+
+		if ((null != files) && (!files.isEmpty())) {
+			nomFichiers = new ArrayList<String>();
+			for (File fileItem : files) {
+
+				nomFichiers.add(fileItem.getPath());
+			}
+		}
+		LOGGER4J.trace("end listeFilesOnDirectoryAndSubDirectory");
+		return nomFichiers;
+	}
+	
+	
+	public ArrayList<String> filesCountFilterOnDirectoryAndSubDirectory(String dirName, MusicExtention[] filters)
+			throws IOException {
+		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
+		ArrayList<String> nomFichiers = new ArrayList<String>();
+		File repertoire = new File(dirName);
+		String[] strFilters = null;
+		Collection<File> files;
+		// converstion des filtre tableaux de string
+		if (filters != null) {
+			int size = filters.length * 2;
+			strFilters = new String[size];
+
+			int i = 0;
+			// rempli la liste des fitres avec les chaine minuscule et majsucule
+			for (MusicExtention musicExtention : filters) {
+				strFilters[i] = musicExtention.getValue();
+				strFilters[i + 1] = musicExtention.getValue().toUpperCase();
+				i = i + 2;
+			}
+		}
+		// recherche variante pour optimisation 
 		files = FileUtils.listFiles(repertoire, strFilters, true);
 
 		if ((null != files) && (!files.isEmpty())) {

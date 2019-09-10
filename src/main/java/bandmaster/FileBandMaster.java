@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import constant.MusicExtention;
 import repository.IRepositoryFile;
 import repository.file.RepositoryApacheFile;
 
@@ -181,8 +182,8 @@ public abstract class FileBandMaster {
 
 	/**
 	 * 
-	 * initialise le repertoire d'entré de l'application en copiant les fichier un a
-	 * un du repertoire back ver le repertoire inMusic
+	 * initialise le repertoire d'entré de l'application en copiant les fichier
+	 * un a un du repertoire back ver le repertoire inMusic
 	 */
 	public void initDirectoryIn(String strBackDir) throws IOException {
 		File back = new File(strBackDir);
@@ -210,4 +211,20 @@ public abstract class FileBandMaster {
 	 * run sort file
 	 */
 	public abstract void runSortFile() throws IOException;
+
+	public int getCountFileDirIn(MusicExtention[] filters) throws IOException {
+		LOGGER4J.trace("demarage getCountFileDirIn");
+		
+		ArrayList<String> listeFichiersIn = new ArrayList<String>();
+		// etape 1 tester sur les repertoire suivant existe
+		// sinon les cree
+		if (validateDirectorys()) {
+			// modifier pour revoyer uniquement le nombre de fichier et pas la liste
+			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(), filters);
+			
+		}
+		int countfiles =  listeFichiersIn.size();
+		LOGGER4J.trace("fin getCountFileDirIn");
+		return countfiles;
+	}
 }

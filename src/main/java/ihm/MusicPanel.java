@@ -23,8 +23,10 @@ public class MusicPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	// private JPanel loadFilePanel = new JPanel();
+
 	private JButton startSortButton = new JButton("Start Sort");
+	private JButton scanCountFilesButton = new JButton("scan dir in");
+
 	// private JFileChooser musicFileChooser = new JFileChooser();
 	// ligne/colone
 	private GridLayout line4Layout = new GridLayout(4, 0);
@@ -37,16 +39,19 @@ public class MusicPanel extends JPanel {
 	private JLabel dirInLabel = new JLabel();
 	private JLabel dirBackLabel = new JLabel();
 	private JLabel dirBackValueLabel = new JLabel();
-	private JProgressBar sortedBar = new JProgressBar();
 	private JLabel loadingSortLabel = new JLabel();
-	private JProgressBar resetBar = new JProgressBar();
+	private JLabel scanCountFileLabel = new JLabel();
 	private JLabel loadingResetLabel = new JLabel();
+
+	private JProgressBar sortedBar = new JProgressBar();
+	private JProgressBar resetBar = new JProgressBar();
 
 	private JPanel linePanel1 = new JPanel();
 	private JPanel linePanel2 = new JPanel();
 	private JPanel linePanel3 = new JPanel();
 	private JPanel linePanel4 = new JPanel();
 	private JPanel linePanel5 = new JPanel();
+
 	private JCheckBox resetFileCheckbox = new JCheckBox("reset des fichier ");
 
 	/**
@@ -72,8 +77,8 @@ public class MusicPanel extends JPanel {
 
 		this.setLayout(line4Layout);
 
-		startSortButton.addActionListener(new ButtonLoadListener());
-
+		startSortButton.addActionListener(new StartSortButtonListener());
+		scanCountFilesButton.addActionListener(new ScanDirInButtonListener());
 		this.add(linePanel1);
 		this.add(linePanel2);
 		this.add(linePanel3);
@@ -95,6 +100,8 @@ public class MusicPanel extends JPanel {
 		linePanel3.add(loadingSortLabel);
 		// linePanel1.add(musicFileChooser);
 		linePanel1.add(resetFileCheckbox);
+		linePanel2.add(scanCountFilesButton);
+		linePanel2.add(scanCountFileLabel);
 		loadingSortLabel.setText("0");
 		musicControl = new ControlerSortMusic();
 		initDirLabel();
@@ -108,10 +115,6 @@ public class MusicPanel extends JPanel {
 					loadingSortLabel.setText(String.valueOf(enCours));
 					sortedBar.setMaximum(fin);
 					sortedBar.setValue(enCours);
-
-					/*if (enCours == fin) {
-						startSortButton.setEnabled(true);
-					}*/
 				}
 			});
 		} catch (Exception e) {
@@ -122,17 +125,35 @@ public class MusicPanel extends JPanel {
 		}
 	}
 
-	class ButtonLoadListener implements ActionListener {
+	class StartSortButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
-			JButton loadButton;
-			LOGGER4J.info("Debut clic sur load");
+			LOGGER4J.info("Debut clic sur sort");
 			loadingSortLabel.setText("0");
 			sortedBar.setValue(0);
 			musicSorterThread = new Thread(new MusicThread());
 			musicSorterThread.start();
-			loadButton = (JButton) ae.getSource();
-			loadButton.setEnabled(false);
-			LOGGER4J.info(" Fin clic sur load");
+			startSortButton.setEnabled(false);
+			scanCountFilesButton.setEnabled(false);
+			LOGGER4J.info(" Fin clic sur sort");
+		}
+	}
+
+	class ScanDirInButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			
+			LOGGER4J.info("Debut clic scan");
+			int countFiles = 0;
+			try {
+				countFiles = musicControl.getCountFileDirIn();
+			} catch (IOException ex) {
+				LOGGER4J.fatal("le thread c'est arrete de maniere inatendu ", ex.getClass(), ex.getMessage(),
+						ex.getStackTrace());
+				LOGGER4J.fatal("message :" + ex.getMessage());
+				LOGGER4J.fatal("Eclass :" + ex.getClass().getName());
+			}
+
+			scanCountFileLabel.setText(String.valueOf(countFiles));
+			LOGGER4J.info(" Fin clic scan");
 		}
 	}
 
@@ -146,6 +167,7 @@ public class MusicPanel extends JPanel {
 			musicControl.launchSort();
 
 			startSortButton.setEnabled(true);
+			scanCountFilesButton.setEnabled(true);
 
 		}
 

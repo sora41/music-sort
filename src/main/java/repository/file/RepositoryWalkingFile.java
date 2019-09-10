@@ -12,6 +12,7 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,7 +44,7 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 
 	public void cleanDirectory(String pathFileName) throws IOException {
 		LOGGER4J.trace("start cleanDirectory" + pathFileName);
-		ArrayList<String> fileList = listeFilesOnDirectory(pathFileName);
+		List<String> fileList = listeFilesOnDirectory(pathFileName);
 		String pahtItem;
 		for (int i = 0; i < fileList.size(); i++) {
 			pahtItem = pathFileName + File.separator + fileList.get(i);
@@ -142,7 +143,7 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 	public ArrayList<String> listeFilesOnDirectoryAndSubDirectory(String dirName) throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
 		ArrayList<String> nomFichiers = null;
-		ArrayList<String> nomFichiersTempo = null;
+		List<String> nomFichiersTempo = null;
 		File repertoire = new File(dirName);
 		String fileNameItem;
 		
