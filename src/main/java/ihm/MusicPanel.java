@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -46,6 +47,7 @@ public class MusicPanel extends JPanel {
 	private JPanel linePanel3 = new JPanel();
 	private JPanel linePanel4 = new JPanel();
 	private JPanel linePanel5 = new JPanel();
+	private JCheckBox resetFileCheckbox = new JCheckBox("reset des fichier ");
 
 	/**
 	 * the loger from log4j
@@ -92,7 +94,7 @@ public class MusicPanel extends JPanel {
 		linePanel4.add(sortedBar);
 		linePanel3.add(loadingSortLabel);
 		// linePanel1.add(musicFileChooser);
-
+		linePanel1.add(resetFileCheckbox);
 		loadingSortLabel.setText("0");
 		musicControl = new ControlerSortMusic();
 		initDirLabel();
@@ -107,9 +109,9 @@ public class MusicPanel extends JPanel {
 					sortedBar.setMaximum(fin);
 					sortedBar.setValue(enCours);
 
-					if (enCours == fin) {
+					/*if (enCours == fin) {
 						startSortButton.setEnabled(true);
-					}
+					}*/
 				}
 			});
 		} catch (Exception e) {
@@ -118,14 +120,6 @@ public class MusicPanel extends JPanel {
 			LOGGER4J.fatal("message :" + e.getMessage());
 			LOGGER4J.fatal("Eclass :" + e.getClass().getName());
 		}
-	}
-
-	private void runProccesWithReset(boolean reset) throws IOException {
-		if (reset) {
-			musicControl.resetDirectory();
-			musicControl.initDirectory();
-		}
-		musicControl.launchSort();
 	}
 
 	class ButtonLoadListener implements ActionListener {
@@ -150,11 +144,14 @@ public class MusicPanel extends JPanel {
 				musicControl.initDirectory();
 			}
 			musicControl.launchSort();
+
+			startSortButton.setEnabled(true);
+
 		}
 
 		public void run() {
 			try {
-				runProccesWithReset(true);
+				runProccesWithReset(resetFileCheckbox.isSelected());
 
 			} catch (Exception ex) {
 
