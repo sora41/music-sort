@@ -19,7 +19,8 @@ import repository.builder.BuilderMusicRepository;
 /**
  * bandMaster file music
  */
-public class MusicFileBandMaster extends FileBandMaster implements Observable {
+public class MusicFileBandMaster extends FileBandMaster //implements Observable 
+{
 
 	/**
 	 * the loger from log4j
@@ -33,11 +34,7 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 	private static final String UNDERSCORE = "_";
 	private static final String NO_ARTISTE = "no artiste";
 	private static final String NO_ALBUM = "no album";
-	/**
-	 * 
-	 */
-	private ArrayList<Observateur> listObservers = new ArrayList<Observateur>();
-
+	
 	/**
 	 * Creates a new MusicFileBandMaster object with diretory In ,diretory out
 	 * and diretory sorted set . initliatise tne RepositoryMusiqueFile
@@ -224,7 +221,7 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 					
 					LOGGER4J.trace(logMgs.toString());
 					sortMusicFile(fileNameitem);
-					updateObservateur(i, tabSize - 1);
+					updateObservateur(i, tabSize - 1,"SORT");
 				}
 			}
 		}
@@ -307,22 +304,6 @@ public class MusicFileBandMaster extends FileBandMaster implements Observable {
 			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(), filter);
 			sortListMusicFile(listeFichiersIn);
 		}
-	}
-
-	public void addObservateur(Observateur obs) {
-		this.listObservers.add(obs);
-
-	}
-
-	public void updateObservateur(int enCours, int fin) {
-		for (Observateur obs : this.listObservers) {
-			obs.update(enCours, fin);
-		}
-	}
-
-	public void delObservateur() {
-		this.listObservers = new ArrayList<Observateur>();
-
 	}
 	
 }

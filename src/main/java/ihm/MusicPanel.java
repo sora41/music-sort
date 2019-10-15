@@ -42,6 +42,8 @@ public class MusicPanel extends JPanel {
 	private JLabel loadingSortLabel = new JLabel();
 	private JLabel scanCountFileLabel = new JLabel();
 	private JLabel loadingResetLabel = new JLabel();
+	private JLabel stepLabel = new JLabel();
+	private JLabel stepValueLabel = new JLabel();
 
 	private JProgressBar sortedBar = new JProgressBar();
 	private JProgressBar resetBar = new JProgressBar();
@@ -95,6 +97,9 @@ public class MusicPanel extends JPanel {
 		linePanel2.add(dirInValueLabel);
 		linePanel3.add(dirOutLabel);
 		linePanel3.add(dirOutValueLabel);
+		linePanel3.add(stepLabel);
+		linePanel3.add(stepValueLabel);
+		
 		linePanel4.add(startSortButton);
 		linePanel4.add(sortedBar);
 		linePanel3.add(loadingSortLabel);
@@ -103,6 +108,8 @@ public class MusicPanel extends JPanel {
 		linePanel2.add(scanCountFilesButton);
 		linePanel2.add(scanCountFileLabel);
 		loadingSortLabel.setText("0");
+		stepLabel.setText("step:");
+		stepValueLabel.setText("aucune");
 		musicControl = new ControlerSortMusic();
 		initDirLabel();
 
@@ -110,11 +117,12 @@ public class MusicPanel extends JPanel {
 			musicControl.initApplication();
 			musicControl.getMusicSorter().addObservateur(new Observateur() {
 
-				public void update(int enCours, int fin) {
-
+				public void update(int enCours, int fin,String step) {
+					
 					loadingSortLabel.setText(String.valueOf(enCours));
 					sortedBar.setMaximum(fin);
 					sortedBar.setValue(enCours);
+					stepValueLabel.setText(step);
 				}
 			});
 		} catch (Exception e) {
@@ -168,6 +176,7 @@ public class MusicPanel extends JPanel {
 
 			startSortButton.setEnabled(true);
 			scanCountFilesButton.setEnabled(true);
+			stepValueLabel.setText("NONE");
 
 		}
 

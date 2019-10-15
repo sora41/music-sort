@@ -9,13 +9,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import constant.MusicExtention;
+import observer.Observable;
+import observer.Observateur;
 import repository.IRepositoryFile;
 import repository.file.RepositoryApacheFile;
 
 /**
  * bandMaster file music
  */
-public abstract class FileBandMaster {
+public abstract class FileBandMaster  implements Observable {
 	/**
 	 * the loger from log4j
 	 */
@@ -53,6 +55,8 @@ public abstract class FileBandMaster {
 	 * manager de fichier
 	 */
 	protected IRepositoryFile managerFile;
+	//
+	protected ArrayList<Observateur> listObservers = new ArrayList<Observateur>();
 
 	public FileBandMaster(String dirIn, String dirOut, String dirSorted) {
 		this.dirIn = new File(dirIn);
@@ -149,9 +153,9 @@ public abstract class FileBandMaster {
 
 		String fileNameitem = "";
 		String newPahtFileItem = "";
-
+		int tabSize =0;
 		if (null != listFiles && !listFiles.isEmpty()) {
-
+			tabSize = listFiles.size();
 			for (int i = 0; i < listFiles.size(); i++) {
 				// recuperation du nom du fichier
 				fileNameitem = listFiles.get(i);
@@ -161,6 +165,7 @@ public abstract class FileBandMaster {
 				if (!newPahtFileItem.contains(".gitkeep")) {
 					try {
 						managerFile.copyFile(fileNameitem, buildNameFile(dirIn.getPath(), newPahtFileItem));
+						updateObservateur(i, tabSize - 1,"INIT");
 					} catch (IOException e) {
 						StringBuilder exceptionString = new StringBuilder("imposible de deplacer le Fichier ");
 						exceptionString.append(fileNameitem);
@@ -198,6 +203,7 @@ public abstract class FileBandMaster {
 			// verifie si la liste de fichier existe et si elle contient des
 			// elements
 			this.copyListFileOnDIR(strBackDir, listeFichiersBack);
+			
 		} else {
 			StringBuilder exceptionString = new StringBuilder("repertoire: ");
 			exceptionString.append(back.getAbsolutePath());
@@ -226,5 +232,21 @@ public abstract class FileBandMaster {
 		int countfiles =  listeFichiersIn.size();
 		LOGGER4J.trace("fin getCountFileDirIn");
 		return countfiles;
+	}
+	
+	public void addObservateur(Observateur obs) {
+		this.listObservers.add(obs);
+
+	}
+
+	public void updateObservateur(int enCours, int fin,String step) {
+		for (Observateur obs : this.listObservers) {
+			obs.update(enCours, fin ,step);
+		}
+	}
+
+	public void delObservateur() {
+		this.listObservers = new ArrayList<Observateur>();
+
 	}
 }
