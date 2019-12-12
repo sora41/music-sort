@@ -1,7 +1,7 @@
 package repository;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ import constant.MusicExtention;
 /** inteface de gestion de fichier */
 public interface IRepositoryFile {
 
-	public abstract void delete(String pathFileName)throws FileNotFoundException, IOException;
+	public abstract void delete(String pathFileName)throws  IOException;
 
 	public abstract void recursiveDelete(String pathFileName) throws IOException;
 	

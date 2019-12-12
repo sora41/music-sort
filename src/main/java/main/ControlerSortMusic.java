@@ -1,8 +1,6 @@
 package main;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +38,7 @@ public class ControlerSortMusic {
 	/**
 	 * init application sorter et les tests
 	 */
-	public void initApplication() throws SecurityException, FileNotFoundException, IOException {
+	public void initApplication() throws  IOException {
 		musicSorter = new MusicFileBandMaster(directoryIn, directoryOut, directorySort);
 	}
 
@@ -110,9 +108,9 @@ public class ControlerSortMusic {
 
 	public int getCountFileDirIn() throws IOException {
 		LOGGER4J.info("demarage getCountFileDirIn");
-		
+
 		MusicExtention[] filter = MusicExtention.values();
-		 int countfiles =musicSorter.getCountFileDirIn(filter);
+		int countfiles = musicSorter.getCountFileDirIn(filter);
 		LOGGER4J.info("fin getCountFileDirIn");
 		return countfiles;
 	}

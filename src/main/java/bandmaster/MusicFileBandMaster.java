@@ -3,7 +3,7 @@ package bandmaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,8 +11,7 @@ import org.jaudiotagger.tag.TagNotFoundException;
 
 import constant.MusicExtention;
 import datatransfert.MusicDto;
-import observer.Observable;
-import observer.Observateur;
+
 import repository.IRepositoryMusicFile;
 import repository.builder.BuilderMusicRepository;
 
@@ -210,7 +209,7 @@ public class MusicFileBandMaster extends FileBandMaster //implements Observable
 			// tester si on a des fichier dans le repertoire in
 			if ((tabSize > 0)) {
 				zeroFile = false;
-				LOGGER4J.trace("contains files : ", tabSize);
+				LOGGER4J.trace("contains files :  {}", tabSize);
 				for (int i = 0; i < tabSize; i++) {
 					fileNameitem = listeFichiersIn.get(i);
 
@@ -241,7 +240,7 @@ public class MusicFileBandMaster extends FileBandMaster //implements Observable
 			// tri artiste album
 			sortedByAuthorAndAlbum(musicDtoItem);
 		} catch (Exception sortException) {
-			;
+			
 
 			StringBuilder logMsg = new StringBuilder("Fichier : ");
 			logMsg.append(fileName);
@@ -273,22 +272,22 @@ public class MusicFileBandMaster extends FileBandMaster //implements Observable
 		formatResult = raw.trim();
 
 		// replacement des é en e
-		formatResult = formatResult.replaceAll("é", "e");
-		formatResult = formatResult.replaceAll("è", "e");
+		formatResult = formatResult.replace("é", "e");
+		formatResult = formatResult.replace("è", "e");
 		// tout en maj
 		formatResult = formatResult.toUpperCase();
 		// remplace les double espace par un simple
-		formatResult = formatResult.replaceAll("  ", UNDERSCORE);
+		formatResult = formatResult.replace("  ", UNDERSCORE);
 		// remplace les simple espace par un underscore
-		formatResult = formatResult.replaceAll(" ", UNDERSCORE);
+		formatResult = formatResult.replace(" ", UNDERSCORE);
 		// remplace un tiret par un underscore
-		formatResult = formatResult.replaceAll("-", UNDERSCORE);
+		formatResult = formatResult.replace("-", UNDERSCORE);
 		// supresion les guillement
-		formatResult = formatResult.replaceAll("\"", EMPTHY_STRING);
+		formatResult = formatResult.replace("\"", EMPTHY_STRING);
 		// supresion des slash \
-		formatResult = formatResult.replaceAll("/", EMPTHY_STRING);
+		formatResult = formatResult.replace("/", EMPTHY_STRING);
 		// supresion des '
-		formatResult = formatResult.replaceAll("'", EMPTHY_STRING);
+		formatResult = formatResult.replace("'", EMPTHY_STRING);
 
 		return formatResult;
 	}
@@ -300,7 +299,7 @@ public class MusicFileBandMaster extends FileBandMaster //implements Observable
 		// etape 1 tester sur les repertoire suivant existe
 		// sinon les cree
 		if (validateDirectorys()) {
-			LOGGER4J.debug("Load dir" + dirIn);
+			LOGGER4J.debug("Load dir {}" , dirIn);
 			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(), filter);
 			sortListMusicFile(listeFichiersIn);
 		}

@@ -27,7 +27,7 @@ public abstract class FileBandMaster  implements Observable {
 	 */
 	private static final String DIR_NOT_SUPORTED = "NotSuported";
 	/**
-	 * nom du repertoire de sorti erreur
+	 * nom du repertoire de sorti erreur 
 	 */
 	private static final String DIR_ERROR = "Erro";
 	/**
