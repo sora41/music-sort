@@ -1,5 +1,7 @@
 package ihm;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +12,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +30,9 @@ public class MusicPanel extends JPanel {
 
 	private JButton startSortButton = new JButton("Start Sort");
 	private JButton scanCountFilesButton = new JButton("scan dir in");
+	private JButton debugButton = new JButton("debugButton");
+	
+	private BorderLayout mainBorderLayout = new BorderLayout();
 
 	// private JFileChooser musicFileChooser = new JFileChooser();
 	// ligne/colone
@@ -41,18 +48,25 @@ public class MusicPanel extends JPanel {
 	private JLabel dirBackValueLabel = new JLabel();
 	private JLabel loadingSortLabel = new JLabel();
 	private JLabel scanCountFileLabel = new JLabel();
-	private JLabel loadingResetLabel = new JLabel();
+
 	private JLabel stepLabel = new JLabel();
 	private JLabel stepValueLabel = new JLabel();
 
 	private JProgressBar sortedBar = new JProgressBar();
-	private JProgressBar resetBar = new JProgressBar();
+
 
 	private JPanel linePanel1 = new JPanel();
 	private JPanel linePanel2 = new JPanel();
 	private JPanel linePanel3 = new JPanel();
 	private JPanel linePanel4 = new JPanel();
-	private JPanel linePanel5 = new JPanel();
+
+
+	private JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
+
+
+	private JPanel onglet1 = new JPanel();
+
+	private JPanel onglet2 = new JPanel();
 
 	private JCheckBox resetFileCheckbox = new JCheckBox("reset des fichier ");
 
@@ -75,16 +89,27 @@ public class MusicPanel extends JPanel {
 		dirBackValueLabel.setText(musicControl.getDirectoryBack());
 	}
 
-	public MusicPanel() {
-
-		this.setLayout(line4Layout);
-
+	private void initActionListener() {
 		startSortButton.addActionListener(new StartSortButtonListener());
 		scanCountFilesButton.addActionListener(new ScanDirInButtonListener());
-		this.add(linePanel1);
-		this.add(linePanel2);
-		this.add(linePanel3);
-		this.add(linePanel4);
+		debugButton.addActionListener(new DebugButtonListener());
+	}
+
+	public MusicPanel() {
+
+		
+		onglet1.setLayout(line4Layout);
+		this.setLayout(mainBorderLayout);
+		
+		
+		initActionListener();
+
+		onglet1.add(linePanel1);
+		onglet1.add(linePanel2);
+		onglet1.add(linePanel3);
+		onglet1.add(linePanel4);
+		this.add(onglets,BorderLayout.CENTER);
+		
 
 		linePanel1.setLayout(column4Layout);
 		linePanel2.setLayout(column4Layout);
@@ -99,7 +124,7 @@ public class MusicPanel extends JPanel {
 		linePanel3.add(dirOutValueLabel);
 		linePanel3.add(stepLabel);
 		linePanel3.add(stepValueLabel);
-		
+
 		linePanel4.add(startSortButton);
 		linePanel4.add(sortedBar);
 		linePanel3.add(loadingSortLabel);
@@ -107,18 +132,29 @@ public class MusicPanel extends JPanel {
 		linePanel1.add(resetFileCheckbox);
 		linePanel2.add(scanCountFilesButton);
 		linePanel2.add(scanCountFileLabel);
+		onglet2.add(debugButton);
+		//linePanel2.add(debugButton);
 		loadingSortLabel.setText("0");
 		stepLabel.setText("step:");
 		stepValueLabel.setText("aucune");
 		musicControl = new ControlerSortMusic();
+
 		initDirLabel();
+
+		
+		onglet1.setPreferredSize(new Dimension(300, 80));
+		onglets.addTab("onglet1title", onglet1);
+
+		
+		onglets.addTab("onglet2Tilte", onglet2);
+		
 
 		try {
 			musicControl.initApplication();
 			musicControl.getMusicSorter().addObservateur(new Observateur() {
 
-				public void update(int enCours, int fin,String step) {
-					
+				public void update(int enCours, int fin, String step) {
+
 					loadingSortLabel.setText(String.valueOf(enCours));
 					sortedBar.setMaximum(fin);
 					sortedBar.setValue(enCours);
@@ -133,7 +169,7 @@ public class MusicPanel extends JPanel {
 		}
 	}
 
-	class StartSortButtonListener implements ActionListener {
+	private class StartSortButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
 			LOGGER4J.info("Debut clic sur sort");
 			loadingSortLabel.setText("0");
@@ -146,9 +182,9 @@ public class MusicPanel extends JPanel {
 		}
 	}
 
-	class ScanDirInButtonListener implements ActionListener {
+	private class ScanDirInButtonListener implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
-			
+
 			LOGGER4J.info("Debut clic scan");
 			int countFiles = 0;
 			try {
@@ -165,6 +201,16 @@ public class MusicPanel extends JPanel {
 		}
 	}
 
+	private class DebugButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+
+			LOGGER4J.info("Debut clic Debug ");
+			startSortButton.setEnabled(true);
+			scanCountFilesButton.setEnabled(true);
+			LOGGER4J.info(" Fin clic Debug");
+		}
+	}
+
 	private class MusicThread implements Runnable {
 
 		private void runProccesWithReset(boolean reset) throws IOException {
@@ -172,12 +218,14 @@ public class MusicPanel extends JPanel {
 				musicControl.resetDirectory();
 				musicControl.initDirectory();
 			}
-			musicControl.launchSort();
 
+			musicControl.launchSort();
+		}
+
+		private void resetStep() {
 			startSortButton.setEnabled(true);
 			scanCountFilesButton.setEnabled(true);
 			stepValueLabel.setText("NONE");
-
 		}
 
 		public void run() {
@@ -191,6 +239,8 @@ public class MusicPanel extends JPanel {
 				LOGGER4J.fatal("message :" + ex.getMessage());
 				LOGGER4J.fatal("Eclass :" + ex.getClass().getName());
 
+			} finally {
+				resetStep();
 			}
 		}
 	}
