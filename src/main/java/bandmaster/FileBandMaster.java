@@ -17,7 +17,7 @@ import repository.file.RepositoryApacheFile;
 /**
  * bandMaster file music
  */
-public abstract class FileBandMaster  implements Observable {
+public abstract class FileBandMaster implements Observable {
 	/**
 	 * the loger from log4j
 	 */
@@ -27,7 +27,7 @@ public abstract class FileBandMaster  implements Observable {
 	 */
 	private static final String DIR_NOT_SUPORTED = "NotSuported";
 	/**
-	 * nom du repertoire de sorti erreur 
+	 * nom du repertoire de sorti erreur
 	 */
 	private static final String DIR_ERROR = "Erro";
 	/**
@@ -153,8 +153,9 @@ public abstract class FileBandMaster  implements Observable {
 
 		String fileNameitem = "";
 		String newPahtFileItem = "";
-		int tabSize =0;
+		int tabSize = 0;
 		if (null != listFiles && !listFiles.isEmpty()) {
+
 			tabSize = listFiles.size();
 			for (int i = 0; i < listFiles.size(); i++) {
 				// recuperation du nom du fichier
@@ -165,7 +166,7 @@ public abstract class FileBandMaster  implements Observable {
 				if (!newPahtFileItem.contains(".gitkeep")) {
 					try {
 						managerFile.copyFile(fileNameitem, buildNameFile(dirIn.getPath(), newPahtFileItem));
-						updateObservateur(i, tabSize - 1,"INIT");
+						updateObservateur(i, tabSize - 1, "INIT");
 					} catch (IOException e) {
 						StringBuilder exceptionString = new StringBuilder("imposible de deplacer le Fichier ");
 						exceptionString.append(fileNameitem);
@@ -187,8 +188,8 @@ public abstract class FileBandMaster  implements Observable {
 
 	/**
 	 * 
-	 * initialise le repertoire d'entré de l'application en copiant les fichier
-	 * un a un du repertoire back ver le repertoire inMusic
+	 * initialise le repertoire d'entré de l'application en copiant les fichier un a
+	 * un du repertoire back ver le repertoire inMusic
 	 */
 	public void initDirectoryIn(String strBackDir) throws IOException {
 		File back = new File(strBackDir);
@@ -203,7 +204,7 @@ public abstract class FileBandMaster  implements Observable {
 			// verifie si la liste de fichier existe et si elle contient des
 			// elements
 			this.copyListFileOnDIR(strBackDir, listeFichiersBack);
-			
+
 		} else {
 			StringBuilder exceptionString = new StringBuilder("repertoire: ");
 			exceptionString.append(back.getAbsolutePath());
@@ -220,28 +221,28 @@ public abstract class FileBandMaster  implements Observable {
 
 	public int getCountFileDirIn(MusicExtention[] filters) throws IOException {
 		LOGGER4J.trace("demarage getCountFileDirIn");
-		
+
 		ArrayList<String> listeFichiersIn = new ArrayList<String>();
 		// etape 1 tester sur les repertoire suivant existe
 		// sinon les cree
 		if (validateDirectorys()) {
 			// modifier pour revoyer uniquement le nombre de fichier et pas la liste
 			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(), filters);
-			
+
 		}
-		int countfiles =  listeFichiersIn.size();
+		int countfiles = listeFichiersIn.size();
 		LOGGER4J.trace("fin getCountFileDirIn");
 		return countfiles;
 	}
-	
+
 	public void addObservateur(Observateur obs) {
 		this.listObservers.add(obs);
 
 	}
 
-	public void updateObservateur(int enCours, int fin,String step) {
+	public void updateObservateur(int enCours, int fin, String step) {
 		for (Observateur obs : this.listObservers) {
-			obs.update(enCours, fin ,step);
+			obs.update(enCours, fin, step);
 		}
 	}
 

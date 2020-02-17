@@ -20,21 +20,21 @@ public class RepositoryApacheFile implements IRepositoryFile {
 	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryApacheFile.class.getName());
 
 	public void delete(String pathFileName) throws IOException {
-		LOGGER4J.trace("start delete " + pathFileName);
+		LOGGER4J.trace("start delete {} ", pathFileName);
 		File fileToDelete = new File(pathFileName);
 		FileUtils.forceDelete(fileToDelete);
-		LOGGER4J.trace("end delete " + pathFileName);
+		LOGGER4J.trace("end delete {} ", pathFileName);
 	}
 
 	public void recursiveDelete(String pathFileName) throws IOException {
-		LOGGER4J.trace("start recursiveDelete " + pathFileName);
+		LOGGER4J.trace("start recursiveDelete {} ", pathFileName);
 		File fileToDelete = new File(pathFileName);
 		FileUtils.forceDelete(fileToDelete);
-		LOGGER4J.trace("end recursiveDelete " + pathFileName);
+		LOGGER4J.trace("end recursiveDelete {} ", pathFileName);
 	}
 
 	public void cleanDirectory(String pathFileName) throws IOException {
-		LOGGER4J.trace("start cleanDirectory" + pathFileName);
+		LOGGER4J.trace("start cleanDirectory {} ", pathFileName);
 		File fileToClean = new File(pathFileName);
 		FileUtils.cleanDirectory(fileToClean);
 		LOGGER4J.trace("end cleanDirectory");
@@ -49,21 +49,20 @@ public class RepositoryApacheFile implements IRepositoryFile {
 	}
 
 	public void copyFile(String orginalePathName, String finalPahtName) throws IOException {
-		LOGGER4J.trace("start copyFile " + orginalePathName);
+		LOGGER4J.trace("start copyFile {} ", orginalePathName);
 		File fileSrc = new File(orginalePathName);
 		File filedest = new File(finalPahtName);
 		FileUtils.copyFile(fileSrc, filedest);
-		LOGGER4J.trace("end copyFile" + finalPahtName);
+		LOGGER4J.trace("end copyFile {} ", finalPahtName);
 	}
 
 	public boolean validateDirectory(File dir) {
 		LOGGER4J.trace("start validateDirectory");
 		boolean resultas = false;
-		if (dir != null)
-			if (dir.exists() && dir.isDirectory()) {
-				resultas = true;
-				LOGGER4J.debug("check validateDirectory true on " + dir.getName());
-			}
+		if (dir != null && dir.exists() && dir.isDirectory()) {
+			resultas = true;
+			LOGGER4J.debug("check validateDirectory true on  {} ", dir.getName());
+		}
 		LOGGER4J.trace("end validateDirectory");
 		return resultas;
 	}
@@ -139,8 +138,7 @@ public class RepositoryApacheFile implements IRepositoryFile {
 		LOGGER4J.trace("end listeFilesOnDirectoryAndSubDirectory");
 		return nomFichiers;
 	}
-	
-	
+
 	public ArrayList<String> filesCountFilterOnDirectoryAndSubDirectory(String dirName, MusicExtention[] filters)
 			throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
@@ -161,7 +159,7 @@ public class RepositoryApacheFile implements IRepositoryFile {
 				i = i + 2;
 			}
 		}
-		// recherche variante pour optimisation 
+		// recherche variante pour optimisation
 		files = FileUtils.listFiles(repertoire, strFilters, true);
 
 		if ((null != files) && (!files.isEmpty())) {

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jaudiotagger.tag.TagNotFoundException;
@@ -18,7 +17,7 @@ import repository.builder.BuilderMusicRepository;
 /**
  * bandMaster file music
  */
-public class MusicFileBandMaster extends FileBandMaster //implements Observable 
+public class MusicFileBandMaster extends FileBandMaster // implements Observable
 {
 
 	/**
@@ -33,10 +32,10 @@ public class MusicFileBandMaster extends FileBandMaster //implements Observable
 	private static final String UNDERSCORE = "_";
 	private static final String NO_ARTISTE = "no artiste";
 	private static final String NO_ALBUM = "no album";
-	
+
 	/**
-	 * Creates a new MusicFileBandMaster object with diretory In ,diretory out
-	 * and diretory sorted set . initliatise tne RepositoryMusiqueFile
+	 * Creates a new MusicFileBandMaster object with diretory In ,diretory out and
+	 * diretory sorted set . initliatise tne RepositoryMusiqueFile
 	 */
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) throws IOException {
 		super(dirIn, dirOut, dirSorted);
@@ -63,8 +62,7 @@ public class MusicFileBandMaster extends FileBandMaster //implements Observable
 	/**
 	 * load DtoMusic object by Path file
 	 * 
-	 * @param pathFileName
-	 *            file String path
+	 * @param pathFileName file String path
 	 * @return dto object load or null
 	 * @throws Exception
 	 */
@@ -135,14 +133,14 @@ public class MusicFileBandMaster extends FileBandMaster //implements Observable
 		if ((songAuthor != null) && (!songAuthor.isEmpty())) {
 			if ((songAlbum != null) && (!songAlbum.isEmpty())) {
 
-				StringBuilder tracerLogger = new StringBuilder(songAuthor);
-				tracerLogger.append(LOG_FILE_SEPARATOR);
-				tracerLogger.append(songAlbum);
-				tracerLogger.append(LOG_FILE_SEPARATOR);
-				tracerLogger.append(fileName);
-
-				LOGGER4J.trace(tracerLogger.toString());
-
+				if (LOGGER4J.isTraceEnabled()) {
+					StringBuilder tracerLogger = new StringBuilder(songAuthor);
+					tracerLogger.append(LOG_FILE_SEPARATOR);
+					tracerLogger.append(songAlbum);
+					tracerLogger.append(LOG_FILE_SEPARATOR);
+					tracerLogger.append(fileName);
+					LOGGER4J.trace(tracerLogger.toString());
+				}
 				pathAutorDir = buildNameFile(dirSorted.getPath(), songAuthor);
 				autorDir = new File(pathAutorDir);
 				if (!managerFile.validateDirectory(autorDir) && !autorDir.mkdir()) {
@@ -183,13 +181,12 @@ public class MusicFileBandMaster extends FileBandMaster //implements Observable
 		if ((songAlbum != null) && (!songAlbum.isEmpty())) {
 			pathAlbumDir = buildNameFile(dirSorted.getPath(), songAlbum);
 			albumDir = new File(pathAlbumDir);
-			
 
 			if (!managerFile.validateDirectory(albumDir) && !albumDir.mkdir()) {
 				throw new IOException("echec creation repertoire " + albumDir.getPath());
 			}
 
-			sortedTarget = buildNameFile(pathAlbumDir, fileName); 
+			sortedTarget = buildNameFile(pathAlbumDir, fileName);
 			managerFile.moveFile(pathFile, sortedTarget);
 		} else {
 			throw new TagNotFoundException(NO_ALBUM);
@@ -217,10 +214,10 @@ public class MusicFileBandMaster extends FileBandMaster //implements Observable
 					logMgs.append(i);
 					logMgs.append(LOG_FILE_SEPARATOR);
 					logMgs.append(tabSize - 1);
-					
+
 					LOGGER4J.trace(logMgs.toString());
 					sortMusicFile(fileNameitem);
-					updateObservateur(i, tabSize - 1,"SORT");
+					updateObservateur(i, tabSize - 1, "SORT");
 				}
 			}
 		}
@@ -240,7 +237,6 @@ public class MusicFileBandMaster extends FileBandMaster //implements Observable
 			// tri artiste album
 			sortedByAuthorAndAlbum(musicDtoItem);
 		} catch (Exception sortException) {
-			
 
 			StringBuilder logMsg = new StringBuilder("Fichier : ");
 			logMsg.append(fileName);
@@ -299,10 +295,10 @@ public class MusicFileBandMaster extends FileBandMaster //implements Observable
 		// etape 1 tester sur les repertoire suivant existe
 		// sinon les cree
 		if (validateDirectorys()) {
-			LOGGER4J.debug("Load dir {}" , dirIn);
+			LOGGER4J.debug("Load dir {}", dirIn);
 			listeFichiersIn = managerFile.filesListFilterOnDirectoryAndSubDirectory(dirIn.getPath(), filter);
 			sortListMusicFile(listeFichiersIn);
 		}
 	}
-	
+
 }

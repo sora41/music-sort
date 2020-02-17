@@ -45,7 +45,7 @@ public class RepositoryMusicFileMp3JAudiotagger implements IRepositoryMusicFile 
 	private void checkTagfield(List<TagField> tagFieldList,String tag) throws TagException
 	{
 
-		if (tagFieldList.isEmpty()== true)
+		if (tagFieldList.isEmpty())
 		{
 			TagException tagException = new TagException(" "+tag+" :Tag is empthy ");
 			throw tagException;
