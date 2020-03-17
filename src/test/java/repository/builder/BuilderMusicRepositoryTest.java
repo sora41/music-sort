@@ -1,5 +1,5 @@
 package repository.builder;
-/*
+
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -81,4 +81,4 @@ public class BuilderMusicRepositoryTest {
 
 	}
 
-}*/
+}
