@@ -23,7 +23,7 @@ public class MusicSorterIhmThread implements Runnable  {
 	private JCheckBox resetFileCheckbox ;
 	private JButton startSortButton ;
 	private JLabel stepValueLabel ;
-	private JButton scanCountFilesButton;
+	
 
 	
 	public JCheckBox getResetFileCheckbox() {
@@ -50,13 +50,6 @@ public class MusicSorterIhmThread implements Runnable  {
 		this.stepValueLabel = stepValueLabel;
 	}
 
-	public JButton getScanCountFilesButton() {
-		return scanCountFilesButton;
-	}
-
-	public void setScanCountFilesButton(JButton scanCountFilesButton) {
-		this.scanCountFilesButton = scanCountFilesButton;
-	}
 
 	public ControlerSortMusic getMusicControler() {
 		return musicControler;
@@ -77,7 +70,7 @@ public class MusicSorterIhmThread implements Runnable  {
 
 	private void resetStep() {
 		startSortButton.setEnabled(true);
-		scanCountFilesButton.setEnabled(true);
+		
 		stepValueLabel.setText("NONE");
 	}
 	

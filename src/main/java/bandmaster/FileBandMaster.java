@@ -246,7 +246,7 @@ public abstract class FileBandMaster implements Observable {
 		}
 	}
 
-	public void delObservateur() {
+	public void deleteObservateur() {
 		this.listObservers = new ArrayList<Observateur>();
 
 	}

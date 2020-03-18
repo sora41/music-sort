@@ -53,7 +53,7 @@ public class MusicSortPanel extends JPanel {
 	private JLabel scanCountFileLabel = new JLabel();
 
 	private JButton startSortButton = new JButton("Start Sort");
-	private JButton scanCountFilesButton = new JButton("scan dir in");
+	//private JButton scanCountFilesButton = new JButton("scan dir in");
 
 	private JProgressBar sortedBar = new JProgressBar();
 
@@ -73,7 +73,7 @@ public class MusicSortPanel extends JPanel {
 
 	private void initActionListener() {
 		startSortButton.addActionListener(new StartSortButtonListener());
-		scanCountFilesButton.addActionListener(new ScanDirInButtonListener());
+		//scanCountFilesButton.addActionListener(new ScanDirInButtonListener());
 	}
 
 	public MusicSortPanel() {
@@ -105,7 +105,7 @@ public class MusicSortPanel extends JPanel {
 		linePanel3.add(loadingSortLabel);
 
 		linePanel1.add(resetFileCheckbox);
-		linePanel2.add(scanCountFilesButton);
+		//linePanel2.add(scanCountFilesButton);
 		linePanel2.add(scanCountFileLabel);
 
 		loadingSortLabel.setText("0");
@@ -119,7 +119,6 @@ public class MusicSortPanel extends JPanel {
 		this.setPreferredSize(new Dimension(300, 80));
 
 		try {
-
 			musicControler.initApplication();
 			musicControler.getMusicSorter().addObservateur(new Observateur() {
 
@@ -139,7 +138,7 @@ public class MusicSortPanel extends JPanel {
 	}
 
 	private class StartSortButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent ae) {
+		public void actionPerformed(ActionEvent actionEvent) {
 			LOGGER4J.info("Debut clic sur sort");
 			loadingSortLabel.setText("0");
 			sortedBar.setValue(0);
@@ -147,18 +146,18 @@ public class MusicSortPanel extends JPanel {
 			musicSorterIhmThread = new Thread(noCastthreadMusic);
 			noCastthreadMusic.setMusicControler(musicControler);
 			noCastthreadMusic.setStartSortButton(startSortButton);
-			noCastthreadMusic.setScanCountFilesButton(scanCountFilesButton);
+			//noCastthreadMusic.setScanCountFilesButton(scanCountFilesButton);
 			noCastthreadMusic.setResetFileCheckbox(resetFileCheckbox);
 			noCastthreadMusic.setStepValueLabel(stepValueLabel);
 			musicSorterIhmThread.start();
 			startSortButton.setEnabled(false);
-			scanCountFilesButton.setEnabled(false);
+			//scanCountFilesButton.setEnabled(false);
 			LOGGER4J.info(" Fin clic sur sort");
 		}
 	}
 
 	private class ScanDirInButtonListener implements ActionListener {
-		public void actionPerformed(ActionEvent ae) {
+		public void actionPerformed(ActionEvent actionEvent) {
 
 			LOGGER4J.info("Debut clic scan");
 			int countFiles = 0;

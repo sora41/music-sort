@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
@@ -62,7 +63,9 @@ public class MusicPanel extends JPanel {
 		public void actionPerformed(ActionEvent ae) {
 
 			LOGGER4J.info("Debut clic Debug ");
-
+			boolean test = !onglets.isEnabledAt(2);
+			
+			onglets.setEnabledAt(2, test);
 			LOGGER4J.info(" Fin clic Debug");
 		}
 	}

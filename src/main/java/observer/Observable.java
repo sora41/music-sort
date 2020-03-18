@@ -6,6 +6,6 @@ public interface Observable {
 
 	public void updateObservateur(int enCours , int fin,String step);
 
-	public void delObservateur();
+	public void deleteObservateur();
 
 }
