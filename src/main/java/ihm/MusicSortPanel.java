@@ -21,6 +21,11 @@ import observer.Observateur;
 public class MusicSortPanel extends JPanel {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1734414249201747918L;
+
+	/**
 	 * the loger from log4j
 	 */
 	private static final Logger LOGGER4J = LogManager.getLogger(MusicSortPanel.class.getName());
@@ -54,16 +59,16 @@ public class MusicSortPanel extends JPanel {
 
 	private JCheckBox resetFileCheckbox = new JCheckBox("reset des fichier ");
 
-	private ControlerSortMusic musicControl;
-	private Thread musicSorterThread;
+	private ControlerSortMusic musicControler;
+	private Thread musicSorterIhmThread;
 
 	private void initDirLabel() {
 		dirBackLabel.setText("repertoire Back :");
 		dirInLabel.setText("repertoire In :");
 		dirOutLabel.setText("repertoire Out :");
-		dirOutValueLabel.setText(musicControl.getDirectoryOut());
-		dirInValueLabel.setText(musicControl.getDirectoryIn());
-		dirBackValueLabel.setText(musicControl.getDirectoryBack());
+		dirOutValueLabel.setText(musicControler.getDirectoryOut());
+		dirInValueLabel.setText(musicControler.getDirectoryIn());
+		dirBackValueLabel.setText(musicControler.getDirectoryBack());
 	}
 
 	private void initActionListener() {
@@ -107,7 +112,7 @@ public class MusicSortPanel extends JPanel {
 		stepLabel.setText("step:");
 		stepValueLabel.setText("aucune");
 
-		musicControl = new ControlerSortMusic();
+		musicControler = new ControlerSortMusic();
 
 		initDirLabel();
 
@@ -115,8 +120,8 @@ public class MusicSortPanel extends JPanel {
 
 		try {
 
-			musicControl.initApplication();
-			musicControl.getMusicSorter().addObservateur(new Observateur() {
+			musicControler.initApplication();
+			musicControler.getMusicSorter().addObservateur(new Observateur() {
 
 				public void update(int enCours, int fin, String step) {
 
@@ -127,10 +132,9 @@ public class MusicSortPanel extends JPanel {
 				}
 			});
 		} catch (Exception e) {
-			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),
-					e.getStackTrace());
-			LOGGER4J.fatal("message :" + e.getMessage());
-			LOGGER4J.fatal("Eclass :" + e.getClass().getName());
+			LOGGER4J.fatal("le thread c'est arrete de maniere inatendu");
+			LOGGER4J.fatal("message :{}", e.getMessage());
+			LOGGER4J.fatal("Eclass :{}", e.getClass().getName());
 		}
 	}
 
@@ -139,8 +143,14 @@ public class MusicSortPanel extends JPanel {
 			LOGGER4J.info("Debut clic sur sort");
 			loadingSortLabel.setText("0");
 			sortedBar.setValue(0);
-			musicSorterThread = new Thread(new MusicThread());
-			musicSorterThread.start();
+			MusicSorterIhmThread noCastthreadMusic =new MusicSorterIhmThread();
+			musicSorterIhmThread = new Thread(noCastthreadMusic);
+			noCastthreadMusic.setMusicControler(musicControler);
+			noCastthreadMusic.setStartSortButton(startSortButton);
+			noCastthreadMusic.setScanCountFilesButton(scanCountFilesButton);
+			noCastthreadMusic.setResetFileCheckbox(resetFileCheckbox);
+			noCastthreadMusic.setStepValueLabel(stepValueLabel);
+			musicSorterIhmThread.start();
 			startSortButton.setEnabled(false);
 			scanCountFilesButton.setEnabled(false);
 			LOGGER4J.info(" Fin clic sur sort");
@@ -153,12 +163,11 @@ public class MusicSortPanel extends JPanel {
 			LOGGER4J.info("Debut clic scan");
 			int countFiles = 0;
 			try {
-				countFiles = musicControl.getCountFileDirIn();
+				countFiles = musicControler.getCountFileDirIn();
 			} catch (IOException ex) {
-				LOGGER4J.fatal("le thread c'est arrete de maniere inatendu ", ex.getClass(), ex.getMessage(),
-						ex.getStackTrace());
-				LOGGER4J.fatal("message :" + ex.getMessage());
-				LOGGER4J.fatal("Eclass :" + ex.getClass().getName());
+				LOGGER4J.fatal("le thread c'est arrete de maniere inatendu ");
+				LOGGER4J.fatal("message :{}", ex.getMessage());
+				LOGGER4J.fatal("Eclass :'{}", ex.getClass().getName());
 			}
 
 			scanCountFileLabel.setText(String.valueOf(countFiles));
@@ -166,37 +175,4 @@ public class MusicSortPanel extends JPanel {
 		}
 	}
 
-	private class MusicThread implements Runnable {
-
-		private void runProccesWithReset(boolean reset) throws IOException {
-			if (reset) {
-				musicControl.resetDirectory();
-				musicControl.initDirectory();
-			}
-
-			musicControl.launchSort();
-		}
-
-		private void resetStep() {
-			startSortButton.setEnabled(true);
-			scanCountFilesButton.setEnabled(true);
-			stepValueLabel.setText("NONE");
-		}
-
-		public void run() {
-			try {
-				runProccesWithReset(resetFileCheckbox.isSelected());
-
-			} catch (Exception ex) {
-
-				LOGGER4J.fatal("le thread c'est arrete de maniere inatendu ", ex.getClass(), ex.getMessage(),
-						ex.getStackTrace());
-				LOGGER4J.fatal("message :" + ex.getMessage());
-				LOGGER4J.fatal("Eclass :" + ex.getClass().getName());
-
-			} finally {
-				resetStep();
-			}
-		}
-	}
 }
