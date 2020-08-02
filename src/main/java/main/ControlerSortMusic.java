@@ -1,31 +1,31 @@
 package main;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import bandmaster.MusicFileBandMaster;
+import constant.MusicExtention;
 
 public class ControlerSortMusic {
 
 	/**
 	 * the in music file directory
 	 */
-	private String DIRECTORY_IN = "Music\\inMusic";
+	private String directoryIn = "Music\\inMusic";
 	/**
 	 * the out music file directory
 	 */
-	private String DIRECTORY_OUT = "Music\\outMusic";
+	private String directoryOut = "Music\\outMusic";
 	/**
 	 * the sorted music file directory
 	 */
-	private String DIRECTORY_SORT = "Music\\sortedMusic";
+	private String directorySort = "Music\\sortedMusic";
 	/**
 	 * the back music file directory use on test to provide the in music file
 	 */
-	private String DIRECTORY_BACK = "Music\\back";
+	private String directoryBack = "Music\\back";
 	/**
 	 * the music Sorter
 	 */
@@ -38,40 +38,40 @@ public class ControlerSortMusic {
 	/**
 	 * init application sorter et les tests
 	 */
-	public void initApplication() throws SecurityException, FileNotFoundException, IOException {
-		musicSorter = new MusicFileBandMaster(DIRECTORY_IN, DIRECTORY_OUT, DIRECTORY_SORT);
+	public void initApplication() throws  IOException {
+		musicSorter = new MusicFileBandMaster(directoryIn, directoryOut, directorySort);
 	}
 
-	public String getDIRECTORY_IN() {
-		return DIRECTORY_IN;
+	public String getDirectoryIn() {
+		return directoryIn;
 	}
 
-	public void setDIRECTORY_IN(String dIRECTORY_IN) {
-		DIRECTORY_IN = dIRECTORY_IN;
+	public void setDirectoryIn(String directoryIn) {
+		this.directoryIn = directoryIn;
 	}
 
-	public String getDIRECTORY_OUT() {
-		return DIRECTORY_OUT;
+	public String getDirectoryOut() {
+		return directoryOut;
 	}
 
-	public void setDIRECTORY_OUT(String dIRECTORY_OUT) {
-		DIRECTORY_OUT = dIRECTORY_OUT;
+	public void setDirectoryOut(String directoryOut) {
+		this.directoryOut = directoryOut;
 	}
 
-	public String getDIRECTORY_SORT() {
-		return DIRECTORY_SORT;
+	public String getDirectorySort() {
+		return directorySort;
 	}
 
-	public void setDIRECTORY_SORT(String dIRECTORY_SORT) {
-		DIRECTORY_SORT = dIRECTORY_SORT;
+	public void setDirectorySort(String directorySort) {
+		this.directorySort = directorySort;
 	}
 
-	public String getDIRECTORY_BACK() {
-		return DIRECTORY_BACK;
+	public String getDirectoryBack() {
+		return directoryBack;
 	}
 
-	public void setDIRECTORY_BACK(String dIRECTORY_BACK) {
-		DIRECTORY_BACK = dIRECTORY_BACK;
+	public void setDirectoryBack(String directoryBack) {
+		this.directoryBack = directoryBack;
 	}
 
 	public MusicFileBandMaster getMusicSorter() {
@@ -84,7 +84,7 @@ public class ControlerSortMusic {
 	 */
 	public void initDirectory() throws IOException {
 		LOGGER4J.info("demarage sequence initalisation ");
-		musicSorter.initDirectoryIn(DIRECTORY_BACK);
+		musicSorter.initDirectoryIn(directoryBack);
 		LOGGER4J.info("Fin initialisation ");
 	}
 
@@ -101,8 +101,17 @@ public class ControlerSortMusic {
 	 * clean directory use by application
 	 */
 	public void resetDirectory() throws IOException {
-		LOGGER4J.info("demarage Reset");
+		LOGGER4J.info("demarage resetDirectory");
 		musicSorter.resetDirectories();
-		LOGGER4J.info("fin Reset");
+		LOGGER4J.info("fin resetDirectory");
+	}
+
+	public int getCountFileDirIn() throws IOException {
+		LOGGER4J.info("demarage getCountFileDirIn");
+
+		MusicExtention[] filter = MusicExtention.values();
+		int countfiles = musicSorter.getCountFileDirIn(filter);
+		LOGGER4J.info("fin getCountFileDirIn");
+		return countfiles;
 	}
 }

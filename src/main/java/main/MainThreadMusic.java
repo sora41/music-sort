@@ -2,10 +2,10 @@ package main;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import bandmaster.MusicFileBandMaster;
 import ihm.MusicFrame;
 
 public class MainThreadMusic {
@@ -18,17 +18,13 @@ public class MainThreadMusic {
 	 * the loger from log4j
 	 */
 	private static final Logger LOGGER4J = LogManager.getLogger(MainThreadMusic.class.getName());
-	/**
-	 * fenetre principale de l'application 
-	 */
-	//private static MusicFrame mainFrame; //= new FrameMusic();
-	private static ControlerSortMusic musicControl ;
+
+	private static ControlerSortMusic musicControl;
 
 	/**
 	 * init application sorter et les tests
 	 */
 	public static void initApplication() throws SecurityException, FileNotFoundException, IOException {
-		
 		test = new TestCode();
 		musicControl = new ControlerSortMusic();
 		musicControl.initApplication();
@@ -44,6 +40,7 @@ public class MainThreadMusic {
 		test.runTest();
 		LOGGER4J.info("fin des tests");
 	}
+
 	/**
 	 * launch the sort operations
 	 */
@@ -59,12 +56,9 @@ public class MainThreadMusic {
 	public static void main(String[] args) {
 		LOGGER4J.info("demarage de l'application");
 		try {
-			
+
 			MusicFrame mainFrame = new MusicFrame();
-			//initApplication();
-			//runProccesWithReset(true);
-			// runTest();
-			
+
 		} catch (Exception e) {
 
 			LOGGER4J.fatal("l'application c'est arrete de maniere inatendu ", e.getClass(), e.getMessage(),

@@ -1,9 +1,7 @@
 package repository.file;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -22,21 +20,21 @@ public class RepositoryApacheFile implements IRepositoryFile {
 	private static final Logger LOGGER4J = LogManager.getLogger(RepositoryApacheFile.class.getName());
 
 	public void delete(String pathFileName) throws IOException {
-		LOGGER4J.trace("start delete " + pathFileName);
+		LOGGER4J.trace("start delete {} ", pathFileName);
 		File fileToDelete = new File(pathFileName);
 		FileUtils.forceDelete(fileToDelete);
-		LOGGER4J.trace("end delete " + pathFileName);
+		LOGGER4J.trace("end delete {} ", pathFileName);
 	}
 
 	public void recursiveDelete(String pathFileName) throws IOException {
-		LOGGER4J.trace("start recursiveDelete " + pathFileName);
+		LOGGER4J.trace("start recursiveDelete {} ", pathFileName);
 		File fileToDelete = new File(pathFileName);
 		FileUtils.forceDelete(fileToDelete);
-		LOGGER4J.trace("end recursiveDelete " + pathFileName);
+		LOGGER4J.trace("end recursiveDelete {} ", pathFileName);
 	}
 
 	public void cleanDirectory(String pathFileName) throws IOException {
-		LOGGER4J.trace("start cleanDirectory" + pathFileName);
+		LOGGER4J.trace("start cleanDirectory {} ", pathFileName);
 		File fileToClean = new File(pathFileName);
 		FileUtils.cleanDirectory(fileToClean);
 		LOGGER4J.trace("end cleanDirectory");
@@ -51,21 +49,20 @@ public class RepositoryApacheFile implements IRepositoryFile {
 	}
 
 	public void copyFile(String orginalePathName, String finalPahtName) throws IOException {
-		LOGGER4J.trace("start copyFile " + orginalePathName);
+		LOGGER4J.trace("start copyFile {} ", orginalePathName);
 		File fileSrc = new File(orginalePathName);
 		File filedest = new File(finalPahtName);
 		FileUtils.copyFile(fileSrc, filedest);
-		LOGGER4J.trace("end copyFile" + finalPahtName);
+		LOGGER4J.trace("end copyFile {} ", finalPahtName);
 	}
 
 	public boolean validateDirectory(File dir) {
 		LOGGER4J.trace("start validateDirectory");
 		boolean resultas = false;
-		if (dir != null)
-			if (dir.exists() && dir.isDirectory()) {
-				resultas = true;
-				LOGGER4J.debug("check validateDirectory true on "+dir.getName());
-			}
+		if (dir != null && dir.exists() && dir.isDirectory()) {
+			resultas = true;
+			LOGGER4J.debug("check validateDirectory true on  {} ", dir.getName());
+		}
 		LOGGER4J.trace("end validateDirectory");
 		return resultas;
 	}
@@ -111,18 +108,22 @@ public class RepositoryApacheFile implements IRepositoryFile {
 	public ArrayList<String> filesListFilterOnDirectoryAndSubDirectory(String dirName, MusicExtention[] filters)
 			throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
-		ArrayList<String> nomFichiers = null;
+		ArrayList<String> nomFichiers = new ArrayList<String>();
 		File repertoire = new File(dirName);
+		String[] strFilters = null;
 		Collection<File> files;
 		// converstion des filtre tableaux de string
-		int size = filters.length * 2;
-		String[] strFilters = new String[size];
-		int i = 0;
-		// rempli la liste des fitres avec les chaine minuscule et majsucule
-		for (MusicExtention musicExtention : filters) {
-			strFilters[i] = musicExtention.getValue();
-			strFilters[i + 1] = musicExtention.getValue().toUpperCase();
-			i = i + 2;
+		if (filters != null) {
+			int size = filters.length * 2;
+			strFilters = new String[size];
+
+			int i = 0;
+			// rempli la liste des fitres avec les chaine minuscule et majsucule
+			for (MusicExtention musicExtention : filters) {
+				strFilters[i] = musicExtention.getValue();
+				strFilters[i + 1] = musicExtention.getValue().toUpperCase();
+				i = i + 2;
+			}
 		}
 
 		files = FileUtils.listFiles(repertoire, strFilters, true);
@@ -135,6 +136,40 @@ public class RepositoryApacheFile implements IRepositoryFile {
 			}
 		}
 		LOGGER4J.trace("end listeFilesOnDirectoryAndSubDirectory");
+		return nomFichiers;
+	}
+
+	public ArrayList<String> filesCountFilterOnDirectoryAndSubDirectory(String dirName, MusicExtention[] filters)
+			throws IOException {
+		LOGGER4J.trace("start filesCountFilterOnDirectoryAndSubDirectory");
+		ArrayList<String> nomFichiers = new ArrayList<String>();
+		File repertoire = new File(dirName);
+		String[] strFilters = null;
+		Collection<File> files;
+		// converstion des filtre tableaux de string
+		if (filters != null) {
+			int size = filters.length * 2;
+			strFilters = new String[size];
+
+			int i = 0;
+			// rempli la liste des fitres avec les chaine minuscule et majsucule
+			for (MusicExtention musicExtention : filters) {
+				strFilters[i] = musicExtention.getValue();
+				strFilters[i + 1] = musicExtention.getValue().toUpperCase();
+				i = i + 2;
+			}
+		}
+		// recherche variante pour optimisation
+		files = FileUtils.listFiles(repertoire, strFilters, true);
+
+		if ((null != files) && (!files.isEmpty())) {
+			nomFichiers = new ArrayList<String>();
+			for (File fileItem : files) {
+
+				nomFichiers.add(fileItem.getPath());
+			}
+		}
+		LOGGER4J.trace("end filesCountFilterOnDirectoryAndSubDirectory");
 		return nomFichiers;
 	}
 
