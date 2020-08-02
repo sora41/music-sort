@@ -141,7 +141,7 @@ public class RepositoryApacheFile implements IRepositoryFile {
 
 	public ArrayList<String> filesCountFilterOnDirectoryAndSubDirectory(String dirName, MusicExtention[] filters)
 			throws IOException {
-		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
+		LOGGER4J.trace("start filesCountFilterOnDirectoryAndSubDirectory");
 		ArrayList<String> nomFichiers = new ArrayList<String>();
 		File repertoire = new File(dirName);
 		String[] strFilters = null;
@@ -169,7 +169,7 @@ public class RepositoryApacheFile implements IRepositoryFile {
 				nomFichiers.add(fileItem.getPath());
 			}
 		}
-		LOGGER4J.trace("end listeFilesOnDirectoryAndSubDirectory");
+		LOGGER4J.trace("end filesCountFilterOnDirectoryAndSubDirectory");
 		return nomFichiers;
 	}
 

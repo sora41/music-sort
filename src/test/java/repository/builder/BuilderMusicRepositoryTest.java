@@ -1,20 +1,20 @@
 package repository.builder;
 
-import static org.junit.Assert.*;
+/*import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
+*/
 import constant.MusicExtention;
 import repository.IRepositoryMusicFile;
 import repository.music.RepositoryMusicFileMp3JAudiotagger;
 import repository.music.RepositoryMusicFileWmaJAudiotagger;
 
 public class BuilderMusicRepositoryTest {
-
+/*
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -79,6 +79,6 @@ public class BuilderMusicRepositoryTest {
 			assertEquals(e.getMessage(), "This Extention" + MusicExtention.NO_EXTENTION.getValue() + "is not suported");
 		}
 
-	}
+	}*/
 
 }
