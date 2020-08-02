@@ -33,7 +33,7 @@ public class MusicPanel extends JPanel {
 	private JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
 
 	private MusicSortPanel ongletSort = new MusicSortPanel();
-	private JPanel onglet2 = new JPanel();
+	private JPanel ongletDebug = new JPanel();
 	private JPanel ongletScandir = new JPanel();
 
 	private void initActionListener() {
@@ -49,13 +49,13 @@ public class MusicPanel extends JPanel {
 
 		this.add(onglets, BorderLayout.CENTER);
 
-		onglet2.add(debugButton);
+		ongletDebug.add(debugButton);
 
 		ongletSort.setPreferredSize(new Dimension(300, 80));
-		onglets.addTab("sortZero", ongletSort);
+		onglets.addTab("Sort", ongletSort);
 
-		onglets.addTab("Debug", onglet2);
-		onglets.addTab("Count file  on directory", ongletScandir);
+		//onglets.addTab("Debug", onglet2);
+		//onglets.addTab("Count file  on directory", ongletScandir);
 
 	}
 
