@@ -141,7 +141,7 @@ public abstract class FileBandMaster implements Observable {
 	}
 
 	/**
-	 * vide les repertoire inmusi, outmusic,sortedmusic
+	 * vide les repertoire inmusic, outmusic,sortedmusic
 	 */
 	public void resetDirectories() throws IOException {
 		managerFile.cleanDirectory(this.dirIn.getPath());
@@ -200,7 +200,7 @@ public abstract class FileBandMaster implements Observable {
 		LOGGER4J.debug(logString);
 		// verfie si le repertoire back existe
 		if (managerFile.validateDirectory(back)) {
-			listeFichiersBack = managerFile.listeFilesOnDirectoryAndSubDirectory(back.getPath());
+			listeFichiersBack = managerFile.listFilesOnDirectoryAndSubDirectory(back.getPath());
 			// verifie si la liste de fichier existe et si elle contient des
 			// elements
 			this.copyListFileOnDIR(strBackDir, listeFichiersBack);

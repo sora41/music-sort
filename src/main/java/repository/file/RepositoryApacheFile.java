@@ -67,7 +67,7 @@ public class RepositoryApacheFile implements IRepositoryFile {
 		return resultas;
 	}
 
-	public ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException {
+	public ArrayList<String> listFilesOnDirectory(String dirName) throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectory");
 		ArrayList<String> nomFichiers = null;
 		File repertoire = new File(dirName);
@@ -86,7 +86,7 @@ public class RepositoryApacheFile implements IRepositoryFile {
 		return nomFichiers;
 	}
 
-	public ArrayList<String> listeFilesOnDirectoryAndSubDirectory(String dirName) throws IOException {
+	public ArrayList<String> listFilesOnDirectoryAndSubDirectory(String dirName) throws IOException {
 		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
 		ArrayList<String> nomFichiers = null;
 		File repertoire = new File(dirName);
@@ -161,11 +161,9 @@ public class RepositoryApacheFile implements IRepositoryFile {
 		}
 		// recherche variante pour optimisation
 		files = FileUtils.listFiles(repertoire, strFilters, true);
-
 		if ((null != files) && (!files.isEmpty())) {
 			nomFichiers = new ArrayList<String>();
 			for (File fileItem : files) {
-
 				nomFichiers.add(fileItem.getPath());
 			}
 		}

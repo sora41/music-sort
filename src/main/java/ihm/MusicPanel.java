@@ -26,6 +26,7 @@ public class MusicPanel extends JPanel {
 	private static final Logger LOGGER4J = LogManager.getLogger(MusicPanel.class.getName());
 
 	private JButton debugButton = new JButton("debugButton");
+	private JButton scanCountFileButton = new JButton("scanCountFile");
 
 	private BorderLayout mainBorderLayout = new BorderLayout();
 
@@ -38,6 +39,7 @@ public class MusicPanel extends JPanel {
 	private void initActionListener() {
 
 		debugButton.addActionListener(new DebugButtonListener());
+		scanCountFileButton.addActionListener(new ScanCountFileButtonListener());
 	}
 
 	public MusicPanel() {
@@ -49,12 +51,13 @@ public class MusicPanel extends JPanel {
 		this.add(onglets, BorderLayout.CENTER);
 
 		ongletDebug.add(debugButton);
+		ongletScandir.add(scanCountFileButton);
 
 		ongletSort.setPreferredSize(new Dimension(300, 80));
 		onglets.addTab("Sort", ongletSort);
 
-		//onglets.addTab("Debug", onglet2);
-		//onglets.addTab("Count file  on directory", ongletScandir);
+		onglets.addTab("Debug", ongletDebug);
+		onglets.addTab("Count file  on directory", ongletScandir);
 
 	}
 
@@ -66,6 +69,14 @@ public class MusicPanel extends JPanel {
 			
 			onglets.setEnabledAt(2, test);
 			LOGGER4J.info(" Fin clic Debug");
+		}
+	}
+	
+	private class ScanCountFileButtonListener implements ActionListener {
+		public void actionPerformed(ActionEvent ae) {
+			LOGGER4J.info("Debut clic Scan count file ");
+		
+			LOGGER4J.info(" Fin clic Scan count file");
 		}
 	}
 

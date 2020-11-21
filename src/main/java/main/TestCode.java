@@ -53,7 +53,7 @@ public class TestCode {
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMP3Manual();
 		ArrayList<String> namefiles;
 
-		namefiles = repoFile.listeFilesOnDirectory(dirIn);
+		namefiles = repoFile.listFilesOnDirectory(dirIn);
 		String path = namefiles.get(0);
 		mp3 = repoMusic.getDataToMusicFile(path);
 		afficheMusicDto(mp3);
@@ -64,7 +64,7 @@ public class TestCode {
 		IRepositoryFile repoFile = new RepositoryWalkingFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMp3JAudiotagger();
 		ArrayList<String> namefiles;
-		namefiles = repoFile.listeFilesOnDirectory(dirIn);
+		namefiles = repoFile.listFilesOnDirectory(dirIn);
 		String path = namefiles.get(0);
 		mp3 = repoMusic.getDataToMusicFile(path);
 		afficheMusicDto(mp3);
@@ -76,7 +76,7 @@ public class TestCode {
 		IRepositoryFile repoFile = new RepositoryWalkingFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileWmaJAudiotagger();
 		ArrayList<String> namefiles;
-		namefiles = repoFile.listeFilesOnDirectory(dirIn);
+		namefiles = repoFile.listFilesOnDirectory(dirIn);
 		String path = namefiles.get(0);
 		wma = repoMusic.getDataToMusicFile(path);
 		afficheMusicDto(wma);
@@ -88,7 +88,7 @@ public class TestCode {
 		IRepositoryFile repoFile = new RepositoryWalkingFile();
 		IRepositoryMusicFile repoMusic = new RepositoryMusicFileMp3JAudiotagger();
 		ArrayList<String> namefiles;
-		namefiles = repoFile.listeFilesOnDirectory(dirIn);
+		namefiles = repoFile.listFilesOnDirectory(dirIn);
 		String path = namefiles.get(0);
 		m4a = repoMusic.getDataToMusicFile(path);
 		afficheMusicDto(m4a);
@@ -125,12 +125,12 @@ public class TestCode {
 
 	public void testGetlisteFileRecursifWalking(String dirtoScan) throws IOException {
 		RepositoryWalkingFile rwf = new RepositoryWalkingFile();
-		afficheStringArray(rwf.listeFilesOnDirectoryAndSubDirectory(dirtoScan));
+		afficheStringArray(rwf.listFilesOnDirectoryAndSubDirectory(dirtoScan));
 	}
 
 	public void testGetlisteFileRecursifApache(String dirtoScan) throws IOException {
 		RepositoryApacheFile raf = new RepositoryApacheFile();
-		afficheStringArray(raf.listeFilesOnDirectoryAndSubDirectory(dirtoScan));
+		afficheStringArray(raf.listFilesOnDirectoryAndSubDirectory(dirtoScan));
 	}
 
 	public void testGetFilterlisteFileRecursifApache(String dirtoScan) throws IOException {

@@ -34,9 +34,9 @@ public class MusicSortPanel extends JPanel {
 	private JPanel linePanel2 = new JPanel();
 	private JPanel linePanel3 = new JPanel();
 	private JPanel linePanel4 = new JPanel();
-
+	private JPanel linePanel5 = new JPanel();
 	// ligne/colone
-	private GridLayout line4Layout = new GridLayout(4, 0);
+	private GridLayout line4Layout = new GridLayout(5, 0);
 	private GridLayout column4Layout = new GridLayout(0, 4);
 	private GridLayout line2Layout = new GridLayout(2, 0);
 
@@ -51,9 +51,10 @@ public class MusicSortPanel extends JPanel {
 	private JLabel stepValueLabel = new JLabel();
 	private JLabel loadingSortLabel = new JLabel();
 	private JLabel scanCountFileLabel = new JLabel();
+	private JLabel loadingSortMaxLabel = new JLabel();
+	private JLabel loadingSortSeparatorLabel = new JLabel("/");
 
 	private JButton startSortButton = new JButton("Start Sort");
-	//private JButton scanCountFilesButton = new JButton("scan dir in");
 
 	private JProgressBar sortedBar = new JProgressBar();
 
@@ -73,7 +74,6 @@ public class MusicSortPanel extends JPanel {
 
 	private void initActionListener() {
 		startSortButton.addActionListener(new StartSortButtonListener());
-		//scanCountFilesButton.addActionListener(new ScanDirInButtonListener());
 	}
 
 	public MusicSortPanel() {
@@ -85,11 +85,12 @@ public class MusicSortPanel extends JPanel {
 		this.add(linePanel2);
 		this.add(linePanel3);
 		this.add(linePanel4);
+		this.add(linePanel5);
 
 		linePanel1.setLayout(column4Layout);
 		linePanel2.setLayout(column4Layout);
 		linePanel3.setLayout(column4Layout);
-		linePanel4.setLayout(line2Layout);
+		linePanel5.setLayout(line2Layout);
 
 		linePanel1.add(dirBackLabel);
 		linePanel1.add(dirBackValueLabel);
@@ -97,20 +98,21 @@ public class MusicSortPanel extends JPanel {
 		linePanel2.add(dirInValueLabel);
 		linePanel3.add(dirOutLabel);
 		linePanel3.add(dirOutValueLabel);
-		linePanel3.add(stepLabel);
-		linePanel3.add(stepValueLabel);
+		linePanel4.add(stepLabel);
+		linePanel4.add(stepValueLabel);
 
-		linePanel4.add(startSortButton);
-		linePanel4.add(sortedBar);
-		linePanel3.add(loadingSortLabel);
-
+		linePanel5.add(startSortButton);
+		linePanel5.add(sortedBar);
+		linePanel4.add(loadingSortLabel);
+		linePanel4.add(loadingSortSeparatorLabel);
+		linePanel4.add(loadingSortMaxLabel);
 		linePanel1.add(resetFileCheckbox);
-		//linePanel2.add(scanCountFilesButton);
 		linePanel2.add(scanCountFileLabel);
 
 		loadingSortLabel.setText("0");
 		stepLabel.setText("step:");
 		stepValueLabel.setText("aucune");
+		loadingSortMaxLabel.setText("82");
 
 		musicControler = new ControlerSortMusic();
 
@@ -142,16 +144,14 @@ public class MusicSortPanel extends JPanel {
 			LOGGER4J.info("Debut clic sur sort");
 			loadingSortLabel.setText("0");
 			sortedBar.setValue(0);
-			MusicSorterIhmThread noCastthreadMusic =new MusicSorterIhmThread();
-			musicSorterIhmThread = new Thread(noCastthreadMusic);
-			noCastthreadMusic.setMusicControler(musicControler);
-			noCastthreadMusic.setStartSortButton(startSortButton);
-			//noCastthreadMusic.setScanCountFilesButton(scanCountFilesButton);
-			noCastthreadMusic.setResetFileCheckbox(resetFileCheckbox);
-			noCastthreadMusic.setStepValueLabel(stepValueLabel);
+			MusicSorterIhmThread noCastThreadMusic = new MusicSorterIhmThread();
+			musicSorterIhmThread = new Thread(noCastThreadMusic);
+			noCastThreadMusic.setMusicControler(musicControler);
+			noCastThreadMusic.setStartSortButton(startSortButton);
+			noCastThreadMusic.setResetFileCheckbox(resetFileCheckbox);
+			noCastThreadMusic.setStepValueLabel(stepValueLabel);
 			musicSorterIhmThread.start();
 			startSortButton.setEnabled(false);
-			//scanCountFilesButton.setEnabled(false);
 			LOGGER4J.info(" Fin clic sur sort");
 		}
 	}

@@ -44,7 +44,7 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 
 	public void cleanDirectory(String pathFileName) throws IOException {
 		LOGGER4J.trace("start cleanDirectory" + pathFileName);
-		List<String> fileList = listeFilesOnDirectory(pathFileName);
+		List<String> fileList = listFilesOnDirectory(pathFileName);
 		String pahtItem;
 		for (int i = 0; i < fileList.size(); i++) {
 			pahtItem = pathFileName + File.separator + fileList.get(i);
@@ -122,8 +122,8 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 		return resultas;
 	}
 
-	public ArrayList<String> listeFilesOnDirectory(String dirName) throws IOException {
-		LOGGER4J.trace("start listeFilesOnDirectory");
+	public ArrayList<String> listFilesOnDirectory(String dirName) throws IOException {
+		LOGGER4J.trace("start listFilesOnDirectory");
 		ArrayList<String> nomFichiers = null;
 		File repertoire = new File(dirName);
 
@@ -140,8 +140,8 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 		return nomFichiers;
 	}
 
-	public ArrayList<String> listeFilesOnDirectoryAndSubDirectory(String dirName) throws IOException {
-		LOGGER4J.trace("start listeFilesOnDirectoryAndSubDirectory");
+	public ArrayList<String> listFilesOnDirectoryAndSubDirectory(String dirName) throws IOException {
+		LOGGER4J.trace("start listFilesOnDirectoryAndSubDirectory");
 		ArrayList<String> nomFichiers = null;
 		List<String> nomFichiersTempo = null;
 		File repertoire = new File(dirName);
@@ -153,7 +153,7 @@ public class RepositoryWalkingFile implements IRepositoryFile {
 			for (Path path : directoryStream) {
 				fileNameItem = path.getFileName().toString();
 				if (path.toFile().isDirectory()) {
-					nomFichiersTempo = listeFilesOnDirectoryAndSubDirectory(dirName + "\\" + fileNameItem);
+					nomFichiersTempo = listFilesOnDirectoryAndSubDirectory(dirName + "\\" + fileNameItem);
 					if ((null != nomFichiersTempo)) {
 						if (nomFichiersTempo.size() > 0) {
 							if (nomFichiers.addAll(nomFichiersTempo) == false) {
