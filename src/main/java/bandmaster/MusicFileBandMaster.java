@@ -40,7 +40,7 @@ public class MusicFileBandMaster extends FileBandMaster // implements Observable
 	public MusicFileBandMaster(String dirIn, String dirOut, String dirSorted) throws IOException {
 		super(dirIn, dirOut, dirSorted);
 	}
-
+	// TODO use APACHE LIB for this  and include on repository FILE
 	private String extractExtention(String fileName) throws Exception {
 		String extention = "";
 		if ((fileName != null) && !fileName.isEmpty()) {
