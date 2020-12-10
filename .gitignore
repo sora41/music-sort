@@ -2,3 +2,8 @@
 /Music/back
 /*.classpath
 /target
+/Music/*
+/antScript/*
+/logs/*
+/jartest/*
+/database/*
