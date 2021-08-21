@@ -52,7 +52,7 @@ public class MainThreadMusic {
 		musicControl.launchSort();
 	}
 
-	/** Main */
+	/** Main lol */
 	public static void main(String[] args) {
 		LOGGER4J.info("demarage de l'application");
 		try {
